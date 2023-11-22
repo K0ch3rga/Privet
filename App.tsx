@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Carousel from './src/welcome/Carousel';
 import YellowButton  from './src/YellowButton';
+import WelcomeScreen from './components/HelloScreen';
+
 
 export default function App() {
   const [count, setCount] = useState(50);
   
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{count}</Text>
-      <YellowButton onPress={() => setCount(count+1)} title={'+1'} style={styles.button} />
+      <WelcomeScreen />
+      <StatusBar style="auto" />
     </View>
   );
 }
