@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Carousel from './src/welcome/Carousel';
-import YellowButton  from './src/YellowButton';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import YellowButton  from './src/components/YellowButton';
+import WelcomeScreen from './src/components/WelcomeScreen';
+
 
 export default function App() {
   const [count, setCount] = useState(50);
   
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{count}</Text>
-      <YellowButton onPress={() => setCount(count+1)} title={'+1'} style={styles.button} />
+      <WelcomeScreen />
     </View>
   );
 }
