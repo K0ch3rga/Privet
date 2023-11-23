@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Carousel from './src/welcome/Carousel';
-import YellowButton  from './src/YellowButton';
-import WelcomeScreen from './components/HelloScreen';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import YellowButton  from './src/components/YellowButton';
+import WelcomeScreen from './src/components/WelcomeScreen';
 
 
 export default function App() {
@@ -11,7 +10,6 @@ export default function App() {
   return (
     <View style={styles.container}>
       <WelcomeScreen />
-      <StatusBar style="auto" />
     </View>
   );
 }

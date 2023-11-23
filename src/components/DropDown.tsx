@@ -9,7 +9,6 @@ const CustomPicker: React.FC<{ currentItem: string }> = ({currentItem}) => {
     <Image source={require("../assets/flags/english.png")} style={styles.pickerIcon} />
     <Text style={styles.pickerLabel}>{currentItem}</Text>
     <Image source={require("../assets/arrow.png")} style={styles.pickerArrow} />
-    
   </View>
   );
 };
