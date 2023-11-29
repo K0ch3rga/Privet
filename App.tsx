@@ -1,34 +1,24 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import YellowButton  from './src/components/YellowButton';
-import WelcomeScreen from './src/components/WelcomeScreen';
-
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
+import YellowButton from "./src/components/YellowButton";
+import WelcomeScreen from "./src/components/WelcomeScreen";
+import Carousel from "./src/components/Carousel";
+import Paginator from "./src/components/Paginator";
 
 export default function App() {
-  const [count, setCount] = useState(50);
-  
+
   return (
-    <View style={styles.container}>
-      <WelcomeScreen />
-    </View>
+    <>
+      {/* <WelcomeScreen /> */}
+      {/* <YellowButton title='Button' onPress={()=>console.log('pressed')} showArrow={true}/> */}
+      {/* <Select data={data}/> */}
+      <Carousel />
+      {/* <Paginator data={[{key: "1", imagePath: "../assets/cat/cat1.png", text: "Текст"},
+    {key: "2", imagePath: "../assets/cat/cat2.png", text: "Текст"},]}/> */}
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#000'
-  },
-  button: {
-    color:'#fff',
-    width: 100,
-    height: 50
-
-  },
-  text: {
-    color: '#000',
-  }
+  
 });
