@@ -1,24 +1,30 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import {StyleSheet, Text, View, StatusBar} from "react-native";
 import YellowButton from "./src/components/YellowButton";
 import WelcomeScreen from "./src/components/WelcomeScreen";
 import Carousel from "./src/components/Carousel";
 import Paginator from "./src/components/Paginator";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+
+function Welcome() {
+  return <WelcomeScreen />;
+}
+
+function Test() {
+  return <Carousel />
+}
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-
   return (
-    <>
-      {/* <WelcomeScreen /> */}
-      {/* <YellowButton title='Button' onPress={()=>console.log('pressed')} showArrow={true}/> */}
-      {/* <Select data={data}/> */}
-      <Carousel />
-      {/* <Paginator data={[{key: "1", imagePath: "../assets/cat/cat1.png", text: "Текст"},
-    {key: "2", imagePath: "../assets/cat/cat2.png", text: "Текст"},]}/> */}
-    </>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Test">
+        <Stack.Screen name='Welcome' component={Welcome} />
+        <Stack.Screen name='Test' component={Test} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  
-});
+const styles = StyleSheet.create({});

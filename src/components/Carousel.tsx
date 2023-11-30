@@ -23,7 +23,6 @@ const Carousel = () => {
           <CarouselItem key={item.key} imagePath={item.imagePath} text={item.text} />
         )}
         horizontal
-        showsHorizontalScrollIndicator
         pagingEnabled
         bounces
       />
