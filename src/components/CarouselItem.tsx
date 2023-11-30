@@ -6,7 +6,7 @@ const CarouselItem = (props: CarouselItemProps) => {
     <View style={[style.container, {width}]}>
       <View style={style.view}>
         <Text style={style.text}>{props.text}</Text>
-        {/* <Image source={require(props.imagePath)} /> */}
+        <Image source={require(props.imagePath)} />
       </View>
     </View>
   );

@@ -12,6 +12,7 @@ const Carousel = () => {
     {key: "1", imagePath: "../assets/cat/cat1.png", text: "Текст"},
     {key: "2", imagePath: "../assets/cat/cat2.png", text: "Текст"},
     {key: "3", imagePath: "../assets/cat/cat3.png", text: "Текст"},
+    {key: "4", imagePath: "../assets/flags/english.png", text: "Текст"},
   ];
 
   return (
