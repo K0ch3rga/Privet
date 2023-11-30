@@ -2,17 +2,18 @@ import { useFonts } from "expo-font";
 import { View, Text, Pressable, StyleProp, StyleSheet, ViewStyle, Image } from "react-native"; 
 
 const YellowButton: React.FC<YellowButtonProps> = (props: YellowButtonProps) => {
-    const style = [defaultButtonStyle.button, props.style];
-    console.log(props.style)
+    const buttonStyle = [defaultButtonStyle.button, props.buttonStyle];
+    const titleStyle = [defaultButtonStyle.buttonTitle, props.titleStyle];
+    console.log(props.buttonStyle);
 
     const [] = useFonts({
-        "LilitaOne": require("../assets/fonts/LilitaOne-Regular.ttf"),
+        "LilitaOne": require("../assets/fonts/LilitaOne-Rus.ttf"),
     });
     
     return(
     <View>
-        <Pressable onPress={props.onPress} style={style}>
-            <Text style={defaultButtonStyle.buttonTitle}>{props.title}</Text>
+        <Pressable onPress={props.onPress} style={buttonStyle}>
+            <Text style={titleStyle}>{props.title}</Text>
             {props.showArrow && <Image source={require("../assets/arrow_right.png")} 
                                         style={defaultButtonStyle.arrow} />}
         </Pressable>
@@ -45,9 +46,11 @@ const defaultButtonStyle = StyleSheet.create({
 })
 
 export interface YellowButtonProps {
-    onPress: ()=>void;
     title: string;
+    onPress?: ()=>void;
     showArrow?: boolean;
-    style?: StyleProp<ViewStyle> // FIXME разобраться со стилями
+    buttonStyle?: StyleProp<ViewStyle> // FIXME разобраться со стилями
+    titleStyle?: StyleProp<ViewStyle>
 };
+
 export default YellowButton;
