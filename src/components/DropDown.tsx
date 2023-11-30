@@ -16,7 +16,7 @@ const CustomPicker: React.FC<{ currentItem: string }> = ({currentItem}) => {
 
 const DropDown: React.FC = () => {
   const [] = useFonts({
-    "LilitaOne": require("../assets/fonts/LilitaOne-Regular.ttf"),
+    "LilitaOne": require("../assets/fonts/LilitaOne-Rus.ttf"),
     "KumbhSans500": require("../assets/fonts/KumbhSans-Medium.ttf")
   });
 
