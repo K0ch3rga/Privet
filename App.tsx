@@ -7,6 +7,7 @@ import RegistrationScreen from "./src/components/registration/RegistrationScreen
 import EnterCodeScreen from "./src/components/EnterCodeScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import ProfileScreen from "./src/components/ProfileScreen";
 
 function Welcome() {
   return <WelcomeScreen />;
@@ -20,12 +21,14 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Test">
-        <Stack.Screen name='Welcome' component={Welcome} />
-        <Stack.Screen name='Test' component={Test} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <Stack.Navigator initialRouteName="Test">
+    //     <Stack.Screen name='Welcome' component={Welcome} />
+    //     <Stack.Screen name='Test' component={Test} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
+    <ProfileScreen />
+    // <RegistrationScreen />
   );
 }
 

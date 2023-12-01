@@ -36,3 +36,6 @@ yarn-error.*
 
 #assets 
 src/assets/cat
+
+# vscode
+.vscode/
