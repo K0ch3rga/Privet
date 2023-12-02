@@ -9,6 +9,9 @@ import EnterCodeScreen from "./src/components/EnterCodeScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import ProfileScreen from "./src/components/ProfileScreen";
+import { Pressable } from "react-native";
+import ProfileInfoScreen from "./src/components/ProfileInfoScreen";
+import NotificationsScreen from "./src/components/NotificationsScreen";
 
 function Welcome() {
   return <WelcomeScreen />;
@@ -22,8 +25,9 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
+      "Jua": require("./src/assets/fonts/Jua-Regular.ttf"),
       "LilitaOne": require("./src/assets/fonts/LilitaOne-Rus.ttf"),
-      "KumbhSans500": require("./src/assets/fonts/KumbhSans-Medium.ttf"),
+      "KumbhSans-Medium": require("./src/assets/fonts/KumbhSans-Medium.ttf"),
       "Manrope-Light": require("./src/assets/fonts/Manrope-Light.ttf"),
       "Manrope-Medium": require("./src/assets/fonts/Manrope-Medium.ttf"),
       "Manrope-Regular": require("./src/assets/fonts/Manrope-Regular.ttf"),
@@ -35,14 +39,16 @@ export default function App() {
   }
 
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="Test">
-    //     <Stack.Screen name='Welcome' component={Welcome} />
-    //     <Stack.Screen name='Test' component={Test} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    <ProfileScreen />
-    // <RegistrationScreen />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Profile">
+        <Stack.Screen name='Welcome' component={WelcomeScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name='Test' component={Carousel} />
+        <Stack.Screen name="Registration" component={RegistrationScreen} />
+        <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} />
+        <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

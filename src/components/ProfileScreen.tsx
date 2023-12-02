@@ -1,19 +1,13 @@
-import { useState } from "react";
 import { View, Text, Pressable, StyleProp, StyleSheet, ViewStyle, Image, Button, Dimensions } from "react-native"; 
 import YellowButton from "./YellowButton";
-import RegistrationScreen from "./registration/RegistrationScreen";
 
 var width = Dimensions.get('window').width;
 
-function RegScreenComponent(){
-  return <RegistrationScreen />
+type ScreenProps = {
+  navigation?: any
 }
 
-const ProfileScreen: React.FC = () => {
-  const [activeScreen, setActiveScreen] = useState();
-  const currentScreen = RegScreenComponent();
-
-
+const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   return(
     <View style={styles.wrapper}>
       <View style={styles.mainInfo}>
@@ -21,10 +15,29 @@ const ProfileScreen: React.FC = () => {
         <Text style={styles.mainInfoText}>Name</Text>
       </View>
       <View style={styles.profileButtonWrapper}>
-        <Pressable style={styles.profileButton}><Text style={styles.profileButtonTitle}>View profile info</Text></Pressable>
-        <Pressable style={styles.profileButton}><Text style={styles.profileButtonTitle}>Notifications</Text></Pressable>
-        <Pressable style={styles.profileButton}><Text style={styles.profileButtonTitle}>Change Language</Text></Pressable>
-        <Pressable style={styles.profileButton}><Text style={styles.profileButtonTitle}>Log Out</Text></Pressable>
+        <Pressable 
+          style={styles.profileButton}
+          onPress={() => {navigation.navigate("ProfileInfo")}}>
+            <Text style={styles.profileButtonTitle}>View profile info</Text>
+        </Pressable>
+
+        <Pressable 
+          style={styles.profileButton}
+          onPress={() => {navigation.navigate("Notifications")}}>
+          <Text style={styles.profileButtonTitle}>Notifications</Text>
+        </Pressable>
+
+        <Pressable 
+          style={styles.profileButton} 
+          onPress={() => {navigation.navigate("Welcome")}}>
+          <Text style={styles.profileButtonTitle}>Change Language</Text>
+        </Pressable>
+        
+        <Pressable 
+        style={styles.profileButton}
+        onPress={() => {navigation.navigate("Registration")}}>
+          <Text style={styles.profileButtonTitle}>Log Out</Text>
+          </Pressable>
       </View>
     </View>
   )

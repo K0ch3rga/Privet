@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontFamily: "KumbhSans500",
-    textAlign: "center"
+    fontFamily: "KumbhSans-Medium",
+    textAlign: "center",
+    color: "#455A64",
   }
 });
 

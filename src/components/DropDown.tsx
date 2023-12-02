@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: "KumbhSans500",
+    fontFamily: "KumbhSans-Medium",
     fontSize: 21,
     marginBottom: 10
   },
