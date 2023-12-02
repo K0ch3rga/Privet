@@ -1,16 +1,26 @@
-import { View, Text, Pressable, StyleProp, StyleSheet, ViewStyle, Image } from "react-native"; 
+import { View, Text, Pressable, StyleProp, StyleSheet, Image } from "react-native"; 
 
-const YellowButton: React.FC<YellowButtonProps> = (props: YellowButtonProps) => {
+export interface CustomButtonProps {
+    title: string;
+    onPress?: ()=>void;
+    showArrow?: boolean;
+    buttonStyle?: StyleProp<any>
+    titleStyle?: StyleProp<any>
+};
+
+const CustomButton: React.FC<CustomButtonProps> = (props: CustomButtonProps) => {    
     const buttonStyle = [defaultButtonStyle.button, props.buttonStyle];
     const titleStyle = [defaultButtonStyle.buttonTitle, props.titleStyle];
-    console.log(props.buttonStyle);
-    
+
     return(
     <View>
         <Pressable onPress={props.onPress} style={buttonStyle}>
             <Text style={titleStyle}>{props.title}</Text>
-            {props.showArrow && <Image source={require("../assets/arrow_right.png")} 
-                                        style={defaultButtonStyle.arrow} />}
+            {props.showArrow && 
+                <Image 
+                    source={require("../../assets/arrow_right.png")} 
+                    style={defaultButtonStyle.arrow} />
+            }
         </Pressable>
     </View>
     )
@@ -19,7 +29,6 @@ const YellowButton: React.FC<YellowButtonProps> = (props: YellowButtonProps) => 
 const defaultButtonStyle = StyleSheet.create({
     button: {
         position: "relative",
-        backgroundColor: "#FFD869",
         width: 312,
         height: 51,
         borderRadius: 10,
@@ -28,7 +37,6 @@ const defaultButtonStyle = StyleSheet.create({
         flexDirection: "row"
     },
     buttonTitle: {
-        color: "#FFFFFF",
         fontSize: 25,
         fontFamily: "LilitaOne"
     },
@@ -40,12 +48,4 @@ const defaultButtonStyle = StyleSheet.create({
     }
 })
 
-export interface YellowButtonProps {
-    title: string;
-    onPress?: ()=>void;
-    showArrow?: boolean;
-    buttonStyle?: StyleProp<ViewStyle> // FIXME разобраться со стилями
-    titleStyle?: StyleProp<ViewStyle>
-};
-
-export default YellowButton;
+export default CustomButton;

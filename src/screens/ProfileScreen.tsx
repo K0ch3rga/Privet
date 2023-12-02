@@ -1,11 +1,5 @@
 import { View, Text, Pressable, StyleProp, StyleSheet, ViewStyle, Image, Button, Dimensions } from "react-native"; 
-import YellowButton from "./YellowButton";
-
-var width = Dimensions.get('window').width;
-
-type ScreenProps = {
-  navigation?: any
-}
+import { ScreenProps } from "../interfaces/ScreenProps";
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   return(
@@ -29,19 +23,21 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
         <Pressable 
           style={styles.profileButton} 
-          onPress={() => {navigation.navigate("Welcome")}}>
+          onPress={() => {navigation.navigate("SelectLanguage")}}>
           <Text style={styles.profileButtonTitle}>Change Language</Text>
         </Pressable>
         
         <Pressable 
         style={styles.profileButton}
-        onPress={() => {navigation.navigate("Registration")}}>
+        onPress={() => {navigation.navigate("Welcome")}}>
           <Text style={styles.profileButtonTitle}>Log Out</Text>
           </Pressable>
       </View>
     </View>
   )
 }
+
+var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     wrapper: {

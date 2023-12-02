@@ -1,10 +1,9 @@
-import { View, Text } from "react-native";
-import RegInput from "./registration/RegInput";
-import { StyleSheet } from "react-native";
-import Select from "./Select";
-import { SelectProps } from "./Select";
-import YellowButton from "./YellowButton";
 import { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import RegInput from "../components/RegInput";
+import Select, { SelectProps } from "../components/Select";
+import MainButton from "../components/Buttons/MainButton";
+import { mainColor } from "../defaultColors";
 
 
 const ProfileInfoScreen: React.FC = () => {
@@ -55,7 +54,7 @@ const ProfileInfoScreen: React.FC = () => {
         <Select data={genders}/>
         <RegInput placeholder="Birth Date"/>
         
-        <YellowButton title="Add Contacts" onPress={() => {setConstactsActive(!constactsActive)}}/>
+        <MainButton color={mainColor} title="Add Contacts" onPress={() => {setConstactsActive(!constactsActive)}}/>
         {constactsActive && 
           <View style={styles.contactsWrapper}>
             <RegInput placeholder="Phone"/>
@@ -68,7 +67,7 @@ const ProfileInfoScreen: React.FC = () => {
         <Text>Native language</Text>
         <Select data={languages} />
 
-        <YellowButton title="Add Other Languages" onPress={() => {setOtherLangsActive(!otherLangsActive)}}/>
+        <MainButton color={mainColor} title="Add Other Languages" onPress={() => {setOtherLangsActive(!otherLangsActive)}}/>
         {otherLangsActive && 
           <View style={styles.contactsWrapper}>
             <Select data={languages} />

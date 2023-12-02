@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
-import LogoWithText from './LogoWithText';
-import YellowButton from './YellowButton';
-import Select, { SelectProps } from './Select';
-import DropDown from './DropDown';
+import BigLogoWithText from '../components/Logos/BigLogoWithText';
+import Select, { SelectProps } from '../components/Select';
+import DropDown from '../components/DropDown';
+import MainButton from '../components/Buttons/MainButton';
+import { mainColor } from '../defaultColors';
 
-
-const WelcomeScreen: React.FC = () => {
+const SelectLanguageScreen: React.FC = () => {
   const data: SelectProps[] = [
     {text: 'English'},
     {text: 'Russian'},
@@ -14,11 +14,11 @@ const WelcomeScreen: React.FC = () => {
   
   return (
     <View style={styles.wrapper}>
-      <LogoWithText/>
+      <BigLogoWithText/>
       <View style={styles.nav}> 
         <Text style={styles.header}>What is your language?</Text>
         <Select data={data}/>
-        <YellowButton onPress={() => console.log('Pressed')} title="Continue" showArrow={true} />
+        <MainButton color={mainColor} onPress={() => console.log('Pressed')} title="Continue" showArrow={true} />
       </View>
     </View>
   );
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default WelcomeScreen;
+export default SelectLanguageScreen;

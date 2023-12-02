@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Image, TextInput, StyleProp, ViewStyle, ColorValue } from 'react-native';
 import { useState } from "react";
+import { mainColor } from '../defaultColors';
 
 
 export type RegInputProps = {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderWidth: 4, 
     borderRadius: 10,
-    borderColor: "#FFD869",
+    borderColor: mainColor,
     paddingLeft: 20,
     fontFamily: "Manrope-Medium",
     fontSize: 17,

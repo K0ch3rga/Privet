@@ -1,9 +1,9 @@
 import { View, Text, Image, StyleSheet, TextStyle } from 'react-native';
 
-const LogoWithText: React.FC = () => {
+const BigLogoWithText: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <Image source={require('../../assets/logo.png')} style={styles.logo} />
       <Text style={styles.label}>PRIVET</Text>
     </View>
   );
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default LogoWithText;
+export default BigLogoWithText;

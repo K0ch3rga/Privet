@@ -1,17 +1,18 @@
 import {StyleSheet, Text, View, StatusBar} from "react-native";
-import { useFonts } from "expo-font";
-import YellowButton from "./src/components/YellowButton";
-import WelcomeScreen from "./src/components/WelcomeScreen";
-import Carousel from "./src/components/Carousel";
-import Paginator from "./src/components/Paginator";
-import RegistrationScreen from "./src/components/registration/RegistrationScreen";
-import EnterCodeScreen from "./src/components/EnterCodeScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import ProfileScreen from "./src/components/ProfileScreen";
-import { Pressable } from "react-native";
-import ProfileInfoScreen from "./src/components/ProfileInfoScreen";
-import NotificationsScreen from "./src/components/NotificationsScreen";
+import { useFonts } from "expo-font";
+
+import RegistrationScreen from "./src/screens/RegistrationScreen";
+import EnterCodeScreen from "./src/screens/EnterCodeScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import ProfileInfoScreen from "./src/screens/ProfileInfoScreen";
+import NotificationsScreen from "./src/screens/NotificationsScreen";
+import SelectLanguageScreen from "./src/screens/SelectLanguageScreen";
+import WelcomeScreen from "./src/screens/WelcomeScreen";
+
+import Carousel from "./src/components/Carousel/Carousel";
+import { useEffect } from "react";
 
 function Welcome() {
   return <WelcomeScreen />;
@@ -31,6 +32,7 @@ export default function App() {
       "Manrope-Light": require("./src/assets/fonts/Manrope-Light.ttf"),
       "Manrope-Medium": require("./src/assets/fonts/Manrope-Medium.ttf"),
       "Manrope-Regular": require("./src/assets/fonts/Manrope-Regular.ttf"),
+      "Manrope-Bold": require("./src/assets/fonts/Manrope-Bold.ttf"),
       "Manrope-SemiBold": require("./src/assets/fonts/Manrope-SemiBold.ttf"),
   });
 
@@ -38,15 +40,19 @@ export default function App() {
     return null;
   }
 
+  
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Profile">
+      <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen name='Welcome' component={WelcomeScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name='SelectLanguage' component={SelectLanguageScreen} />
+        <Stack.Screen name='Profile' component={ProfileScreen} />
         <Stack.Screen name='Test' component={Carousel} />
-        <Stack.Screen name="Registration" component={RegistrationScreen} />
-        <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} />
-        <Stack.Screen name="Notifications" component={NotificationsScreen} />
+        <Stack.Screen name='Registration' component={RegistrationScreen} />
+        <Stack.Screen name='EnterCode' component={EnterCodeScreen} />
+        <Stack.Screen name='ProfileInfo' component={ProfileInfoScreen} />
+        <Stack.Screen name='Notifications' component={NotificationsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

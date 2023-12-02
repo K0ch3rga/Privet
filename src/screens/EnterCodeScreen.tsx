@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, TextInput, Dimensions, ColorValue } from 'react-native';
-import YellowButton from './YellowButton';
-import SmallLogo from "./SmallLogo";
+import SmallLogo from "../components/Logos/SmallLogo";
+import MainButton from "../components/Buttons/MainButton";
+import { mainColor, secondaryColor } from "../defaultColors";
+import { ScreenProps } from "../interfaces/ScreenProps";
 
 var width = Dimensions.get('window').width;
-var height =Dimensions.get('window').height;
+var height = Dimensions.get('window').height;
 const popipContentWidth = width - 30;
 
-const EnterCodeScreen: React.FC = () => {
-  const [popupActive, setPopupActive] = useState(true);
+const EnterCodeScreen: React.FC<ScreenProps> = ({ navigation }) => {
+  const [popupActive, setPopupActive] = useState(false);
   
   return (
     <>
@@ -21,7 +23,11 @@ const EnterCodeScreen: React.FC = () => {
           </View>
         
         <View style={styles.bottom}>
-          <YellowButton title="Next"></YellowButton>
+          <MainButton 
+            title="Next" 
+            color={mainColor} 
+            onPress={() => {navigation.navigate("Profile")}}
+            />
         </View>
       </View>
 
@@ -31,8 +37,8 @@ const EnterCodeScreen: React.FC = () => {
           <View style={styles.popupContent}>
             <Text style={styles.popupTitle}>Didn’t receive an email?</Text>
             <View style={styles.popupButtons}>
-              <YellowButton title="Send code again" onPress={() => setPopupActive(false)}/>
-              <YellowButton title="Contact support" buttonStyle={styles.orangeButton} titleStyle={styles.orangeButtonText}/>
+              <MainButton color={mainColor} title="Send code again" onPress={() => setPopupActive(false)}/>
+              <MainButton color={secondaryColor} title="Contact support"/>
             </View>
           </View>
         </View>
@@ -54,7 +60,7 @@ const styles = StyleSheet.create({
     gap: 9
   },
   codeInput: {
-    borderColor: "#FFD869",
+    borderColor: mainColor,
     height: 80,
     width: 290,
     borderWidth: 4, 

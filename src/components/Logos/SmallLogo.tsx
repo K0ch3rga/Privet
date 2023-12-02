@@ -3,14 +3,14 @@ import { View, Text, StyleSheet, Image, TextInput, Dimensions, ColorValue } from
 
 
 type SmallLogoProps = {
-  title: string,
-  gap: number
+  title?: string,
+  gap?: number
 }
 
 const SmallLogo: React.FC<SmallLogoProps> = (props) => {  
   return (
       <View style={[styles.header, {gap: props.gap}]}>
-        <Image style={styles.logo} source={require("../assets/logo.png")}/>
+        <Image style={styles.logo} source={require("../../assets/logo.png")}/>
         <Text style={styles.title}>{props.title}</Text>
       </View>
   );

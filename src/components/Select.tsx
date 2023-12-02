@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, Image, StyleSheet, FlatList, Pressable, GestureResponderEvent } from "react-native";
+import { mainColor } from "../defaultColors";
 
 const Select = (props: SelectProps) => {
   const [value, setValue] = useState(props.data[0].text);
@@ -70,7 +71,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 18,
     width: 312,
     height: 51,
-    borderColor: "#FFD869",
+    borderColor: mainColor,
     borderStyle: "solid",
     borderWidth: 3,
     borderRadius: 18,

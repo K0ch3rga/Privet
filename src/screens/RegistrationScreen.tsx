@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Dimensions,  } from 'react-native';
-import YellowButton from '../YellowButton';
-import RegInput from './RegInput';
-import SmallLogo from "../SmallLogo";
+import MainButton from "../components/Buttons/MainButton";
+import SecondaryButton from "../components/Buttons/SecondaryButton";
+import RegInput from '../components/RegInput';
+import SmallLogo from "../components/Logos/SmallLogo";
+import { ScreenProps } from "../interfaces/ScreenProps";
+import { mainColor, buddyColor } from "../defaultColors";
 
 var width = Dimensions.get('window').width;
 
-const RegistrationScreen: React.FC = () => {
+const RegistrationScreen: React.FC<ScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.wrapper}>
       <SmallLogo title="Privet, let's get started!" gap={24} />
@@ -22,8 +25,8 @@ const RegistrationScreen: React.FC = () => {
         </View>
 
         <View style={styles.navButtons}>
-          <YellowButton title='Sign Up' />
-          <YellowButton title="I'm Buddy" buttonStyle={styles.blueButton} titleStyle={styles.blueButtonText} />
+          <MainButton title='Sign Up' color={mainColor} onPress={() => {navigation.navigate("EnterCode")}}/>
+          <SecondaryButton title="I'm Buddy" color={buddyColor} />
         </View>
       </View>
     </View>
@@ -59,14 +62,6 @@ const styles = StyleSheet.create({
   navButtons: {
     gap: 18
   },
-  blueButton: {
-    borderColor: "#0052B4",
-    borderWidth: 1,
-    backgroundColor: "white"
-  },
-  blueButtonText: {
-    color: "#0052B4",
-  }
 });
 
 export default RegistrationScreen;
