@@ -1,15 +1,6 @@
 import { View, Text, Image, StyleSheet, TextStyle } from 'react-native';
-import { useFonts } from "expo-font";
 
 const LogoWithText: React.FC = () => {
-  const [fontsLoaded] = useFonts({
-    "Jua": require("../assets/fonts/Jua-Regular.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
-  }
-
   return (
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} />

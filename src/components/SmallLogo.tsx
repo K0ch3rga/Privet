@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useFonts } from "expo-font";
 import { View, Text, StyleSheet, Image, TextInput, Dimensions, ColorValue } from 'react-native';
 
 
@@ -8,11 +7,7 @@ type SmallLogoProps = {
   gap: number
 }
 
-const SmallLogo: React.FC<SmallLogoProps> = (props) => {
-  const [] = useFonts({
-    "LilitaOne": require("../assets/fonts/LilitaOne-Rus.ttf"),
-  });
-  
+const SmallLogo: React.FC<SmallLogoProps> = (props) => {  
   return (
       <View style={[styles.header, {gap: props.gap}]}>
         <Image style={styles.logo} source={require("../assets/logo.png")}/>

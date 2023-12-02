@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useFonts } from "expo-font";
 import LogoWithText from './LogoWithText';
 import YellowButton from './YellowButton';
 import Select, { SelectProps } from './Select';
@@ -7,10 +6,6 @@ import DropDown from './DropDown';
 
 
 const WelcomeScreen: React.FC = () => {
-  const [] = useFonts({
-    "KumbhSans500": require("../assets/fonts/KumbhSans-Medium.ttf")
-  });
-
   const data: SelectProps[] = [
     {text: 'English'},
     {text: 'Russian'},

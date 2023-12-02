@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useFonts } from "expo-font";
 import { View, Text, StyleSheet, Image, TextInput, Dimensions, ColorValue } from 'react-native';
 import YellowButton from './YellowButton';
 import SmallLogo from "./SmallLogo";
@@ -9,13 +8,6 @@ var height =Dimensions.get('window').height;
 const popipContentWidth = width - 30;
 
 const EnterCodeScreen: React.FC = () => {
-  const [] = useFonts({
-    "Manrope-Light": require("../assets/fonts/Manrope-Light.ttf"),
-    "Manrope-Medium": require("../assets/fonts/Manrope-Medium.ttf"),
-    "Manrope-SemiBold": require("../assets/fonts/Manrope-SemiBold.ttf"),
-    "Manrope-Bold": require("../assets/fonts/Manrope-Bold.ttf"),
-  });
-
   const [popupActive, setPopupActive] = useState(true);
   
   return (

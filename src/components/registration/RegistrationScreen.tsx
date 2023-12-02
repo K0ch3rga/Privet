@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useFonts } from "expo-font";
-import { View, Text, StyleSheet, Image, TextInput, Dimensions, ColorValue } from 'react-native';
+import { View, Text, StyleSheet, Dimensions,  } from 'react-native';
 import YellowButton from '../YellowButton';
 import RegInput from './RegInput';
 import SmallLogo from "../SmallLogo";
@@ -8,15 +7,6 @@ import SmallLogo from "../SmallLogo";
 var width = Dimensions.get('window').width;
 
 const RegistrationScreen: React.FC = () => {
-  const [] = useFonts({
-    "LilitaOne": require("../../assets/fonts/LilitaOne-Rus.ttf"),
-    "KumbhSans500": require("../../assets/fonts/KumbhSans-Medium.ttf"),
-    "Manrope-Light": require("../../assets/fonts/Manrope-Light.ttf"),
-    "Manrope-Medium": require("../../assets/fonts/Manrope-Medium.ttf"),
-    "Manrope-Regular": require("../../assets/fonts/Manrope-Regular.ttf"),
-    "Manrope-SemiBold": require("../../assets/fonts/Manrope-SemiBold.ttf"),
-  });
-  
   return (
     <View style={styles.wrapper}>
       <SmallLogo title="Privet, let's get started!" gap={24} />

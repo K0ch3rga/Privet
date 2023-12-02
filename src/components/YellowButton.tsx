@@ -1,14 +1,9 @@
-import { useFonts } from "expo-font";
 import { View, Text, Pressable, StyleProp, StyleSheet, ViewStyle, Image } from "react-native"; 
 
 const YellowButton: React.FC<YellowButtonProps> = (props: YellowButtonProps) => {
     const buttonStyle = [defaultButtonStyle.button, props.buttonStyle];
     const titleStyle = [defaultButtonStyle.buttonTitle, props.titleStyle];
     console.log(props.buttonStyle);
-
-    const [] = useFonts({
-        "LilitaOne": require("../assets/fonts/LilitaOne-Rus.ttf"),
-    });
     
     return(
     <View>

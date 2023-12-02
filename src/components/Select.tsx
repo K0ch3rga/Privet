@@ -34,7 +34,7 @@ const Select = (props: SelectProps) => {
 export const SelectButton = (props: SelectButtonProps) => {
   return (
     <Pressable style={style.Button} onPress={props.onPress}>
-      {props.imagePath && <Image source={require(props.imagePath)} />}
+      {/* {props.imagePath && <Image source={require(props.imagePath)} />} */}
       <Text style={style.MainText}>{props.text}</Text>
       <Image
         source={require("../assets/arrow_right.png")}
@@ -47,7 +47,7 @@ export const SelectButton = (props: SelectButtonProps) => {
 export const SelectOption = (props: SelectOptionProps) => {
   return (
     <Pressable onPress={props.onPress}>
-      {props.imagePath && <Image source={require(props.imagePath)} />}
+      {/* {props.imagePath && <Image source={require(props.imagePath)} />} */}
       {/* Объединение с подчёркиванием, чтобы знать что выбрано */}
       <Text
         style={[

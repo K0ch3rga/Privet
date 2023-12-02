@@ -1,4 +1,5 @@
 import {StyleSheet, Text, View, StatusBar} from "react-native";
+import { useFonts } from "expo-font";
 import YellowButton from "./src/components/YellowButton";
 import WelcomeScreen from "./src/components/WelcomeScreen";
 import Carousel from "./src/components/Carousel";
@@ -20,6 +21,19 @@ function Test() {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded, fontError] = useFonts({
+      "LilitaOne": require("./src/assets/fonts/LilitaOne-Rus.ttf"),
+      "KumbhSans500": require("./src/assets/fonts/KumbhSans-Medium.ttf"),
+      "Manrope-Light": require("./src/assets/fonts/Manrope-Light.ttf"),
+      "Manrope-Medium": require("./src/assets/fonts/Manrope-Medium.ttf"),
+      "Manrope-Regular": require("./src/assets/fonts/Manrope-Regular.ttf"),
+      "Manrope-SemiBold": require("./src/assets/fonts/Manrope-SemiBold.ttf"),
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     // <NavigationContainer>
     //   <Stack.Navigator initialRouteName="Test">

@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { useFonts } from "expo-font";
 
 
 const CustomPicker: React.FC<{ currentItem: string }> = ({currentItem}) => {
@@ -15,11 +14,6 @@ const CustomPicker: React.FC<{ currentItem: string }> = ({currentItem}) => {
 
 
 const DropDown: React.FC = () => {
-  const [] = useFonts({
-    "LilitaOne": require("../assets/fonts/LilitaOne-Rus.ttf"),
-    "KumbhSans500": require("../assets/fonts/KumbhSans-Medium.ttf")
-  });
-
   return (
     <>
     <View style={styles.container}>
