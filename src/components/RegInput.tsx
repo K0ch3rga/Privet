@@ -8,19 +8,19 @@ export type RegInputProps = {
   wrong? : boolean
   wrongMsg? : string
   style?: StyleProp<ViewStyle>
+  setProperty?: React.Dispatch<React.SetStateAction<string>>
 }
 
 const RegInput: React.FC<RegInputProps> = (props) => {
-  const [active, setActive] = useState(false);
-  const textColor = active ? "black" : "rgba(69, 90, 100, 0.42)";
-  const inputStyle = [styles.input, {color: textColor}, props.wrong && styles.wrong]
+  const inputStyle = [styles.input, props.wrong && styles.wrong]
   
   return (
     <View style={styles.wrapper}>
       <TextInput 
         style={inputStyle}
         placeholder={props.placeholder}
-        onChangeText={(text: string) => {setActive(text != "")}} />
+        placeholderTextColor="rgba(69, 90, 100, 0.42)"
+        onChangeText={props.setProperty} />
       {props.wrong && <Text style={styles.wrongText}>{props.wrongMsg}</Text>}
     </View>
   );
