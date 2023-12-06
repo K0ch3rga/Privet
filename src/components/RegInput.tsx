@@ -9,6 +9,7 @@ export type RegInputProps = {
   wrongMsg? : string
   style?: StyleProp<ViewStyle>
   setProperty?: React.Dispatch<React.SetStateAction<string>>
+  password?: boolean
 }
 
 const RegInput: React.FC<RegInputProps> = (props) => {
@@ -20,7 +21,8 @@ const RegInput: React.FC<RegInputProps> = (props) => {
         style={inputStyle}
         placeholder={props.placeholder}
         placeholderTextColor="rgba(69, 90, 100, 0.42)"
-        onChangeText={props.setProperty} />
+        onChangeText={props.setProperty}
+        secureTextEntry={props.password} />
       {props.wrong && <Text style={styles.wrongText}>{props.wrongMsg}</Text>}
     </View>
   );

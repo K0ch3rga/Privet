@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {StyleSheet, Text, View, StatusBar} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -12,7 +13,6 @@ import SelectLanguageScreen from "./src/screens/SelectLanguageScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 
 import Carousel from "./src/components/Carousel/Carousel";
-import { useEffect } from "react";
 
 function Welcome() {
   return <WelcomeScreen />;
@@ -40,11 +40,9 @@ export default function App() {
     return null;
   }
 
-  
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Registration">
         <Stack.Screen name='Welcome' component={WelcomeScreen} />
         <Stack.Screen name='SelectLanguage' component={SelectLanguageScreen} />
         <Stack.Screen name='Profile' component={ProfileScreen} />

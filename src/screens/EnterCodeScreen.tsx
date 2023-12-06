@@ -7,7 +7,7 @@ import { ScreenProps } from "../interfaces/ScreenProps";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
-const popipContentWidth = width - 30;
+const popupContentWidth = width - 30;
 
 const EnterCodeScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [popupActive, setPopupActive] = useState(false);
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   popupContent: {
     backgroundColor: "#FFFFFF",
     borderRadius: 30,
-    width: popipContentWidth,
+    width: popupContentWidth,
     height: 300,
     paddingHorizontal: 22,
     paddingVertical: 29,
