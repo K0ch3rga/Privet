@@ -5,24 +5,21 @@ import Paginator, {PaginatorProps} from "../Paginator";
 import SmallLogo from "../Logos/SmallLogo";
 
 const Carousel = () => {
-  const [page, setPage] = useState(1);
-  const [prevDisabled, setPrevDisabled] = useState(true);
-  const [nextDisabled, setNextDisabled] = useState(false);
 
   const data: CarouselItemProps[] = [
-    {key: "1", imagePath: "../assets/cat/cat1.png", text: "Текст"},
-    {key: "2", imagePath: "../assets/cat/cat2.png", text: "Текст"},
-    {key: "3", imagePath: "../assets/cat/cat3.png", text: "Текст"},
-    {key: "4", imagePath: "../assets/flags/english.png", text: "Текст"},
+    {key: "1", image: './src/assets/cat/cat1.jpg', text: "Текст"},
+    {key: "2", image: '../assets/cat/cat2.png', text: "Текст"},
+    {key: "3", image: '../assets/cat/cat3.png', text: "Текст"},
   ];
-
+  
+  
   return (
     <View style={style.container}>
       <SmallLogo />
       <FlatList
         data={data}
         renderItem={({item}: {item: CarouselItemProps}) => (
-          <CarouselItem key={item.key} imagePath={item.imagePath} text={item.text} />
+          <CarouselItem key={item.key} image={item.image} text={item.text} />
         )}
         horizontal
         pagingEnabled

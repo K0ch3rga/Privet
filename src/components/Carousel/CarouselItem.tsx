@@ -33,7 +33,7 @@ const style = StyleSheet.create({
 
 export interface CarouselItemProps {
   key: string;
-  imagePath: string;
+  image: any;
   text: string;
 }
 
