@@ -16,6 +16,9 @@ import ProfileInfoScreen from "./src/screens/ProfileInfoScreen";
 import NotificationsScreen from "./src/screens/NotificationsScreen";
 import SelectLanguageScreen from "./src/screens/SelectLanguageScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
+import LogInScreen from "./src/screens/LogInScreen";
+import EnterEmailScreen from "./src/screens/EnterEmailScreen";
+import EnterNewPasswordScreen from "./src/screens/EnterNewPasswordScreen";
 import ToDoScreen from "./src/screens/ToDoScreen";
 
 import Carousel from "./src/components/Carousel/Carousel";
@@ -68,11 +71,16 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {
-        isSigned ? 
-        <MainApp />
-        : <Auth />
-      }
+      <Stack.Navigator initialRouteName="Registration">
+        <Stack.Screen name='Welcome' component={WelcomeScreen} />
+        <Stack.Screen name='SelectLanguage' component={SelectLanguageScreen} />
+        <Stack.Screen name='Profile' component={ProfileScreen} />
+        <Stack.Screen name='Test' component={Carousel} />
+        <Stack.Screen name='Registration' component={RegistrationScreen} />
+        <Stack.Screen name='EnterCode' component={EnterCodeScreen} />
+        <Stack.Screen name='ProfileInfo' component={ProfileInfoScreen} />
+        <Stack.Screen name='Notifications' component={NotificationsScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

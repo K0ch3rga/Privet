@@ -20,7 +20,7 @@ const WelcomeScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <SecondaryButton 
           title="Log in" 
           color={mainColor}
-          onPress={() => {navigation.navigate("Profile")}} />
+          onPress={() => {navigation.navigate("LogIn")}} />
       </View>
     </View>
   );
