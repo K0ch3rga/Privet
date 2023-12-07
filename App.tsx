@@ -11,6 +11,9 @@ import ProfileInfoScreen from "./src/screens/ProfileInfoScreen";
 import NotificationsScreen from "./src/screens/NotificationsScreen";
 import SelectLanguageScreen from "./src/screens/SelectLanguageScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
+import LogInScreen from "./src/screens/LogInScreen";
+import EnterEmailScreen from "./src/screens/EnterEmailScreen";
+import EnterNewPasswordScreen from "./src/screens/EnterNewPasswordScreen";
 
 import Carousel from "./src/components/Carousel/Carousel";
 
@@ -42,12 +45,15 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Registration">
+      <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen name='Welcome' component={WelcomeScreen} />
+        <Stack.Screen name='Registration' component={RegistrationScreen} />
+        <Stack.Screen name='LogIn' component={LogInScreen} />
+        <Stack.Screen name='EnterEmail' component={EnterEmailScreen} />
+        <Stack.Screen name='EnterNewPassword' component={EnterNewPasswordScreen} />
         <Stack.Screen name='SelectLanguage' component={SelectLanguageScreen} />
         <Stack.Screen name='Profile' component={ProfileScreen} />
         <Stack.Screen name='Test' component={Carousel} />
-        <Stack.Screen name='Registration' component={RegistrationScreen} />
         <Stack.Screen name='EnterCode' component={EnterCodeScreen} />
         <Stack.Screen name='ProfileInfo' component={ProfileInfoScreen} />
         <Stack.Screen name='Notifications' component={NotificationsScreen} />

@@ -4,6 +4,7 @@ import SmallLogo from "../components/Logos/SmallLogo";
 import MainButton from "../components/Buttons/MainButton";
 import { mainColor, secondaryColor } from "../defaultColors";
 import { ScreenProps } from "../interfaces/ScreenProps";
+import TextLink from "../components/TextLink";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -19,7 +20,7 @@ const EnterCodeScreen: React.FC<ScreenProps> = ({ navigation }) => {
           <View style={styles.codeWrapper}>
             <Text style={styles.codeTitle}>Enter your code</Text>
             <TextInput style={styles.codeInput} defaultValue="1234"></TextInput>
-            <Text style={styles.codeHint} onPress={() => setPopupActive(true)}>Didn’t receive an email?</Text>
+            <TextLink onPress={() => setPopupActive(true)}>Didn’t receive an email?</TextLink>
           </View>
         
         <View style={styles.bottom}>
@@ -74,12 +75,6 @@ const styles = StyleSheet.create({
   codeTitle: {
     fontFamily: "Manrope-Medium",
     fontSize: 23
-  },
-  codeHint: {
-    fontFamily: "Manrope-Light",
-    fontSize: 13,
-    color: "#455A64",
-    textDecorationLine: "underline"
   },
   bottom: {
     position: "absolute",
