@@ -1,5 +1,5 @@
 import {View, StyleSheet} from "react-native";
-import {CarouselItemProps} from "./Carousel/CarouselItem";
+import {CarouselItemProps} from "./CarouselItem";
 
 const Paginator = (props: PaginatorProps) => {
   // behold...

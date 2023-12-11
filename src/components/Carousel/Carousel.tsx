@@ -1,7 +1,7 @@
 import {StyleSheet, View, Button, FlatList, Image, Text} from "react-native";
 import {useState, useRef} from "react";
 import CarouselItem, {CarouselItemProps} from "./CarouselItem";
-import Paginator, {PaginatorProps} from "../Paginator";
+import Paginator, {PaginatorProps} from "./Paginator";
 import SmallLogo from "../Logos/SmallLogo";
 
 const Carousel = () => {

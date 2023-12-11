@@ -1,5 +1,5 @@
 import {useEffect, useState, createContext} from "react";
-import {StyleSheet, Text, View, StatusBar} from "react-native";
+import {StyleSheet, Text, View, StatusBar, Image} from "react-native";
 import {useFonts} from "expo-font";
 
 // Navigation
@@ -20,8 +20,11 @@ import LogInScreen from "./src/screens/LogInScreen";
 import EnterEmailScreen from "./src/screens/EnterEmailScreen";
 import EnterNewPasswordScreen from "./src/screens/EnterNewPasswordScreen";
 import ToDoScreen from "./src/screens/ToDoScreen";
+const MessengerScreen = () => <View><Text>Сообщения</Text></View>
+import Nav from "./src/components/Nav";
 
 import Carousel from "./src/components/Carousel/Carousel";
+import { mainColor } from "./src/defaultColors";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,20 +39,26 @@ const Auth = () => {
 }
 
 const MainApp = () => {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator();  // в какой-то момент это может сломаться
+  // далее нужно в каждой вкладке создавать stack
   return(
-    <Tab.Navigator>
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="SelectLanguage" component={SelectLanguageScreen} />
-      <Tab.Screen name="Test" component={Carousel} />
-      <Tab.Screen name="ProfileInfo" component={ProfileInfoScreen} />
-      <Tab.Screen name="Notifications" component={NotificationsScreen} />
-      <Tab.Screen name="ToDo" component={ToDoScreen} />
+    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}}} >
+      <Tab.Screen name="Profile" component={ProfileScreen} 
+        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/profile.png')} style={{width: 32, height: 32}} />}} />
+      <Tab.Screen name="ToDo" component={ToDoScreen} 
+        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/tasks.png')} style={{width: 32, height: 32}} />}}/>
+      <Tab.Screen name="Messenger" component={MessengerScreen} 
+        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/messenger.png')} style={{width: 32, height: 32}} />}}/>
+      <Tab.Screen name="Location?" component={NotificationsScreen} 
+        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/location.png')} style={{width: 32, height: 32}} />}}/>
+      <Tab.Screen name="Info" component={SelectLanguageScreen} 
+        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/info.png')} style={{width: 32, height: 32}} />}}/>
+      {/* <Tab.Screen name="Test" component={Nav} /> */}
     </Tab.Navigator>
   );
 }
 
-const getLogin = () => true;
+const getLogin = () => false;
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -71,16 +80,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Registration">
-        <Stack.Screen name='Welcome' component={WelcomeScreen} />
-        <Stack.Screen name='SelectLanguage' component={SelectLanguageScreen} />
-        <Stack.Screen name='Profile' component={ProfileScreen} />
-        <Stack.Screen name='Test' component={Carousel} />
-        <Stack.Screen name='Registration' component={RegistrationScreen} />
-        <Stack.Screen name='EnterCode' component={EnterCodeScreen} />
-        <Stack.Screen name='ProfileInfo' component={ProfileInfoScreen} />
-        <Stack.Screen name='Notifications' component={NotificationsScreen} />
-      </Stack.Navigator>
+      {isSigned ?
+      <MainApp/>:
+      <Auth/>}
     </NavigationContainer>
   );
 }
