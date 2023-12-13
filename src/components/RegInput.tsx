@@ -1,20 +1,34 @@
-import { View, Text, StyleSheet, Image, TextInput, StyleProp, ViewStyle, ColorValue } from 'react-native';
 import { useState } from "react";
+import { View, Text, StyleSheet, Image, TextInput, StyleProp, ViewStyle, ColorValue, TextInputEndEditingEventData } from 'react-native';
+import * as yup from 'yup';
+
 import { mainColor } from '../defaultColors';
 
 
 export type RegInputProps = {
   placeholder: string
+  validation: yup.AnySchema
   wrong? : boolean
   wrongMsg? : string
   style?: StyleProp<ViewStyle>
-  setProperty?: React.Dispatch<React.SetStateAction<string>>
+  setProperty?: (text: string) => void
   password?: boolean
 }
 
 const RegInput: React.FC<RegInputProps> = (props) => {
-  const inputStyle = [styles.input, props.wrong && styles.wrong]
-  
+  const [wrong, setWrong] = useState(false);
+  const [wrongMessage, setWrongMessage] = useState('');
+  const inputStyle = [styles.input, wrong && styles.wrong]
+
+  const validate = async (text: string, schema: yup.AnySchema) => {
+    await schema.validate(text)
+    .then(() => setWrong(false))
+    .catch((error) => {
+      setWrong(true)
+      setWrongMessage(error.message)
+    })
+  }
+
   return (
     <View style={styles.wrapper}>
       <TextInput 
@@ -22,8 +36,10 @@ const RegInput: React.FC<RegInputProps> = (props) => {
         placeholder={props.placeholder}
         placeholderTextColor="rgba(69, 90, 100, 0.42)"
         onChangeText={props.setProperty}
-        secureTextEntry={props.password} />
-      {props.wrong && <Text style={styles.wrongText}>{props.wrongMsg}</Text>}
+        // secureTextEntry={props.password}
+        onBlur={(e) => {validate(e.nativeEvent.text, props.validation)}}
+        />
+      {wrong && <Text style={styles.wrongText}>{wrongMessage}</Text>}
     </View>
   );
 };

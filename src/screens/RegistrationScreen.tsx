@@ -1,100 +1,40 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Dimensions, TextInput,  } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, } from 'react-native';
+import * as yup from 'yup';
+
 import MainButton from "../components/Buttons/MainButton";
 import SecondaryButton from "../components/Buttons/SecondaryButton";
 import RegInput from '../components/RegInput';
 import SmallLogo from "../components/Logos/SmallLogo";
-import { ScreenProps } from "../interfaces/ScreenProps";
+
 import { mainColor, buddyColor } from "../defaultColors";
+
+import { ScreenProps } from "../interfaces/ScreenProps";
+import { UserDataProps } from "../interfaces/UserDataProps";
+import { UserDataSchemas, userSchema } from "../Schemas/UserDataSchema";
+
+import { sendRegistraionRequest } from "../requests/RegistrationRequest";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 const popupContentWidth = width - 30;
 
 
-type RegRequestProps = {
-  university: string,
-  email: string,
-  password: string
-}
-
 const RegistrationScreen: React.FC<ScreenProps> = ({ navigation }) => {
-  const [university, setUniversity] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userData, setUserData] = useState<UserDataProps>({university: '', email: '', password: ''});
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const sendRegRequest  = async (university: string, email: string, password: string) => {
-    const url = 'http://127.0.0.1:8000/api/v1/signup/student/'
-    const data: RegRequestProps = {
-      university: university,
-      email: email,
-      password: password,
-    }
-    
-    setLoading(true);
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-      })
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        setError(true)
-        setErrorMsg(JSON.stringify(json));
-      } else{
-        logIn(email, password);
-      }
-
-      console.log("Успех:", JSON.stringify(json));
-    } catch (error) {
-      console.error("Ошибка:", error)
-    }
-
-    setLoading(false);
-  };
-
-  const logIn = async (email: string, password: string) => {
-    const url = 'http://127.0.0.1:8000/api/v1/login/'
-    const data = {
-      email: email,
-      password: password,
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-      })
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        setError(true)
-        setErrorMsg(JSON.stringify(json));
-      } else{
-        navigation.navigate("Profile")
-      }
-
-      console.log("Успех:", JSON.stringify(json));
-    } catch (error) {
-      console.error("Ошибка:", error)
-    }
-
-    setLoading(false);
+  const handleSend = async () => {
+    await userSchema.validate(userData)
+    .then(() => {
+      sendRegistraionRequest(userData, setLoading, setError, setErrorMsg)
+    })
+    .catch(() => {
+      setError(true)
+      setErrorMsg("Please provide valid data")
+    })
   }
 
   return (
@@ -104,16 +44,50 @@ const RegistrationScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
         <View style={styles.bottomGroup}>
           <View style={styles.inputFields}>
-            <RegInput placeholder='Full Name'/>
-            <RegInput placeholder='University' setProperty={setUniversity}/>
-            <RegInput placeholder='E-mail' wrong={false} wrongMsg="Invalid E-Mail" setProperty={setEmail}/>
-            <RegInput placeholder='Password' wrong={false} wrongMsg="Invaild password: not enough/no digits" setProperty={setPassword} password={true}/>
-            <RegInput placeholder='Confirm Password' wrong={false} wrongMsg="Passwords don’t match" password={true}/>
+            {/* <RegInput placeholder='Full Name' 
+            setProperty={(text: string) => {
+              setUserData({
+                ...userData,
+                fullName: text
+            })}}/> */}
+
+            <RegInput placeholder='University' 
+            validation={UserDataSchemas.university}
+            setProperty={(text: string) => {
+              setUserData({
+                ...userData,
+                university: text
+            })}}/>
+
+            <RegInput placeholder='E-mail' 
+            validation={UserDataSchemas.email}
+            setProperty={(text: string) => {
+              setUserData({
+                ...userData,
+                email: text
+            })}}/>
+
+            <RegInput 
+            placeholder='Password'
+            password={true} 
+            validation={UserDataSchemas.password}
+            setProperty={(text: string) => {
+              setUserData({
+                ...userData,
+                password: text
+            })}} />
+            <RegInput 
+              placeholder='Confirm Password' 
+              password={true}
+              validation={
+                yup.string()
+                .matches(new RegExp(userData.password), "Passwords doesn't match")
+                .required("Please confrim password")}/>
             <Text style={styles.inputHints}>Password must contain small and capital letters, as well as 4 different digits</Text>
           </View>
 
           <View style={styles.navButtons}>
-            <MainButton title='Sign Up' color={mainColor} onPress={() => {sendRegRequest(university, email, password)}} />
+            <MainButton title='Sign Up' color={mainColor} onPress={handleSend} />
             <SecondaryButton title="I'm Buddy" color={buddyColor} onPress={() => {navigation.navigate("EnterCode")}} />
           </View>
         </View>

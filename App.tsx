@@ -34,6 +34,9 @@ const Auth = () => {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Registration" component={RegistrationScreen} />
       <Stack.Screen name="EnterCode" component={EnterCodeScreen} />
+      <Stack.Screen name="LogIn" component={LogInScreen} />
+      <Stack.Screen name="EnterEmail" component={EnterEmailScreen} />
+      <Stack.Screen name="EnterNewPassword" component={EnterNewPasswordScreen} />
     </Stack.Navigator>
   )
 }

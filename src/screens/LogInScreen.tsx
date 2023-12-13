@@ -6,10 +6,20 @@ import SmallLogo from "../components/Logos/SmallLogo";
 import TextLink from "../components/TextLink";
 import { ScreenProps } from "../interfaces/ScreenProps";
 import { mainColor, whiteColor } from "../defaultColors";
+import { loginProps } from "../requests/LoginRequest";
+import { sendLoginRequest } from "../requests/LoginRequest";
+import { UserDataSchemas } from "../Schemas/UserDataSchema";
+import * as yup from 'yup';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 const popupContentWidth = width - 30;
+
+
+const LoginDataShemas = {
+  email: UserDataSchemas.email,
+  password: yup.string().required("Please enter the password")
+}
 
 
 const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
@@ -19,39 +29,20 @@ const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [isError, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const logIn = async (email: string, password: string) => {
-    const url = 'http://127.0.0.1:8000/api/v1/login/'
+  const handleSend = async () => {
     const data = {
       email: email,
-      password: password,
-    }
+      password: password
+    } as loginProps
 
-    setLoading(true);
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+    await yup.object(LoginDataShemas).validate(data)
+      .then(() => {
+        sendLoginRequest(data, setLoading, setError, setErrorMsg)
       })
-
-      const json = await response.json();
-
-      if (!response.ok) {
+      .catch(() => {
         setError(true)
-        setErrorMsg(JSON.stringify(json));
-      } else{
-        navigation.navigate("Profile")
-      }
-
-      console.log("Успех:", JSON.stringify(json));
-    } catch (error) {
-      console.error("Ошибка:", error)
-    }
-
-    setLoading(false);
+        setErrorMsg("Please provide valid data")
+      })
   }
 
   return (
@@ -63,8 +54,16 @@ const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <View style={styles.main}>
 
           <View style={styles.inputFields}>
-            <RegInput placeholder='E-mail' wrong={false} wrongMsg="Invalid E-Mail" setProperty={setEmail}/>
-            <RegInput placeholder='Password' wrong={false} wrongMsg="Invaild password: not enough/no digits" setProperty={setPassword} password={true}/>
+            <RegInput placeholder='E-mail' 
+              setProperty={setEmail}
+              validation={LoginDataShemas.email}
+            />
+
+            <RegInput 
+              placeholder='Password' 
+              setProperty={setPassword} 
+              password={true}
+              validation={LoginDataShemas.password}/>
           </View>
 
           <View>
@@ -74,7 +73,7 @@ const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.navButtons}>
-          <MainButton title='Log In' color={mainColor} onPress={() => {logIn(email, password)}} />
+          <MainButton title='Log In' color={mainColor} onPress={handleSend} />
         </View>
 
       </View>
