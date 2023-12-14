@@ -1,17 +1,20 @@
 import { View, Text, Pressable, StyleProp, StyleSheet, ViewStyle, Image, Button, Dimensions } from "react-native"; 
-import { ScreenProps } from "../interfaces/ScreenProps";
+import { ScreenProps } from "../../interfaces/ScreenProps";
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   return(
     <View style={styles.wrapper}>
       <View style={styles.mainInfo}>
-        <Image style={styles.mainInfoImage} source={require("../assets/default-profile-pic.png")} />
+        <Image style={styles.mainInfoImage} source={require("../../assets/default-profile-pic.png")} />
         <Text style={styles.mainInfoText}>Name</Text>
       </View>
       <View style={styles.profileButtonWrapper}>
         <Pressable 
           style={styles.profileButton}
-          onPress={() => {navigation.navigate("ProfileInfo")}}>
+          onPress={() => {
+            console.log("pressed");
+            
+            navigation.navigate("ProfileInfo")}}>
             <Text style={styles.profileButtonTitle}>View profile info</Text>
         </Pressable>
 
@@ -29,7 +32,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
         
         <Pressable 
         style={styles.profileButton}
-        onPress={() => {navigation.navigate("Welcome")}}>
+        onPress={() => {console.log("Log out pressed")}}>
           <Text style={styles.profileButtonTitle}>Log Out</Text>
           </Pressable>
       </View>

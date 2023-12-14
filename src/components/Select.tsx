@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, FlatList, Pressable, GestureResponderEve
 import { mainColor } from "../defaultColors";
 
 const Select = (props: SelectProps) => {
+  props.data.unshift({text: ""});
   const [value, setValue] = useState(props.data[0].text);
   const [expanded, setExpanded] = useState(false);
 
@@ -10,6 +11,9 @@ const Select = (props: SelectProps) => {
 
   const toggleselect = (value: string) => {
     setValue(value);
+    if (!!props.setChosenValue) {
+      props.setChosenValue(value);
+    }
     setExpanded(false);
   };
 
@@ -93,6 +97,7 @@ const style = StyleSheet.create({
 
 export interface SelectProps {
   data: { text: string; imagePath?: string }[]; // FIXME
+  setChosenValue?: (value: string) => void
 }
 
 export interface SelectOptionProps {

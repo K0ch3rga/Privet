@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Image, TextInput, StyleProp, ViewStyle, ColorValue, TextInputEndEditingEventData } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, StyleProp, ViewStyle, ColorValue, TextInputEndEditingEventData, NativeSyntheticEvent } from 'react-native';
 import * as yup from 'yup';
 
 import { mainColor } from '../defaultColors';
@@ -7,9 +7,7 @@ import { mainColor } from '../defaultColors';
 
 export type RegInputProps = {
   placeholder: string
-  validation: yup.AnySchema
-  wrong? : boolean
-  wrongMsg? : string
+  validation?: yup.AnySchema
   style?: StyleProp<ViewStyle>
   setProperty?: (text: string) => void
   password?: boolean
@@ -29,6 +27,12 @@ const RegInput: React.FC<RegInputProps> = (props) => {
     })
   }
 
+  const handleBlur = (e: NativeSyntheticEvent<any>) => {
+    if (!!props.validation) {
+      validate(e.nativeEvent.text, props.validation)
+    }
+  }
+
   return (
     <View style={styles.wrapper}>
       <TextInput 
@@ -37,7 +41,7 @@ const RegInput: React.FC<RegInputProps> = (props) => {
         placeholderTextColor="rgba(69, 90, 100, 0.42)"
         onChangeText={props.setProperty}
         // secureTextEntry={props.password}
-        onBlur={(e) => {validate(e.nativeEvent.text, props.validation)}}
+        onBlur={handleBlur}
         />
       {wrong && <Text style={styles.wrongText}>{wrongMessage}</Text>}
     </View>

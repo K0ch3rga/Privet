@@ -14,6 +14,7 @@ import { UserDataProps } from "../interfaces/UserDataProps";
 import { UserDataSchemas, userSchema } from "../Schemas/UserDataSchema";
 
 import { sendRegistraionRequest } from "../requests/RegistrationRequest";
+import Popup from "../components/Popup";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -94,25 +95,18 @@ const RegistrationScreen: React.FC<ScreenProps> = ({ navigation }) => {
       </View>
 
       {isLoading && 
-      <View style={styles.popup}>
-        <View style={styles.popupWrapper}>
-          <View style={styles.popupContent}>
-            <Text>Loading</Text>
-          </View>
-        </View>
-      </View>
+      <Popup>
+        <Text>Loading</Text>
+      </Popup>
       }
 
       {isError && 
-      <View style={styles.popup}>
-        <View style={styles.popupWrapper}>
-          <View style={styles.popupContent}>
-            <Text>{errorMsg}</Text>
-          </View>
-          <MainButton title="Close" color={mainColor} onPress={() => setError(false)} />
-        </View>
-      </View>
+        <Popup 
+          close={setError}>
+          <Text>{errorMsg}</Text>
+        </Popup>
       }
+
     </>
   );
 };

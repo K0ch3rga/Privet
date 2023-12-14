@@ -11,9 +11,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // Screens
 import RegistrationScreen from "./src/screens/RegistrationScreen";
 import EnterCodeScreen from "./src/screens/EnterCodeScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
-import ProfileInfoScreen from "./src/screens/ProfileInfoScreen";
-import NotificationsScreen from "./src/screens/NotificationsScreen";
+import ProfileScreen from "./src/screens/Profile/ProfileScreen";
+import ProfileInfoScreen from "./src/screens/Profile/ProfileInfoScreen";
+import NotificationsScreen from "./src/screens/Profile/NotificationsScreen";
 import SelectLanguageScreen from "./src/screens/SelectLanguageScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LogInScreen from "./src/screens/LogInScreen";
@@ -25,6 +25,7 @@ import Nav from "./src/components/Nav";
 
 import Carousel from "./src/components/Carousel/Carousel";
 import { mainColor } from "./src/defaultColors";
+import Profile from "./src/screens/Profile/Profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +47,7 @@ const MainApp = () => {
   // далее нужно в каждой вкладке создавать stack
   return(
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}}} >
-      <Tab.Screen name="Profile" component={ProfileScreen} 
+      <Tab.Screen name="Profile" component={Profile} 
         options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/profile.png')} style={{width: 32, height: 32}} />}} />
       <Tab.Screen name="ToDo" component={ToDoScreen} 
         options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/tasks.png')} style={{width: 32, height: 32}} />}}/>
@@ -61,7 +62,7 @@ const MainApp = () => {
   );
 }
 
-const getLogin = () => false;
+const getLogin = () => true;
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
