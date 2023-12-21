@@ -25,23 +25,6 @@ const ToDoScreen = () => {
         )}
         ItemSeparatorComponent={()=><View style={style.separator} />}
       />
-      <View style={style.add}>
-        {!edit ? (
-        <Pressable onPress={() => setEdit(!edit)} >
-          <Text>+ Add</Text>
-        </Pressable>
-        ) : (
-        <>
-          <TextInput autoFocus style ={style.input}
-            onChange={({nativeEvent: {text}}) => setText(text)} 
-            onSubmitEditing={() => addItem(text)} 
-          />
-          <Pressable onPress={() => addItem(text)}>
-            <Text>Добавить</Text>
-          </Pressable>
-        </>
-        )}
-      </View>
     </View>
   );
 };

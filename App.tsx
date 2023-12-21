@@ -20,12 +20,15 @@ import LogInScreen from "./src/screens/LogInScreen";
 import EnterEmailScreen from "./src/screens/EnterEmailScreen";
 import EnterNewPasswordScreen from "./src/screens/EnterNewPasswordScreen";
 import ToDoScreen from "./src/screens/ToDoScreen";
-const MessengerScreen = () => <View><Text>Сообщения</Text></View>
-import Nav from "./src/components/Nav";
+import Messenger from "./src/screens/Messenger";
 
 import Carousel from "./src/components/Carousel/Carousel";
 import { mainColor } from "./src/defaultColors";
+<<<<<<< Updated upstream
 import Profile from "./src/screens/Profile/Profile";
+=======
+import Chat from "./src/screens/Chat";
+>>>>>>> Stashed changes
 
 const Stack = createNativeStackNavigator();
 
@@ -42,12 +45,26 @@ const Auth = () => {
   )
 }
 
+const MessengerScreen = () => {
+  return (
+    <Stack.Navigator initialRouteName="Chat" screenOptions={{headerShown:false}}>
+      <Stack.Screen name="Chat" component={Chat}/>
+      <Stack.Screen name="Messenger" component={Messenger}/>
+    </Stack.Navigator>
+  )
+}
+
 const MainApp = () => {
   const Tab = createBottomTabNavigator();  // в какой-то момент это может сломаться
   // далее нужно в каждой вкладке создавать stack
   return(
+<<<<<<< Updated upstream
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}}} >
       <Tab.Screen name="Profile" component={Profile} 
+=======
+    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}}} initialRouteName="Messenger">
+      <Tab.Screen name="Profile" component={ProfileScreen} 
+>>>>>>> Stashed changes
         options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/profile.png')} style={{width: 32, height: 32}} />}} />
       <Tab.Screen name="ToDo" component={ToDoScreen} 
         options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/tasks.png')} style={{width: 32, height: 32}} />}}/>
