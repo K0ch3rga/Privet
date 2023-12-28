@@ -7,6 +7,7 @@ import { mainColor } from '../defaultColors';
 
 export type RegInputProps = {
   placeholder: string
+  value?: string
   validation?: yup.AnySchema
   style?: StyleProp<ViewStyle>
   setProperty?: (text: string) => void
@@ -42,6 +43,7 @@ const RegInput: React.FC<RegInputProps> = (props) => {
         onChangeText={props.setProperty}
         // secureTextEntry={props.password}
         onBlur={handleBlur}
+        value={props.value}
         />
       {wrong && <Text style={styles.wrongText}>{wrongMessage}</Text>}
     </View>

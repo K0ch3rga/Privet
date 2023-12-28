@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, FlatList, Pressable, GestureResponderEvent } from "react-native";
 import { mainColor } from "../defaultColors";
 
 const Select = (props: SelectProps) => {
   props.data.unshift({text: ""});
+  // console.log("Initial value: ", props.initialValue);
+  
   const [value, setValue] = useState(props.data[0].text);
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (props.initialValue) {
+      setValue(props.initialValue)
+    }
+  }, [])
 
   const openHandle = () => setExpanded(!expanded);
 
@@ -98,6 +106,7 @@ const style = StyleSheet.create({
 export interface SelectProps {
   data: { text: string; imagePath?: string }[]; // FIXME
   setChosenValue?: (value: string) => void
+  initialValue?: string
 }
 
 export interface SelectOptionProps {
