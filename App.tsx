@@ -6,7 +6,7 @@ import {useFonts} from "expo-font";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 // Screens
 import RegistrationScreen from "./src/screens/RegistrationScreen";
@@ -21,20 +21,33 @@ import EnterEmailScreen from "./src/screens/EnterEmailScreen";
 import EnterNewPasswordScreen from "./src/screens/EnterNewPasswordScreen";
 import ToDoScreen from "./src/screens/ToDoScreen";
 import Messenger from "./src/screens/Messenger";
-
-import Carousel from "./src/components/Carousel/Carousel";
-import { mainColor } from "./src/defaultColors";
-<<<<<<< Updated upstream
+import ChatScreen from "./src/screens/Chat";
 import Profile from "./src/screens/Profile/Profile";
-=======
-import Chat from "./src/screens/Chat";
->>>>>>> Stashed changes
 
-const Stack = createNativeStackNavigator();
+import {mainColor} from "./src/defaultColors";
+
+export type Screens = { // Все данные для передачи между экранами 
+  Welcome: undefined,
+  Registration:undefined,
+  EnterCode: undefined,
+  LogIn: undefined,
+  EnterEmail: undefined,
+  EnterNewPassword: undefined,
+  Tab: undefined,
+  Messenger: {id: number},
+  ProfileInfo: undefined,
+  Notifications: undefined,
+};
+
+export type ScreenProps = NativeStackScreenProps<Screens>;
+// Composite Screen Props https://reactnavigation.org/docs/typescript/#combining-navigation-props
+
+const Stack = createNativeStackNavigator<Screens>();
+const Tab = createBottomTabNavigator(); 
 
 const Auth = () => {
   return(
-    <Stack.Navigator initialRouteName="Welcome" >
+    <Stack.Navigator initialRouteName="Welcome" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Registration" component={RegistrationScreen} />
       <Stack.Screen name="EnterCode" component={EnterCodeScreen} />
@@ -42,42 +55,46 @@ const Auth = () => {
       <Stack.Screen name="EnterEmail" component={EnterEmailScreen} />
       <Stack.Screen name="EnterNewPassword" component={EnterNewPasswordScreen} />
     </Stack.Navigator>
-  )
-}
-
-const MessengerScreen = () => {
-  return (
-    <Stack.Navigator initialRouteName="Chat" screenOptions={{headerShown:false}}>
-      <Stack.Screen name="Chat" component={Chat}/>
-      <Stack.Screen name="Messenger" component={Messenger}/>
-    </Stack.Navigator>
-  )
-}
+  );
+};
 
 const MainApp = () => {
-  const Tab = createBottomTabNavigator();  // в какой-то момент это может сломаться
-  // далее нужно в каждой вкладке создавать stack
+  // Все новые экраны записывать сюда
+  // Я не уверен, насколько легально создавать два навигатора
+  // Если очень хочется красоты, то можно попробовать Stack.Group
+  return (
+    <Stack.Navigator initialRouteName="Tab" screenOptions={{headerShown: false}}>
+      {/* Главная навигация, основные пять панелей */}
+      <Stack.Screen name="Tab" component={TabNavigation} />
+      {/* Мессенджер */}
+      <Stack.Screen name="Messenger" component={Messenger} />
+      <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const TabNavigation = () => {
   return(
-<<<<<<< Updated upstream
-    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}}} >
-      <Tab.Screen name="Profile" component={Profile} 
-=======
-    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}}} initialRouteName="Messenger">
+    <Tab.Navigator screenOptions={{headerShown: false,tabBarStyle: {backgroundColor: mainColor, height: 69}, tabBarShowLabel:false}} >
       <Tab.Screen name="Profile" component={ProfileScreen} 
->>>>>>> Stashed changes
-        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/profile.png')} style={{width: 32, height: 32}} />}} />
-      <Tab.Screen name="ToDo" component={ToDoScreen} 
-        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/tasks.png')} style={{width: 32, height: 32}} />}}/>
-      <Tab.Screen name="Messenger" component={MessengerScreen} 
-        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/messenger.png')} style={{width: 32, height: 32}} />}}/>
-      <Tab.Screen name="Location?" component={NotificationsScreen} 
-        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/location.png')} style={{width: 32, height: 32}} />}}/>
-      <Tab.Screen name="Info" component={SelectLanguageScreen} 
-        options={{tabBarIcon: ()=><Image source={require('./src/assets/icons/info.png')} style={{width: 32, height: 32}} />}}/>
-      {/* <Tab.Screen name="Test" component={Nav} /> */}
+        options={{tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
+      />
+      <Tab.Screen name="ToDo"component={ToDoScreen}
+        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
+      />
+      <Tab.Screen name="ChatScreen" component={ChatScreen}
+        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
+      />
+      <Tab.Screen name="Route" component={Messenger}
+        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/location.png")} style={{width: 32, height: 32}}/>),}}
+      />
+      <Tab.Screen name="Info"component={SelectLanguageScreen}
+        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/info.png")} style={{width: 32, height: 32}}/>),}}
+      />
     </Tab.Navigator>
   );
-}
+};
 
 const getLogin = () => true;
 
@@ -95,17 +112,13 @@ export default function App() {
 
   if (!fontsLoaded && !fontError) {
     return null;
-  } 
+  }
 
-  const isSigned = getLogin()
+  const isSigned = getLogin();
 
   return (
     <NavigationContainer>
-      {isSigned ?
-      <MainApp/>:
-      <Auth/>}
+      {isSigned ? <MainApp /> : <Auth />}
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({});

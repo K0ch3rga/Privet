@@ -1,29 +1,42 @@
 import {useState, useReducer, useEffect} from "react";
-import {View, FlatList, Pressable, Text, StyleSheet, TextInput,} from "react-native";
-import { blackColor, buddyColor, grayColor } from "../defaultColors";
+import {View, FlatList, Pressable, Text, StyleSheet, Image} from "react-native";
+import {blackColor, buddyColor, grayColor, mainColor} from "../defaultColors";
 
 const ToDoScreen = () => {
-  const [data, setData] = useState([{done: true, text: "бебебе"}, {done: false, text: "123"}]);
-  const [text, setText] = useState("");
-  const [edit, setEdit] = useState(false);
-
-  const addItem = (text: string) => {
-    if (text != "" && text != null){
-      // setData(data.push({done: false, text: text}))
-      data.push({done: false, text: text}); // Это легально??
-    }
-    setEdit(false);
-    setText("");
-  };
+  const [data, setData] = useState([
+    {done: false, text: "Встреча в аэропорту"},
+    {done: false, text: "Оплата и заселение в хостел"},
+    {done: false, text: "Оформление сим-карты"},
+    {done: false, text: "Прохождение медосмотра"},
+    {done: false, text: "Перевод паспорта с нотариальным заверением"},
+    {done: false, text: "Оформление банковской карты"},
+    {done: false, text: "Оформление документов о зачислении"},
+    {done: false, text: "Оформление страховки"},
+    {done: false, text: "Оформление документов на общежитие"},
+    {done: false, text: "Оформление пропуска / студенческого билета"},
+    {done: false, text: "Прохождение медосвидетельствования"},
+    {done: false, text: "Продление визы"},
+    {done: false, text: "Прохождение дактилоскопии"},
+  ]);
 
   return (
     <View>
+      <View style={style.label}>
+        <Text>Текущее</Text>
+        <Image source={require("../assets/steps.png")} style={style.image} ></Image>
+      </View>
       <FlatList
-        data={data}
-        renderItem={({item}: {item: ToDoItemProps}) => (
-          <ToDoItem done={item.done} text={item.text} />
-        )}
-        ItemSeparatorComponent={()=><View style={style.separator} />}
+        data={data.filter((i) => !i.done)}
+        renderItem={(i) => <ToDoItem done={i.item.done} text={i.item.text} />}
+      />
+
+      <View style={style.label}>
+        <Text>Выполнено</Text>
+        <Image source={require("../assets/done.png")} style={style.image} ></Image>
+      </View>
+      <FlatList
+        data={data.filter((i) => i.done)}
+        renderItem={(i) => <ToDoItem done={i.item.done} text={i.item.text} />}
       />
     </View>
   );
@@ -31,12 +44,15 @@ const ToDoScreen = () => {
 
 const ToDoItem = (props: ToDoItemProps) => {
   const [isDone, setDone] = useState(props.done);
-  const [text, setText] = useState(props.text);
-  const onPress = () => setDone(!isDone);
+  const [isOpen, setOpen] = useState(false);
+  const handleDone = () => setDone(!isDone);
+  const handleOpen = () => console.log("open"); //setOpen(!isOpen);
   return (
-    <Pressable onPress={onPress} style={style.item}>
-      {isDone && <View style={[style.check, style.done]} />}
-      {!isDone && <View style={[style.check, style.undone]} />}
+    <Pressable onPress={handleOpen} style={style.item}>
+      {isDone && (
+        <Pressable style={[style.mark, style.doneMark]} onPress={handleDone} />
+      )}
+      {!isDone && <Pressable style={[style.mark, style.undoneMark]} onPress={handleDone}/>}
       <Text style={style.text}>{props.text}</Text>
     </Pressable>
   );
@@ -51,46 +67,51 @@ const style = StyleSheet.create({
   item: {
     flex: 1,
     flexDirection: "row",
-    alignContent: 'center',
-    alignItems: 'stretch',
-    padding: 10
-  },
-  check: {
-    height: 15,
-    width: 15,
-    borderColor: grayColor,
-    borderWidth: 2,
-    borderRadius: 4,
-  },
-  done: {
-    backgroundColor: buddyColor,
-  },
-  undone: {},
-  add: {
-    margin: 10,
+    alignContent: "center",
+    alignItems: "stretch",
     padding: 10,
-    borderTopWidth: 2,
-    borderColor: grayColor,
-    flex: 1
+  },
+  undoneItem: {
+    backgroundColor: "#EAEBFF",
+  },
+  doneItem: {
+
+  },
+  mark: {
+    height: 25,
+    width: 25,
+    borderColor: blackColor,
+    borderWidth: 3,
+    borderRadius: 100,
+  },
+  undoneMark: {
+    backgroundColor: "#EAEBFF",
+  },
+  doneMark: {
+    backgroundColor: blackColor,
   },
   text: {
     marginHorizontal: 10,
   },
-  separator:{
-    marginHorizontal: 10,
-    height: 1,
-    backgroundColor: buddyColor,
-    borderRadius: 2,
-  },
-  input: {
-    borderColor: grayColor,
-    borderWidth: 2,
-    borderRadius: 5
-  },
-  inputContent: {
+  label: {
+    width: 156,
+    height: 43,
+    backgroundColor: mainColor,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    padding: 8,
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center'
+    flexDirection: 'row',
+    gap: 10
+  },
+  labelText: {
+    fontFamily: 'Lilita One Rus',
+    fontWeight: '400',
+
+  },
+  image: {
+    height: 20,
+    width: 20
   }
 });
 

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { View, Text, Image, StyleSheet, FlatList, Pressable, GestureResponderEvent } from "react-native";
-import { mainColor } from "../defaultColors";
+import {useState} from "react";
+import { View, Text, Image, StyleSheet, FlatList, Pressable, GestureResponderEvent,} from "react-native";
+import {mainColor} from "../defaultColors";
 
 const Select = (props: SelectProps) => {
   props.data.unshift({text: ""});
@@ -23,7 +23,7 @@ const Select = (props: SelectProps) => {
       {expanded && (
         <FlatList
           data={props.data}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <SelectOption
               text={item.text}
               onPress={() => toggleselect(item.text)}
@@ -96,8 +96,8 @@ const style = StyleSheet.create({
 });
 
 export interface SelectProps {
-  data: { text: string; imagePath?: string }[]; // FIXME
-  setChosenValue?: (value: string) => void
+  data: {text: string; imagePath?: string}[]; // FIXME
+  setChosenValue?: (value: string) => void;
 }
 
 export interface SelectOptionProps {
