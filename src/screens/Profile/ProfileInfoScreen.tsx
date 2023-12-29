@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import RegInput from "../../components/RegInput";
 import Select, { SelectProps } from "../../components/Select";
@@ -26,6 +26,10 @@ interface UserInfoProps {
 interface UserProps {
   email?: string,
   user_info?: UserInfoProps
+  institute?: string,
+  study_program?: string,
+  last_visa_expiration?: string,
+  accommodation?: string
 }
 
 export interface RequestProps {
@@ -33,186 +37,290 @@ export interface RequestProps {
   user?: UserProps
 }
 
+const counties: SelectProps[] = [
+  {text: 'Russia'},
+  {text: 'China'},
+  {text: 'Korea'},
+];
+
+const genders: SelectProps[] = [
+  {text: "male"},
+  {text: "female"}
+];
+
+const languages: SelectProps[] = [
+  {text: "Russian"},
+  {text: "English"},
+  {text: 'Chinese'},
+];
+
+const langLevels: SelectProps[] = [
+  {text: "A1"},
+  {text: "A2"},
+  {text: 'B1'},
+];
+
+const universityes: SelectProps[] = [
+  {text: "УрФУ"},
+  {text: "УрГЭУ"},
+  {text: "УГПУ"},
+];
 
 const ProfileInfoScreen: React.FC = () => {
-
-  const counties: SelectProps[] = [
-    {text: 'Russia'},
-    {text: 'China'},
-    {text: 'Korea'},
-  ];
-
-  const genders: SelectProps[] = [
-    {text: "male"},
-    {text: "female"}
-  ];
-
-  const languages: SelectProps[] = [
-    {text: "Russian"},
-    {text: "English"},
-    {text: 'Chinese'},
-  ];
-
-  const langLevels: SelectProps[] = [
-    {text: "A1"},
-    {text: "A2"},
-    {text: 'B1'},
-  ];
-
-  const universityes: SelectProps[] = [
-    {text: "УрФУ"},
-    {text: "УрГЭУ"},
-    {text: "УГПУ"},
-  ];
-
   const [constactsActive, setConstactsActive] = useState(false);
-  const [citizenship, setCitizenship] = useState("");
-  const [contacts, setContacts] = useState<ContactsProps>();
-  const [userInfo, setUserInfo] = useState<UserInfoProps>();
+  const [userData, setUserData] = useState<RequestProps>();
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [otherLangsActive, setOtherLangsActive] = useState(false);
 
+  const user_id = 5;
+  const url = `http://127.0.0.1:8000/api/v1/student/profile/${user_id}/`;
 
   const handleSend = () => {
-    const data = {
-      citizenship: citizenship,
-      user: {
-        email: "test1@frontend.ru",
-        user_info: {
-          ...userInfo,
-          contacts: {
-            ...contacts
-          }
-        } as UserInfoProps
-      } as UserProps
-    } as RequestProps;
-    console.log(data);
-    
-    sendChangeProfileInfoRequest(5, data, setLoading, setError, setErrorMessage);
+    if (userData) {
+      sendChangeProfileInfoRequest(5, userData, setLoading, setError, setErrorMessage);
+    }
+    else{
+      setErrorMessage("User Data is empty")
+      setError(true)
+    }
   }
 
-  return(
-    <>
-      <View>
+  useEffect(() => {
+    console.log("Starting the load");
+    setLoading(true)
+    
+    const fetchUserInfo = () => {
+      try {
+        fetch(url)
+        .then((responce) => {
+          return responce.json()
+        })
+        .then((json) => {
+          const user = json as RequestProps
+          setUserData(user);
+        })
+        .finally(() => {
+          setLoading(false)
+          console.log(isLoading);
+        });
+      }
+      catch (error) {
+        console.error("Ошибка: ", error)
+        setLoading(false)
+        console.log(isLoading);
+      }
+    }
+    fetchUserInfo();
+  }, [])
+
+  if (isLoading) {
+    return (
+      <Popup>
+        <Text>Loading...</Text>
+      </Popup>
+    )
+  }
+  console.log(userData?.user?.user_info);
+  
+  if (userData){
+    return(
+      <>
         <View>
-          <Text>Photo</Text>
-        </View>
-
-        <View style={styles.profileInputsWrapper}>
-          <RegInput 
-          placeholder="Full Name" 
-          setProperty={(text: string) => {
-            setUserInfo({
-              ...userInfo,
-              full_name: text
-            })
-          }
-
-          }/>
           <View>
-            <Text>Citizenship</Text>
-            <Select 
-            data={counties}
-            setChosenValue={setCitizenship}
+            <Text>Photo</Text>
+          </View>
+          <View style={styles.profileInputsWrapper}>
+            <RegInput 
+            placeholder="Full Name" 
+            setProperty={(text: string) => {
+              setUserData({
+                ...userData,
+                user: {
+                  ...userData.user,
+                  user_info: {
+                    ...userData.user?.user_info,
+                    full_name: text
+                  }
+                }})}
+            }
+            value={userData?.user?.user_info?.full_name}
             />
-          </View>
-          <View>
-            <Text>Sex</Text>
-            <Select 
-              data={genders}
+            <View>
+              <Text>Citizenship</Text>
+              <Select 
+              data={counties}
               setChosenValue={(text: string) => {
-                setUserInfo({
-                  ...userInfo,
-                  sex: text
+                setUserData({
+                  ...userData,
+                  citizenship: text
                 })
-              }}/>
-          </View>
-
-          <RegInput 
-          placeholder="Birth Date"
-          setProperty={(text: string) => {
-            setUserInfo({
-              ...userInfo,
-              birth_date: text
-            })
-          }}/>
-          
-          <MainButton color={mainColor} title="Add Contacts" onPress={() => {setConstactsActive(!constactsActive)}}/>
-          {constactsActive && 
-            <View style={styles.contactsWrapper}>
-              <RegInput 
-              placeholder="Phone"
+              }}
+              initialValue={userData?.citizenship}
+              />
+            </View>
+            <View>
+              <Text>Sex</Text>
+              <Select 
+                data={genders}
+                setChosenValue={(text: string) => {
+                  setUserData({
+                    ...userData,
+                    user: {
+                      ...userData.user,
+                      user_info: {
+                        ...userData.user?.user_info,
+                        sex: text
+                      }
+                    }})}
+                }
+                initialValue={userData.user?.user_info?.sex}
+                />
+            </View>
+  
+            <RegInput 
+              placeholder="Birth Date"
               setProperty={(text: string) => {
-                setContacts({
-                  ...contacts,
-                  phone: text
-                })
-              }}/>
-              <RegInput 
-                placeholder="Telegram"
+                setUserData({
+                  ...userData,
+                  user: {
+                    ...userData.user,
+                    user_info: {
+                      ...userData.user?.user_info,
+                      birth_date: text
+                    }
+                  }})}
+              }
+              value={userData.user?.user_info?.birth_date}
+            />
+            
+            <MainButton color={mainColor} title="Add Contacts" onPress={() => {setConstactsActive(!constactsActive)}}/>
+            {constactsActive && 
+              <View style={styles.contactsWrapper}>
+                <RegInput 
+                placeholder="Phone"
                 setProperty={(text: string) => {
-                  setContacts({
-                    ...contacts,
-                    telegram: text
-                  })
-                }}/>
-              <RegInput 
-                placeholder="WhatsApp"
-                setProperty={(text: string) => {
-                  setContacts({
-                    ...contacts,
-                    whatsapp: text
-                  })
-                }}/>
-              <RegInput 
-                placeholder="VK"
-                setProperty={(text: string) => {
-                  setContacts({
-                    ...contacts,
-                    vk: text
-                  })
-                }}/>
-            </View>}
-          
-          <Text>Native language</Text>
-          <Select 
-            data={languages} 
-            setChosenValue={(text: string) => 
-            setUserInfo({
-              ...userInfo,
-              native_language: text
-            })}/>
-
-          <MainButton color={mainColor} title="Add Other Languages" onPress={() => {setOtherLangsActive(!otherLangsActive)}}/>
-          {otherLangsActive && 
-            <View style={styles.contactsWrapper}>
-              <RegInput placeholder="Other languages" setProperty={(text: string) => 
-                setUserInfo({
-                  ...userInfo,
-                  other_languages_and_levels: text
-                })
-              }/>
-            </View>}
+                  setUserData({
+                    ...userData,
+                    user: {
+                      ...userData.user,
+                      user_info: {
+                        ...userData.user?.user_info,
+                        contacts: {
+                          ...userData.user?.user_info?.contacts,
+                          phone: text
+                        }
+                      }
+                    }})}
+                }
+                value={userData.user?.user_info?.contacts?.phone}
+                />
+                <RegInput 
+                  placeholder="Telegram"
+                  setProperty={(text: string) => {
+                    setUserData({
+                      ...userData,
+                      user: {
+                        ...userData.user,
+                        user_info: {
+                          ...userData.user?.user_info,
+                          contacts: {
+                            ...userData.user?.user_info?.contacts,
+                            telegram: text
+                          }
+                        }
+                      }})}
+                  }
+                  value={userData.user?.user_info?.contacts?.telegram}
+                />
+                <RegInput 
+                  placeholder="WhatsApp"
+                  setProperty={(text: string) => {
+                    setUserData({
+                      ...userData,
+                      user: {
+                        ...userData.user,
+                        user_info: {
+                          ...userData.user?.user_info,
+                          contacts: {
+                            ...userData.user?.user_info?.contacts,
+                            whatsapp: text
+                          }
+                        }
+                      }})}
+                  }
+                  value={userData.user?.user_info?.contacts?.whatsapp}
+                />
+                <RegInput 
+                  placeholder="VK"
+                  setProperty={(text: string) => {
+                    setUserData({
+                      ...userData,
+                      user: {
+                        ...userData.user,
+                        user_info: {
+                          ...userData.user?.user_info,
+                          contacts: {
+                            ...userData.user?.user_info?.contacts,
+                            vk: text
+                          }
+                        }
+                      }})}
+                  }
+                  value={userData.user?.user_info?.contacts?.vk}
+                />
+              </View>}
+            
+            <Text>Native language</Text>
+            <Select 
+              data={languages} 
+              setChosenValue={(text: string) => {
+                setUserData({
+                  ...userData,
+                  user: {
+                    ...userData.user,
+                    user_info: {
+                      ...userData.user?.user_info,
+                      native_language: text
+                    }
+                  }})}
+              }
+              initialValue={userData.user?.user_info?.native_language}
+            />
+  
+            <MainButton color={mainColor} title="Add Other Languages" onPress={() => {setOtherLangsActive(!otherLangsActive)}}/>
+            {otherLangsActive && 
+              <View style={styles.contactsWrapper}>
+                <RegInput 
+                  placeholder="Other languages" 
+                  setProperty={(text: string) => {
+                    setUserData({
+                      ...userData,
+                      user: {
+                        ...userData.user,
+                        user_info: {
+                          ...userData.user?.user_info,
+                          other_languages_and_levels: text
+                        }
+                      }})}
+                  }
+                  value={userData.user?.user_info?.other_languages_and_levels}
+                />
+              </View>}
+          </View>
+          <MainButton color={mainColor} title="Update account" onPress={handleSend} />
         </View>
-        <MainButton color={mainColor} title="Update acconnt" onPress={handleSend} />
-      </View>
 
-      {loading && 
-        <Popup>
-          Loading...
-        </Popup>
-      }
-
-      {error && 
-        <Popup
-        close={setError}>
-          {errorMessage}
-        </Popup>
-      }
-    </>
-  );
+        {error && 
+          <Popup
+          close={setError}>
+            {errorMessage}
+          </Popup>
+        }
+      </>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
