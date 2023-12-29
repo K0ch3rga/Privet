@@ -1,16 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
 import BigLogoWithText from '../components/Logos/BigLogoWithText';
-import Select, { SelectProps } from '../components/Select';
+import Select, { SelectProps, SelectOptionProps } from '../components/Select';
 import DropDown from '../components/DropDown';
 import MainButton from '../components/Buttons/MainButton';
 import { mainColor } from '../defaultColors';
 
 const SelectLanguageScreen: React.FC = () => {
-  const data: SelectProps[] = [
+  const data: SelectOptionProps[] = [
     {text: 'English'},
     {text: 'Russian'},
     {text: 'Chinese'},
-  ]; // Я не придумал ничего лучше, но с этим нужно что-то делать
+  ]; // Я всё придумал
   
   return (
     <View style={styles.wrapper}>

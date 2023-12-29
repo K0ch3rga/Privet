@@ -1,23 +1,14 @@
-import { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, FlatList, Pressable, GestureResponderEvent } from "react-native";
-import { mainColor } from "../defaultColors";
+import {useEffect, useState} from "react";
+import {View, Text, Image, StyleSheet, FlatList, Pressable} from "react-native";
+import {grayColor, mainColor} from "../defaultColors";
 
 const Select = (props: SelectProps) => {
-  props.data.unshift({text: ""});
-  // console.log("Initial value: ", props.initialValue);
-  
-  const [value, setValue] = useState(props.data[0].text);
   const [expanded, setExpanded] = useState(false);
-
-  useEffect(() => {
-    if (props.initialValue) {
-      setValue(props.initialValue)
-    }
-  }, [])
+  const [value, setValue] = useState(props.initialValue? props.initialValue: '');
 
   const openHandle = () => setExpanded(!expanded);
 
-  const toggleselect = (value: string) => {
+  const toggleSelect = (value: string) => {
     setValue(value);
     if (!!props.setChosenValue) {
       props.setChosenValue(value);
@@ -34,10 +25,11 @@ const Select = (props: SelectProps) => {
           renderItem={({item}) => (
             <SelectOption
               text={item.text}
-              onPress={() => toggleselect(item.text)}
+              onPress={() => toggleSelect(item.text)}
               selected={value}
             />
           )}
+          style={style.List}
         />
       )}
     </View>
@@ -47,10 +39,9 @@ const Select = (props: SelectProps) => {
 export const SelectButton = (props: SelectButtonProps) => {
   return (
     <Pressable style={style.Button} onPress={props.onPress}>
-      {/* {props.imagePath && <Image source={require(props.imagePath)} />} */}
       <Text style={style.MainText}>{props.text}</Text>
       <Image
-        source={require("../assets/arrow_right.png")}
+        source={require("../assets/arrow_down.png")}
         style={style.Arrow}
       />
     </Pressable>
@@ -84,35 +75,41 @@ const style = StyleSheet.create({
     width: 312,
     height: 51,
     borderColor: mainColor,
-    borderStyle: "solid",
     borderWidth: 3,
     borderRadius: 18,
-    justifyContent: "center",
-    alignContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   MainText: {
     fontFamily: "LilitaOne",
     fontSize: 25,
     fontWeight: "400",
+    color: grayColor,
   },
   OptionText: {
     // a чё?
   },
   Arrow: {
-    backgroundColor: "#000",
+    height: 14.25,
+    width: 24,
   },
+  List: {
+
+  }
 });
 
 export interface SelectProps {
-  data: { text: string; imagePath?: string }[]; // FIXME
-  setChosenValue?: (value: string) => void
+  data: SelectOptionProps[]; 
+  initialValue?: string;
+  setChosenValue?: (value: string) => void;
 }
 
 export interface SelectOptionProps {
   imagePath?: string;
   text: string;
-  selected: string;
-  onPress: (e: GestureResponderEvent) => void;
+  selected?: string;
+  onPress?: () => void;
 }
 
 export interface SelectButtonProps {
