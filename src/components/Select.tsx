@@ -24,8 +24,8 @@ const Select = (props: SelectProps) => {
           data={props.data}
           renderItem={({item}) => (
             <SelectOption
-              text={item.text}
-              onPress={() => toggleSelect(item.text)}
+              text={item}
+              onPress={() => toggleSelect(item)}
               selected={value}
             />
           )}
@@ -100,7 +100,7 @@ const style = StyleSheet.create({
 });
 
 export interface SelectProps {
-  data: SelectOptionProps[]; 
+  data: string[]; 
   initialValue?: string;
   setChosenValue?: (value: string) => void;
 }
