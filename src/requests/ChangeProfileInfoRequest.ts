@@ -1,9 +1,8 @@
-import { UserDataProps } from "../interfaces/UserDataProps";
-import { RequestProps } from "../screens/Profile/ProfileInfoScreen";
+import { UserDataProps } from "../screens/Profile/ProfileInfoScreen";
 import { sendLoginRequest, loginProps } from "./LoginRequest";
 
 export const sendChangeProfileInfoRequest  = async (user_id: number, 
-  profileData: RequestProps,
+  profileData: UserDataProps,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {

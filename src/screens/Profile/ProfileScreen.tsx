@@ -11,10 +11,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
       <View style={styles.profileButtonWrapper}>
         <Pressable 
           style={styles.profileButton}
-          onPress={() => {
-            console.log("pressed");
-            
-            navigation.navigate("ProfileInfo")}}>
+          onPress={() => {navigation.navigate("ProfileInfo")}}>
             <Text style={styles.profileButtonTitle}>View profile info</Text>
         </Pressable>
 
