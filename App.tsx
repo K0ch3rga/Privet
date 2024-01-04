@@ -25,7 +25,6 @@ import ChatScreen from "./src/screens/Chat";
 import Profile from "./src/screens/Profile/Profile";
 
 import {mainColor} from "./src/defaultColors";
-import NewProfile from "./src/screens/Profile/NewProfile";
 
 export type Screens = { // Все данные для передачи между экранами 
   Welcome: undefined,
@@ -78,7 +77,7 @@ const MainApp = () => {
 const TabNavigation = () => {
   return(
     <Tab.Navigator screenOptions={{headerShown: false,tabBarStyle: {backgroundColor: mainColor, height: 69}, tabBarShowLabel:false}} >
-      <Tab.Screen name="Profile" component={ProfileInfoScreen} 
+      <Tab.Screen name="Profile" component={Profile} 
         options={{tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
       />
       <Tab.Screen name="ToDo"component={ToDoScreen}

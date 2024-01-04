@@ -1,11 +1,12 @@
 import { UserDataProps } from "../interfaces/UserDataProps";
 import { sendLoginRequest, loginProps } from "./LoginRequest";
+import {BASE_URL, BASE_TOKEN} from "@env";
 
 export const sendRegistraionRequest  = async (userData: UserDataProps,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {
-  const url = 'http://127.0.0.1:8000/api/v1/signup/student/'
+  const url = `${BASE_URL}/signup/student/`
   
   setLoading(true);
   try {
@@ -13,6 +14,7 @@ export const sendRegistraionRequest  = async (userData: UserDataProps,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": BASE_TOKEN
         },
         body: JSON.stringify(userData),
     })

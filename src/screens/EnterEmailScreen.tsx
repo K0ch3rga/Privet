@@ -18,41 +18,6 @@ const EnterEmailScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [isError, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // const logIn = async (email: string, password: string) => {
-  //   const url = 'http://127.0.0.1:8000/api/v1/login/'
-  //   const data = {
-  //     email: email,
-  //     password: password,
-  //   }
-
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(data),
-  //     })
-
-  //     const json = await response.json();
-
-  //     if (!response.ok) {
-  //       setError(true)
-  //       setErrorMsg(JSON.stringify(json));
-  //     } else{
-  //       navigation.navigate("Profile")
-  //     }
-
-  //     console.log("Успех:", JSON.stringify(json));
-  //   } catch (error) {
-  //     console.error("Ошибка:", error)
-  //   }
-
-  //   setLoading(false);
-  // }
-
   return (
     <>
       <View style={styles.wrapper}>

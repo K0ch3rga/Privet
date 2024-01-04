@@ -1,21 +1,20 @@
-import { UserDataProps } from "../screens/Profile/ProfileInfoScreen";
-import { sendLoginRequest, loginProps } from "./LoginRequest";
+import { IUser } from "../classes/IUser";
+import {BASE_URL, BASE_TOKEN} from "@env";
 
 export const sendChangeProfileInfoRequest  = async (user_id: number, 
-  profileData: UserDataProps,
+  profileData: IUser,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {
-  const url = `http://127.0.0.1:8000/api/v1/student/profile/${user_id}/`
-  console.log(url);
-  
-  
+  const url = `${BASE_URL}/student/profile/${user_id}/`
+
   setLoading(true);
   try {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": BASE_TOKEN
         },
         body: JSON.stringify(profileData),
     })
@@ -25,8 +24,6 @@ export const sendChangeProfileInfoRequest  = async (user_id: number,
     if (!response.ok) {
       setError(true)
       setErrorMessage(JSON.stringify(json));
-    } else{
-      
     }
     console.log("Успех:", JSON.stringify(json));
   } catch (error) {

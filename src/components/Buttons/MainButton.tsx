@@ -1,9 +1,5 @@
-import { StyleSheet } from "react-native"; 
 import CustomButton from "./CustomButton";
 import { ButtonProps } from "../../interfaces/ButtonProps";
-import { mainColor } from "../../defaultColors";
-import { CurrentRenderContext } from "@react-navigation/native";
-
 
 const MainButton: React.FC<ButtonProps> = (props: ButtonProps) => {    
     return(
@@ -12,7 +8,8 @@ const MainButton: React.FC<ButtonProps> = (props: ButtonProps) => {
         onPress={props.onPress}
         showArrow={props.showArrow}
         buttonStyle={{backgroundColor: props.color}}
-        titleStyle={{color: "#FFFFFF"}} />
+        titleStyle={{color: "#FFFFFF"}} 
+    />
     )
 }
 

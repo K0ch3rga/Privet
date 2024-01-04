@@ -1,20 +1,17 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Image, TextInput, StyleProp, ViewStyle, ColorValue, TextInputEndEditingEventData, NativeSyntheticEvent } from 'react-native';
+import { View, Text, StyleSheet, TextInput, StyleProp, ViewStyle, NativeSyntheticEvent, } from 'react-native';
 import * as yup from 'yup';
+import { ProfileItemTitle } from "./ProfileSection";
+import { mainColor, whiteColor } from "../../defaultColors";
 
-import { mainColor } from '../defaultColors';
-
-
-export type RegInputProps = {
-  placeholder: string
+export type ProfileInputProps = {
+  title: string
   value?: string
-  validation?: yup.AnySchema
-  style?: StyleProp<ViewStyle>
   setProperty?: (text: string) => void
-  password?: boolean
+  validation?: yup.AnySchema
 }
 
-const RegInput: React.FC<RegInputProps> = (props) => {
+const ProfileInput: React.FC<ProfileInputProps> = (props) => {
   const [wrong, setWrong] = useState(false);
   const [wrongMessage, setWrongMessage] = useState('');
   const inputStyle = [styles.input, wrong && styles.wrong]
@@ -36,12 +33,10 @@ const RegInput: React.FC<RegInputProps> = (props) => {
 
   return (
     <View style={styles.wrapper}>
+      <ProfileItemTitle>{props.title}</ProfileItemTitle>
       <TextInput 
         style={inputStyle}
-        placeholder={props.placeholder}
-        placeholderTextColor="rgba(69, 90, 100, 0.42)"
         onChangeText={props.setProperty}
-        secureTextEntry={props.password}
         onBlur={handleBlur}
         value={props.value}
       />
@@ -52,15 +47,20 @@ const RegInput: React.FC<RegInputProps> = (props) => {
 
 const styles = StyleSheet.create({
   wrapper: {
+    gap: 5
   },
   input: {
-    height: 45,
-    borderWidth: 4, 
+    height: 38,
+    borderWidth: 2, 
     borderRadius: 10,
     borderColor: mainColor,
-    paddingLeft: 20,
-    fontFamily: "Manrope-Medium",
-    fontSize: 17,
+    backgroundColor: whiteColor,
+    fontFamily: "Manrope-Regular",
+    fontSize: 16,
+    color: "#000",
+    paddingLeft: 11,
+    paddingRight: 7,
+    paddingVertical: 8
   },
   wrong: {
     borderColor: "#FF6969"
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RegInput;
+export default ProfileInput;

@@ -1,4 +1,5 @@
 import { UserDataProps } from "../interfaces/UserDataProps";
+import {BASE_URL, BASE_TOKEN} from "@env";
 
 export type loginProps = {} & Pick<UserDataProps, "email"> & Pick<UserDataProps, "password">
 
@@ -6,7 +7,7 @@ export const sendLoginRequest = async (loginData: loginProps,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   serErrorMessage: (value: React.SetStateAction<string>) => void,) => {
-  const url = 'http://127.0.0.1:8000/api/v1/login/'
+  const url = `${BASE_URL}/login/`
 
   setLoading(true);
   try {
@@ -14,6 +15,7 @@ export const sendLoginRequest = async (loginData: loginProps,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": BASE_TOKEN
         },
         body: JSON.stringify(loginData),
     })

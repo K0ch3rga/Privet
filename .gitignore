@@ -42,3 +42,6 @@ src/assets/cat
 
 #idea
 .idea/
+
+#env
+.env

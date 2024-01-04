@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {View, Text, Image, StyleSheet, FlatList, Pressable} from "react-native";
-import {grayColor, mainColor} from "../defaultColors";
+import {grayColor, mainColor, whiteColor} from "../defaultColors";
 
 const Select = (props: SelectProps) => {
   const [expanded, setExpanded] = useState(false);
@@ -18,7 +18,7 @@ const Select = (props: SelectProps) => {
 
   return (
     <View>
-      <SelectButton text={value} onPress={openHandle} />
+      <SelectButton text={value} onPress={openHandle} profile={props.profile} />
       {expanded && (
         <FlatList
           data={props.data}
@@ -37,12 +37,17 @@ const Select = (props: SelectProps) => {
 };
 
 export const SelectButton = (props: SelectButtonProps) => {
+  const btnStyle = props.profile ? [style.Button, style.buttonProfile] : style.Button;
+  const arrow = props.profile ? require("../assets/profile/profile-select-arrow.png") : require("../assets/arrow_down.png");
+  const arrowStyle = props.profile ? [style.Arrow, style.profileArrow] : style.Arrow;
+  const textStyle = props.profile ? [style.MainText, style.profileText] : style.MainText;
+
   return (
-    <Pressable style={style.Button} onPress={props.onPress}>
-      <Text style={style.MainText}>{props.text}</Text>
+    <Pressable style={btnStyle} onPress={props.onPress}>
+      <Text style={textStyle}>{props.text}</Text>
       <Image
-        source={require("../assets/arrow_down.png")}
-        style={style.Arrow}
+        source={arrow}
+        style={arrowStyle}
       />
     </Pressable>
   );
@@ -51,7 +56,6 @@ export const SelectButton = (props: SelectButtonProps) => {
 export const SelectOption = (props: SelectOptionProps) => {
   return (
     <Pressable onPress={props.onPress}>
-      {/* {props.imagePath && <Image source={require(props.imagePath)} />} */}
       {/* Объединение с подчёркиванием, чтобы знать что выбрано */}
       <Text
         style={[
@@ -72,7 +76,7 @@ const style = StyleSheet.create({
   Button: {
     paddingVertical: 7,
     paddingHorizontal: 18,
-    width: 312,
+    // width: 312,
     height: 51,
     borderColor: mainColor,
     borderWidth: 3,
@@ -81,11 +85,29 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  buttonProfile: {
+    height: 38,
+    borderWidth: 2, 
+    borderRadius: 10,
+    borderColor: mainColor,
+    backgroundColor: whiteColor,
+    fontFamily: "Manrope-Regular",
+    fontSize: 16,
+    color: "#000",
+    paddingLeft: 11,
+    paddingRight: 7,
+    paddingVertical: 8
+  },
   MainText: {
     fontFamily: "LilitaOne",
     fontSize: 25,
     fontWeight: "400",
     color: grayColor,
+  },
+  profileText: {
+    fontFamily: "Manrope-Regular",
+    fontSize: 16,
+    color: "#000",
   },
   OptionText: {
     // a чё?
@@ -93,6 +115,10 @@ const style = StyleSheet.create({
   Arrow: {
     height: 14.25,
     width: 24,
+  },
+  profileArrow: {
+    height: 15,
+    width: 15
   },
   List: {
 
@@ -103,6 +129,7 @@ export interface SelectProps {
   data: string[]; 
   initialValue?: string;
   setChosenValue?: (value: string) => void;
+  profile? : boolean
 }
 
 export interface SelectOptionProps {
@@ -116,6 +143,7 @@ export interface SelectButtonProps {
   text: string;
   imagePath?: string;
   onPress: () => void;
+  profile? : boolean
 }
 
 export default Select;
