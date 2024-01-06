@@ -7,11 +7,12 @@ import Select from "../Select"
 import { useState } from "react"
 import MainButton from "../Buttons/MainButton"
 import CustomButton from "../Buttons/CustomButton"
+import { CurrentRenderContext } from "@react-navigation/native"
+import OtherLanguagesList from "./OtherLanguagesList"
 
+const languages = ["Russian","English",'Chinese'];
 const counties = ['Russia', 'China', 'Korea'];
 const genders = ["male", "female"];
-const languages = ["Russian","English",'Chinese'];
-const levels = ["A1","A2",'B1'];
 const universityes = ["УрФУ", "УрГЭУ", "УГПУ"];
 
 const getDateValue = (value: string | undefined) => {
@@ -26,15 +27,25 @@ const getDateValue = (value: string | undefined) => {
   return date.toLocaleDateString("ru-RU", options)
 }
 
-interface ProfileInfoEditProps {
-  userData: IUser, 
-  setUserData: React.Dispatch<React.SetStateAction<IUser>>,
-  handleSend: () => void
+const getDateValueToSend = (value: string | undefined) => {
+  if (!value) {
+    return ""
+  }
+  const date = new Date(value);
+  if (!date) {
+    return ""
+  }
+  return date.toISOString().split('T')[0];
 }
 
-const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData, handleSend }) => {  
-  const [otherLanguages, setOtherLanguages] = useState<string[]>(['item1']);
+export interface ProfileInfoEditProps {
+  userData: IUser, 
+  setUserData: React.Dispatch<React.SetStateAction<IUser>>
+}
 
+const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData }) => {
+  console.log(userData);
+  
   return (
     <>
       <View style={styles.header}>
@@ -97,27 +108,23 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
               setChosenValue={(text: string) => {
                 setUserData({
                   ...userData,
-                  user: {
-                    ...userData.user,
-                    user_info: {
-                      ...userData.user?.user_info,
-                      sex: text
-                    }
-                  }})}
-              }
-              initialValue={userData.user?.user_info?.sex}
+                  sex: text
+                })
+              }}
+              initialValue={userData.sex}
             />
           </View>
           <ProfileInput 
             title="Дата рождения"
             setProperty={(text: string) => {
+              const value = getDateValueToSend(text)
               setUserData({
                 ...userData,
                 user: {
                   ...userData.user,
                   user_info: {
                     ...userData.user?.user_info,
-                    birth_date: text
+                    birth_date: value
                   }
                 }})}
             }
@@ -234,66 +241,10 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
               <ProfileItemTitle>
                 Другие языки
               </ProfileItemTitle>
-              {otherLanguages.map(item => (
-                <View style={styles.addLang}>
-                  <View style={styles.otherLang}>
-                    <Select 
-                      profile={true}
-                      data={languages}
-                      setChosenValue={(text: string) => {
-                        setUserData({
-                          ...userData,
-                          user: {
-                            ...userData.user,
-                            user_info: {
-                              ...userData.user?.user_info,
-                              native_language: text
-                            }
-                          }})}
-                        }
-                        initialValue={userData.user?.user_info?.native_language}
-                      />
-                  </View>
-                  <View style={styles.level}>
-                    <Select 
-                      profile={true}
-                      data={levels}
-                    />
-                  </View>
-                  <Pressable 
-                    style={styles.close}
-                  >
-                    <Image source={require("../../assets/profile/close.png")} style={{width: 20, height: 20 }} />
-                  </Pressable>
-                </View>
-              ))}
-              <Pressable onPress={() => {
-                setOtherLanguages([...otherLanguages, "item"])
-              }}>
-                <View style={styles.addIcon}>
-                  <Image source={require("../../assets/profile/add.png")} style={{ width: 20, height: 20 }} />
-                </View>
-              </Pressable>
+              <OtherLanguagesList userData={userData} setUserData={setUserData}/>
             </View>
-            {/* <View style={styles.gap}>
-              <ProfileItemTitle>
-                Университет
-              </ProfileItemTitle>
-              <Select 
-              profile={true}
-              data={universityes}
-              setChosenValue={(text: string) => {
-                setUserData({
-                  ...userData,
-                  citizenship: text
-                })
-              }}
-              initialValue={userData?.citizenship}
-            />
-            </View> */}
         </ProfileSectionInfo>
       </ProfileSection>
-      
     </>
   )
 }
@@ -342,30 +293,6 @@ const styles = StyleSheet.create({
   },
   gap: {
     gap: 5
-  },
-  addIcon: {
-    backgroundColor: mainColor,
-    borderRadius: 10,
-    paddingVertical: 8,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  addLang: {
-    flexDirection: "row",
-    gap: 10
-  },
-  close: {
-    backgroundColor: "#FF6969",
-    borderRadius: 10,
-    padding: 7,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  otherLang: {
-    flex: 1
-  },
-  level: {
-    minWidth: 70
   }
 });
 

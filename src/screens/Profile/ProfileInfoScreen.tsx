@@ -18,11 +18,11 @@ const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const user_id = 5;
+  const user_id = 58;
 
   const handleSend = () => {
     if (userData) {
-      sendChangeProfileInfoRequest(5, userData, setLoading, setError, setErrorMessage);
+      sendChangeProfileInfoRequest(user_id, userData, setLoading, setError, setErrorMessage);
     }
     else{
       setErrorMessage("User Data is empty")
@@ -46,7 +46,10 @@ const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
     return (
       <Popup>
         <Text>{errorMessage}</Text>
-        <MainButton title="Contact Support" color={secondaryColor} />
+        { errorMessage === 'Profile info is not found!' ? 
+          <MainButton title="Contact Support" color={secondaryColor} />
+          : <MainButton title="Close" color={mainColor} onPress={() => setError(false)}/>
+        }
       </Popup>
     )
   }
@@ -57,8 +60,7 @@ const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <View style={styles.wrapper}>
             <ProfileInfoEdit 
               userData={userData} 
-              setUserData={setUserData} 
-              handleSend={handleSend}
+              setUserData={setUserData}
             />
             <View style={{ alignItems: "center", gap: 10 }}>
               <CustomButton 

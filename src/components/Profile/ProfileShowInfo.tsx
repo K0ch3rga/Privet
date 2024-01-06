@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, Pressable } from "react-native"
 import { ProfileItemTitle, ProfileSection, ProfileSectionHeader, ProfileSectionInfo, ProfileSectionTitle } from "./ProfileSection"
 import { whiteColor, grayColor, mainColor } from "../../defaultColors"
 import { IUser } from "../../classes/IUser"
+import { lang_and_level } from "./OtherLanguagesList"
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -17,6 +18,17 @@ const getDateValue = (value: string | undefined) => {
     return "—"
   }
   return date.toLocaleDateString("ru-RU", options)
+}
+
+const getOtherLanguages = (langs: lang_and_level[]) => {
+  if (!langs){    
+    return 
+  }
+  let result = '';
+  langs.map(item => {
+    result = result.concat(`${item.language} - ${item.level}`, '\n')
+  })
+  return result
 }
 
 const ProfileShowInfo: React.FC<{userData: IUser, navigation: any, edit: () => void}> = ({ userData, navigation, edit }) => {
@@ -78,7 +90,7 @@ const ProfileShowInfo: React.FC<{userData: IUser, navigation: any, edit: () => v
         <ProfileSectionInfo>
           <View>
             <ProfileItemTitle>Пол</ProfileItemTitle>
-            <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.sex)}</Text>
+            <Text style={styles.itemValue}>{getValue(userData.sex)}</Text>
           </View>
           <View>
             <ProfileItemTitle>Дата рождения</ProfileItemTitle>
@@ -90,19 +102,19 @@ const ProfileShowInfo: React.FC<{userData: IUser, navigation: any, edit: () => v
           </View>
           <View>
             <ProfileItemTitle>Другие языки</ProfileItemTitle>
-            <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.other_languages_and_levels)}</Text>
+            <Text style={styles.itemValue}>{getOtherLanguages(userData.user?.user_info?.other_languages_and_levels)}</Text>
           </View>
           <View>
             <ProfileItemTitle>Институт</ProfileItemTitle>
-            <Text style={styles.itemValue}>{getValue(userData.user?.institute)}</Text>
+            <Text style={styles.itemValue}>{getValue(userData.institute)}</Text>
           </View>
           <View>
             <ProfileItemTitle>Направление обучения</ProfileItemTitle>
-            <Text style={styles.itemValue}>{getValue(userData.user?.study_program)}</Text>
+            <Text style={styles.itemValue}>{getValue(userData.study_program)}</Text>
           </View>
           <View>
             <ProfileItemTitle>Дата окончания последней визы</ProfileItemTitle>
-            <Text style={styles.itemValue}>{getDateValue(userData.user?.last_visa_expiration)}</Text>
+            <Text style={styles.itemValue}>{getDateValue(userData.last_visa_expiration)}</Text>
           </View>
         </ProfileSectionInfo>
       </ProfileSection>

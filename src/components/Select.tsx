@@ -4,12 +4,12 @@ import {grayColor, mainColor, whiteColor} from "../defaultColors";
 
 const Select = (props: SelectProps) => {
   const [expanded, setExpanded] = useState(false);
-  const [value, setValue] = useState(props.initialValue? props.initialValue: '');
+  const value = props.initialValue ? props.initialValue : ''
 
   const openHandle = () => setExpanded(!expanded);
 
   const toggleSelect = (value: string) => {
-    setValue(value);
+    // setValue(value);
     if (!!props.setChosenValue) {
       props.setChosenValue(value);
     }
