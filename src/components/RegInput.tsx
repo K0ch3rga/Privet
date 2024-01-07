@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: mainColor,
     paddingLeft: 20,
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
+    fontWeight: "500",
     fontSize: 17,
   },
   wrong: {
@@ -67,7 +68,8 @@ const styles = StyleSheet.create({
   },
   wrongText: {
     marginTop: 7,
-    fontFamily: "Manrope-Light",
+    fontFamily: "Manrope",
+    fontWeight: "300",
     fontSize: 15,
     color: "#455A64",
     textAlign: "center"

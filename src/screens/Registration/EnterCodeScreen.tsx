@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, TextInput, Dimensions, ColorValue } from 'react-native';
-import SmallLogo from "../components/Logos/SmallLogo";
-import MainButton from "../components/Buttons/MainButton";
-import { mainColor, secondaryColor } from "../defaultColors";
-import { ScreenProps } from "../interfaces/ScreenProps";
-import TextLink from "../components/TextLink";
+import SmallLogo from "../../components/Logos/SmallLogo";
+import RegMainButton from "../../components/Buttons/RegMainButton";
+import { mainColor, secondaryColor } from "../../defaultColors";
+import { ScreenProps } from "../../interfaces/ScreenProps";
+import TextLink from "../../components/TextLink";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -24,7 +24,7 @@ const EnterCodeScreen: React.FC<ScreenProps> = ({ navigation }) => {
           </View>
         
         <View style={styles.bottom}>
-          <MainButton 
+          <RegMainButton 
             title="Next" 
             color={mainColor} 
             onPress={() => {navigation.navigate("Profile")}}
@@ -38,8 +38,8 @@ const EnterCodeScreen: React.FC<ScreenProps> = ({ navigation }) => {
           <View style={styles.popupContent}>
             <Text style={styles.popupTitle}>Didn’t receive an email?</Text>
             <View style={styles.popupButtons}>
-              <MainButton color={mainColor} title="Send code again" onPress={() => setPopupActive(false)}/>
-              <MainButton color={secondaryColor} title="Contact support"/>
+              <RegMainButton color={mainColor} title="Send code again" onPress={() => setPopupActive(false)}/>
+              <RegMainButton color={secondaryColor} title="Contact support"/>
             </View>
           </View>
         </View>
@@ -68,12 +68,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 20,
 
-    fontFamily: "Manrope-Bold",
+    fontFamily: "Manrope",
+    fontWeight: "700",
     fontSize: 43,
     letterSpacing: 43,
   },
   codeTitle: {
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
+    fontWeight: "500",
     fontSize: 23
   },
   bottom: {
@@ -105,7 +107,8 @@ const styles = StyleSheet.create({
     gap: 40
   },
   popupTitle: {
-    fontFamily: "Manrope-SemiBold",
+    fontFamily: "Manrope",
+    fontWeight: "600",
     textAlign: "center",
     fontSize: 25,
   },

@@ -78,7 +78,7 @@ const style = StyleSheet.create({
   },
   name: {
     color: grayColor,
-    fontFamily: 'Manrope-Medium',
+    fontFamily: 'Manrope',
     fontWeight: '400',
   },
   separator: {

@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from "react-native";
 import { mainColor, grayColor } from "../../defaultColors";
 
-export const ProfileSection: React.FC<{children: any}> = ({ children }) => {
+export const SectionProfile: React.FC<{children: any}> = ({ children }) => {
   return (
     <View style={styles.sectionWrapper}>
       {children}
@@ -9,23 +9,17 @@ export const ProfileSection: React.FC<{children: any}> = ({ children }) => {
   )
 }
 
-export const ProfileSectionHeader: React.FC<{children: any}> = ({ children }) => {
+export const HeaderProfileSection: React.FC<{children: any}> = ({ children }) => {
   return (
     <View style={styles.sectionHeader}>
+      <Text style={styles.sectionTitle}>
       {children}
+    </Text>
     </View>
   )
 }
 
-export const ProfileSectionTitle: React.FC<{children: any}> = ({ children }) => {
-  return (
-    <Text style={styles.sectionTitle}>
-      {children}
-    </Text>
-  )
-}
-
-export const ProfileSectionInfo: React.FC<{children: any}> = ({ children }) => {
+export const InfoProfileSection: React.FC<{children: any}> = ({ children }) => {
   return (
     <View style={styles.sectionInfo}>
       {children}
@@ -33,7 +27,7 @@ export const ProfileSectionInfo: React.FC<{children: any}> = ({ children }) => {
   )
 }
 
-export const ProfileItemTitle: React.FC<{children: any}> = ({ children }) => {
+export const ItemTitleProfile: React.FC<{children: any}> = ({ children }) => {
   return (
     <Text style={styles.itemTitle}>
       {children}
@@ -46,7 +40,8 @@ const styles = StyleSheet.create({
   sectionWrapper: {
     backgroundColor: "#F7F7F7",
     borderRadius: 30,
-    gap: 10
+    gap: 10,
+    width: "100%"
   },
   sectionHeader: {
     backgroundColor: mainColor,
@@ -70,7 +65,8 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     color: grayColor,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     fontSize: 14,
   },
 });

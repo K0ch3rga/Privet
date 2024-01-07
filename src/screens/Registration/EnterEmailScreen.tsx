@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import MainButton from "../components/Buttons/MainButton";
-import RegInput from '../components/RegInput';
-import SmallLogo from "../components/Logos/SmallLogo";
-import TextLink from "../components/TextLink";
-import { ScreenProps } from "../interfaces/ScreenProps";
-import { grayColor, mainColor, whiteColor } from "../defaultColors";
+import RegMainButton from "../../components/Buttons/RegMainButton";
+import RegInput from '../../components/RegInput';
+import SmallLogo from "../../components/Logos/SmallLogo";
+import TextLink from "../../components/TextLink";
+import { ScreenProps } from "../../interfaces/ScreenProps";
+import { grayColor, mainColor, whiteColor } from "../../defaultColors";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -32,7 +32,7 @@ const EnterEmailScreen: React.FC<ScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.navButtons}>
-          <MainButton title='Next' color={mainColor} onPress={() => {navigation.navigate("EnterNewPassword")}} />
+          <RegMainButton title='Next' color={mainColor} onPress={() => {navigation.navigate("EnterNewPassword")}} />
         </View>
 
       </View>
@@ -53,7 +53,7 @@ const EnterEmailScreen: React.FC<ScreenProps> = ({ navigation }) => {
           <View style={styles.popupContent}>
             <Text>{errorMsg}</Text>
           </View>
-          <MainButton title="Close" color={mainColor} onPress={() => setError(false)} />
+          <RegMainButton title="Close" color={mainColor} onPress={() => setError(false)} />
         </View>
       </View>
       }
@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     color: grayColor,
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
+    fontWeight: "500",
     fontSize: 23
   },
   inputFields: {
@@ -88,7 +89,8 @@ const styles = StyleSheet.create({
   },
   inputHints: {
     fontSize: 15,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     textAlign: "center",
     marginHorizontal: 10,
     color: "#455A64"

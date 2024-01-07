@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleProp, StyleSheet, Image } from "react-native"; 
 
-export interface CustomButtonProps {
+export interface RegButton {
     title: string;
     onPress?: ()=>void;
     showArrow?: boolean;
@@ -8,7 +8,7 @@ export interface CustomButtonProps {
     titleStyle?: StyleProp<any>
 };
 
-const CustomButton: React.FC<CustomButtonProps> = (props: CustomButtonProps) => {    
+const RegButton: React.FC<RegButton> = (props: RegButton) => {    
     const buttonStyle = [defaultButtonStyle.button, props.buttonStyle];
     const titleStyle = [defaultButtonStyle.buttonTitle, props.titleStyle];
 
@@ -48,4 +48,4 @@ const defaultButtonStyle = StyleSheet.create({
     }
 })
 
-export default CustomButton;
+export default RegButton;

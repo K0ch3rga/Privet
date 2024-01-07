@@ -1,5 +1,5 @@
 import { View, StyleSheet, Dimensions } from "react-native"
-import MainButton from "./Buttons/MainButton"
+import RegMainButton from "./Buttons/RegMainButton"
 import { mainColor } from "../defaultColors"
 
 var width = Dimensions.get('window').width;
@@ -19,7 +19,7 @@ const Popup: React.FC<PopupProps> = (props) => {
             {props.children}
           </View>
           {!!props.close && 
-            <MainButton title="Close" color={mainColor} onPress={() => props.close(false)} />
+            <RegMainButton title="Close" color={mainColor} onPress={() => props.close(false)} />
           }
         </View>
       </View>

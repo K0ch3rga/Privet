@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native"
-import { ProfileItemTitle, ProfileSection, ProfileSectionHeader, ProfileSectionInfo, ProfileSectionTitle } from "./ProfileSection"
+import { ItemTitleProfile, SectionProfile, HeaderProfileSection, InfoProfileSection } from "./ProfileSection"
 import { whiteColor, grayColor, mainColor } from "../../defaultColors"
 import { IUser } from "../../classes/IUser"
 import { lang_and_level } from "./OtherLanguagesList"
@@ -20,8 +20,8 @@ const getDateValue = (value: string | undefined) => {
   return date.toLocaleDateString("ru-RU", options)
 }
 
-const getOtherLanguages = (langs: lang_and_level[]) => {
-  if (!langs){    
+const getOtherLanguages = (langs: lang_and_level[] | undefined) => {
+  if (!langs){
     return 
   }
   let result = '';
@@ -31,7 +31,7 @@ const getOtherLanguages = (langs: lang_and_level[]) => {
   return result
 }
 
-const ProfileShowInfo: React.FC<{userData: IUser, navigation: any, edit: () => void}> = ({ userData, navigation, edit }) => {
+const ShowProfile: React.FC<{userData: IUser, navigation: any, edit: () => void}> = ({ userData, navigation, edit }) => {
   return (
     <>
       <View style={styles.header}>
@@ -56,68 +56,68 @@ const ProfileShowInfo: React.FC<{userData: IUser, navigation: any, edit: () => v
           </Pressable>
         </View>
       </View>
-      <ProfileSection>
-        <ProfileSectionHeader>
-          <ProfileSectionTitle>Контакты</ProfileSectionTitle>
-        </ProfileSectionHeader>
-        <ProfileSectionInfo>
+      <SectionProfile>
+        <HeaderProfileSection>
+          Контакты
+        </HeaderProfileSection>
+        <InfoProfileSection>
           <View>
-            <ProfileItemTitle>Email</ProfileItemTitle>
+            <ItemTitleProfile>Email</ItemTitleProfile>
             <Text style={styles.itemValue}>{userData.user?.email}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Телефон</ProfileItemTitle>
+            <ItemTitleProfile>Телефон</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.contacts?.phone)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>WhatsApp</ProfileItemTitle>
+            <ItemTitleProfile>WhatsApp</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.contacts?.whatsapp)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>ВКонтакте</ProfileItemTitle>
+            <ItemTitleProfile>ВКонтакте</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.contacts?.vk)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Telegram</ProfileItemTitle>
+            <ItemTitleProfile>Telegram</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.contacts?.telegram)}</Text>
           </View>
-        </ProfileSectionInfo>
-      </ProfileSection>
-      <ProfileSection>
-        <ProfileSectionHeader>
-          <ProfileSectionTitle>Информация о студенте</ProfileSectionTitle>
-        </ProfileSectionHeader>
-        <ProfileSectionInfo>
+        </InfoProfileSection>
+      </SectionProfile>
+      <SectionProfile>
+        <HeaderProfileSection>
+          Информация о студенте
+        </HeaderProfileSection>
+        <InfoProfileSection>
           <View>
-            <ProfileItemTitle>Пол</ProfileItemTitle>
+            <ItemTitleProfile>Пол</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.sex)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Дата рождения</ProfileItemTitle>
+            <ItemTitleProfile>Дата рождения</ItemTitleProfile>
             <Text style={styles.itemValue}>{getDateValue(userData.user?.user_info?.birth_date)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Родной язык</ProfileItemTitle>
+            <ItemTitleProfile>Родной язык</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.native_language)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Другие языки</ProfileItemTitle>
+            <ItemTitleProfile>Другие языки</ItemTitleProfile>
             <Text style={styles.itemValue}>{getOtherLanguages(userData.user?.user_info?.other_languages_and_levels)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Институт</ProfileItemTitle>
+            <ItemTitleProfile>Институт</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.institute)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Направление обучения</ProfileItemTitle>
+            <ItemTitleProfile>Направление обучения</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.study_program)}</Text>
           </View>
           <View>
-            <ProfileItemTitle>Дата окончания последней визы</ProfileItemTitle>
+            <ItemTitleProfile>Дата окончания последней визы</ItemTitleProfile>
             <Text style={styles.itemValue}>{getDateValue(userData.last_visa_expiration)}</Text>
           </View>
-        </ProfileSectionInfo>
-      </ProfileSection>
+        </InfoProfileSection>
+      </SectionProfile>
     </>
   )
 }
@@ -181,14 +181,16 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     color: grayColor,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     fontSize: 14,
   },
   itemValue: {
     color: "#000",
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     fontSize: 16,
   }
 });
 
-export default ProfileShowInfo;
+export default ShowProfile;

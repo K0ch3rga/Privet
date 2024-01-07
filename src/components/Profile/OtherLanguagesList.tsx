@@ -1,20 +1,22 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, StyleSheet, Pressable, Image } from "react-native";
 import Select from "../Select";
 import { mainColor } from "../../defaultColors";
-import { ProfileInfoEditProps } from "./ProfileInfoEdit";
+import { ProfileInfoEditProps } from "./EditProfile";
 
 export type lang_and_level = {
   language: string,
   level: string
 }
 
-const languages = ["Russian","English",'Chinese'];
-const levels = ["A1","A2",'B1'];
+const languages = ["Russian", "English", "Chinese"];
+const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 const OtherLanguagesList: React.FC<ProfileInfoEditProps> = ({ userData, setUserData }) => {
 
-  const getLanguage = (index: number, langs: lang_and_level[]) => {    
+  const getLanguage = (index: number, langs: lang_and_level[] | undefined) => {
+    if (!langs) {
+      return undefined
+    }
     for (let i = 0; i < langs.length; i++) {
       if (i === index) {
         return langs[i].language
@@ -22,7 +24,10 @@ const OtherLanguagesList: React.FC<ProfileInfoEditProps> = ({ userData, setUserD
     }
   }
 
-  const getLevel = (index: number, langs: lang_and_level[]) => {    
+  const getLevel = (index: number, langs: lang_and_level[] | undefined) => {
+    if (!langs) {
+      return undefined
+    }
     for (let i = 0; i < langs.length; i++) {
       if (i === index) {
         return langs[i].level
@@ -30,7 +35,10 @@ const OtherLanguagesList: React.FC<ProfileInfoEditProps> = ({ userData, setUserD
     }
   }
   
-  const changeLanguage = (index: number, newValue: string, langs: lang_and_level[]) => {    
+  const changeLanguage = (index: number, newValue: string, langs: lang_and_level[] | undefined ) => {
+    if (!langs) {
+      return undefined
+    }
     const newArray: lang_and_level[] = [];
     for (let i = 0; i < langs.length; i++) {
       if (i === index) {
@@ -38,12 +46,15 @@ const OtherLanguagesList: React.FC<ProfileInfoEditProps> = ({ userData, setUserD
       }
       else {
         newArray.push(langs[i])
-      }      
+      }
     }
     return newArray;
   }
 
-  const changeLevel = (index: number, newValue: string, langs: lang_and_level[]) => {    
+  const changeLevel = (index: number, newValue: string, langs: lang_and_level[] | undefined) => {
+    if (!langs) {
+      return undefined
+    }
     const newArray: lang_and_level[] = [];
     for (let i = 0; i < langs.length; i++) {
       if (i === index) {
@@ -56,7 +67,10 @@ const OtherLanguagesList: React.FC<ProfileInfoEditProps> = ({ userData, setUserD
     return newArray;
   }
 
-  const deleteValue = (index: number, langs: lang_and_level[]) => {    
+  const deleteValue = (index: number, langs: lang_and_level[] | undefined) => {
+    if (!langs) {
+      return undefined
+    }
     const newArray: lang_and_level[] = [];
     for (let i = 0; i < langs.length; i++) {
       if (i !== index) {

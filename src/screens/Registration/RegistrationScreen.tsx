@@ -2,19 +2,19 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Dimensions, } from 'react-native';
 import * as yup from 'yup';
 
-import MainButton from "../components/Buttons/MainButton";
-import SecondaryButton from "../components/Buttons/SecondaryButton";
-import RegInput from '../components/RegInput';
-import SmallLogo from "../components/Logos/SmallLogo";
+import RegMainButton from "../../components/Buttons/RegMainButton";
+import RegSecondaryButton from "../../components/Buttons/RegSecondaryButton";
+import RegInput from '../../components/RegInput';
+import SmallLogo from "../../components/Logos/SmallLogo";
 
-import { mainColor, buddyColor } from "../defaultColors";
+import { mainColor, buddyColor } from "../../defaultColors";
 
-import { ScreenProps } from "../interfaces/ScreenProps";
-import { UserDataProps } from "../interfaces/UserDataProps";
-import { UserDataSchemas, userSchema } from "../Schemas/UserDataSchema";
+import { ScreenProps } from "../../interfaces/ScreenProps";
+import { UserDataProps } from "../../interfaces/UserDataProps";
+import { UserDataSchemas, userSchema } from "../../Schemas/UserDataSchema";
 
-import { sendRegistraionRequest } from "../requests/RegistrationRequest";
-import Popup from "../components/Popup";
+import { sendRegistraionRequest } from "../../requests/RegistrationRequest";
+import Popup from "../../components/Popup";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -88,8 +88,8 @@ const RegistrationScreen: React.FC<ScreenProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.navButtons}>
-            <MainButton title='Sign Up' color={mainColor} onPress={handleSend} />
-            <SecondaryButton title="I'm Buddy" color={buddyColor} onPress={() => {navigation.navigate("EnterCode")}} />
+            <RegMainButton title='Sign Up' color={mainColor} onPress={handleSend} />
+            <RegSecondaryButton title="I'm Buddy" color={buddyColor} onPress={() => {navigation.navigate("EnterCode")}} />
           </View>
         </View>
       </View>
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
   },
   inputHints: {
     fontSize: 15,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     textAlign: "center",
     marginHorizontal: 10,
     color: "#455A64"

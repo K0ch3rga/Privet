@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import MainButton from "../../components/Buttons/MainButton";
+import RegMainButton from "../../components/Buttons/RegMainButton";
 import { mainColor, secondaryColor, whiteColor } from "../../defaultColors";
 import { sendChangeProfileInfoRequest } from "../../requests/ChangeProfileInfoRequest";
 import Popup from "../../components/Popup";
 import { IUser } from "../../classes/IUser";
 import { fetchUserInfo } from "../../requests/GetProfileInfo";
 import { ScreenProps } from "../../interfaces/ScreenProps";
-import ProfileShowInfo from "../../components/Profile/ProfileShowInfo";
-import ProfileInfoEdit from "../../components/Profile/ProfileInfoEdit";
-import CustomButton from "../../components/Buttons/CustomButton";
+import ShowProfile from "../../components/Profile/ShowProfile";
+import EditProfile from "../../components/Profile/EditProfile";
+import RegButton from "../../components/Buttons/RegButton";
 
 
-const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
+const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [userData, setUserData] = useState<IUser>({});
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -47,8 +47,8 @@ const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
       <Popup>
         <Text>{errorMessage}</Text>
         { errorMessage === 'Profile info is not found!' ? 
-          <MainButton title="Contact Support" color={secondaryColor} />
-          : <MainButton title="Close" color={mainColor} onPress={() => setError(false)}/>
+          <RegMainButton title="Contact Support" color={secondaryColor} />
+          : <RegMainButton title="Close" color={mainColor} onPress={() => setError(false)}/>
         }
       </Popup>
     )
@@ -58,17 +58,17 @@ const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
-            <ProfileInfoEdit 
+            <EditProfile 
               userData={userData} 
               setUserData={setUserData}
             />
             <View style={{ alignItems: "center", gap: 10 }}>
-              <CustomButton 
+              <RegButton 
                 title="Сохранить"
                 onPress={handleSend}
                 buttonStyle={{backgroundColor: mainColor}}
               />
-              <CustomButton 
+              <RegButton 
                 title="Отменить"
                 onPress={() => {setIsEdit(false)}}
                 buttonStyle={{backgroundColor: "#FF6969"}}
@@ -83,7 +83,7 @@ const ProfileInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
-          <ProfileShowInfo 
+          <ShowProfile 
             userData={userData} 
             navigation={navigation}
             edit={() => {setIsEdit(true)}}
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProfileInfoScreen;
+export default ProfileScreen;

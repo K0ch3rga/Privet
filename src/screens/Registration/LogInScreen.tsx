@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import MainButton from "../components/Buttons/MainButton";
-import RegInput from '../components/RegInput';
-import SmallLogo from "../components/Logos/SmallLogo";
-import TextLink from "../components/TextLink";
-import { ScreenProps } from "../interfaces/ScreenProps";
-import { mainColor, whiteColor } from "../defaultColors";
-import { loginProps } from "../requests/LoginRequest";
-import { sendLoginRequest } from "../requests/LoginRequest";
-import { UserDataSchemas } from "../Schemas/UserDataSchema";
+import RegMainButton from "../../components/Buttons/RegMainButton";
+import RegInput from '../../components/RegInput';
+import SmallLogo from "../../components/Logos/SmallLogo";
+import TextLink from "../../components/TextLink";
+import { ScreenProps } from "../../interfaces/ScreenProps";
+import { mainColor, whiteColor } from "../../defaultColors";
+import { loginProps } from "../../requests/LoginRequest";
+import { sendLoginRequest } from "../../requests/LoginRequest";
+import { UserDataSchemas } from "../../Schemas/UserDataSchema";
 import * as yup from 'yup';
 
 var width = Dimensions.get('window').width;
@@ -73,7 +73,7 @@ const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.navButtons}>
-          <MainButton title='Log In' color={mainColor} onPress={handleSend} />
+          <RegMainButton title='Log In' color={mainColor} onPress={handleSend} />
         </View>
 
       </View>
@@ -94,7 +94,7 @@ const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
           <View style={styles.popupContent}>
             <Text>{errorMsg}</Text>
           </View>
-          <MainButton title="Close" color={mainColor} onPress={() => setError(false)} />
+          <RegMainButton title="Close" color={mainColor} onPress={() => setError(false)} />
         </View>
       </View>
       }

@@ -1,11 +1,9 @@
 import { View, StyleSheet, Text } from 'react-native';
-import { Pressable } from 'react-native';
-
-import BigLogoWithText from '../components/Logos/BigLogoWithText';
-import MainButton from '../components/Buttons/MainButton';
-import { mainColor } from '../defaultColors';
-import SecondaryButton from '../components/Buttons/SecondaryButton';
-import { ScreenProps } from "../interfaces/ScreenProps";
+import BigLogoWithText from '../../components/Logos/BigLogoWithText';
+import RegMainButton from '../../components/Buttons/RegMainButton';
+import { mainColor } from '../../defaultColors';
+import RegSecondaryButton from '../../components/Buttons/RegSecondaryButton';
+import { ScreenProps } from "../../interfaces/ScreenProps";
 
 
 const WelcomeScreen: React.FC<ScreenProps> = ({ navigation }) => {
@@ -13,18 +11,20 @@ const WelcomeScreen: React.FC<ScreenProps> = ({ navigation }) => {
     <View style={styles.wrapper}>
       <BigLogoWithText />
       <View style={styles.buttonsWrapper}>
-        <MainButton 
+        <RegMainButton 
           title='Sign Up' 
           color={mainColor}
           onPress={() => {navigation.navigate("Registration")}}/>
-        <SecondaryButton 
+        <RegSecondaryButton 
           title="Log in" 
           color={mainColor}
           onPress={() => {navigation.navigate("LogIn")}} />
       </View>
     </View>
-  );
-};
+  )
+}
+
+export default WelcomeScreen
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
   },
   buttonsWrapper: {
     alignItems: "center",
-    gap: 13
-  }
-});
+    gap: 13,
+  },
+})
 
-export default WelcomeScreen;

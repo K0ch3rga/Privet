@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, StyleProp, ViewStyle, NativeSyntheticEvent, } from 'react-native';
 import * as yup from 'yup';
-import { ProfileItemTitle } from "./ProfileSection";
+import { ItemTitleProfile } from "./ProfileSection";
 import { mainColor, whiteColor } from "../../defaultColors";
 
 export type ProfileInputProps = {
@@ -9,12 +9,15 @@ export type ProfileInputProps = {
   value?: string
   setProperty?: (text: string) => void
   validation?: yup.AnySchema
+  multiline?: boolean
+  numberOfLines?: number
+  height?: number
 }
 
-const ProfileInput: React.FC<ProfileInputProps> = (props) => {
+const InputProfile: React.FC<ProfileInputProps> = (props) => {
   const [wrong, setWrong] = useState(false);
   const [wrongMessage, setWrongMessage] = useState('');
-  const inputStyle = [styles.input, wrong && styles.wrong]
+  const inputStyle = [styles.input, wrong && styles.wrong, props.height && { height: props.height }]
 
   const validate = async (text: string, schema: yup.AnySchema) => {
     await schema.validate(text)
@@ -33,12 +36,14 @@ const ProfileInput: React.FC<ProfileInputProps> = (props) => {
 
   return (
     <View style={styles.wrapper}>
-      <ProfileItemTitle>{props.title}</ProfileItemTitle>
+      <ItemTitleProfile>{props.title}</ItemTitleProfile>
       <TextInput 
         style={inputStyle}
         onChangeText={props.setProperty}
         onBlur={handleBlur}
         value={props.value}
+        multiline={props.multiline}
+        numberOfLines={props.numberOfLines}
       />
       {wrong && <Text style={styles.wrongText}>{wrongMessage}</Text>}
     </View>
@@ -55,7 +60,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: mainColor,
     backgroundColor: whiteColor,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     fontSize: 16,
     color: "#000",
     paddingLeft: 11,
@@ -67,11 +73,12 @@ const styles = StyleSheet.create({
   },
   wrongText: {
     marginTop: 7,
-    fontFamily: "Manrope-Light",
+    fontFamily: "Manrope",
+    fontWeight: "300",
     fontSize: 15,
     color: "#455A64",
     textAlign: "center"
   }
 });
 
-export default ProfileInput;
+export default InputProfile;
