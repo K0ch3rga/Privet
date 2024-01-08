@@ -1,12 +1,13 @@
-import { ButtonProps, Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
+import { ButtonProps } from "../../interfaces/ButtonProps";
 
 const MainButton: React.FC<ButtonProps> = (props) => {
   return (
     <Pressable 
-      style={[styles.button, { backgroundColor: props.color } ]}
+      style={[styles.button, { backgroundColor: props.color }, props.style ]}
       onPress={props.onPress}
     >
-      <Text style={styles.title}>{props.title}</Text>
+      <Text style={[styles.title, props.textStyle]}>{props.title}</Text>
     </Pressable>
   )
 }
@@ -16,7 +17,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 30,
     minWidth: "100%"
-
   },
   title: {
     color: "#000",

@@ -56,6 +56,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
   if (isEdit) {
     return (
+      
       <ScrollView>
         <View style={styles.wrapper}>
             <EditProfile 
@@ -81,15 +82,17 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
   if (userData) {
     return (
-      <ScrollView>
-        <View style={styles.wrapper}>
-          <ShowProfile 
-            userData={userData} 
-            navigation={navigation}
-            edit={() => {setIsEdit(true)}}
-          />
-        </View>
-      </ScrollView>
+      <View style={styles.wrapper}>
+        <ScrollView>
+          <View style={{ gap: 28 }}>
+            <ShowProfile 
+              userData={userData} 
+              navigation={navigation}
+              edit={() => {setIsEdit(true)}}
+            />
+          </View>
+        </ScrollView>
+      </View>
     )
   }
 };

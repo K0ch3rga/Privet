@@ -104,18 +104,6 @@ const ShowProfile: React.FC<{userData: IUser, navigation: any, edit: () => void}
             <ItemTitleProfile>Другие языки</ItemTitleProfile>
             <Text style={styles.itemValue}>{getOtherLanguages(userData.user?.user_info?.other_languages_and_levels)}</Text>
           </View>
-          <View>
-            <ItemTitleProfile>Институт</ItemTitleProfile>
-            <Text style={styles.itemValue}>{getValue(userData.institute)}</Text>
-          </View>
-          <View>
-            <ItemTitleProfile>Направление обучения</ItemTitleProfile>
-            <Text style={styles.itemValue}>{getValue(userData.study_program)}</Text>
-          </View>
-          <View>
-            <ItemTitleProfile>Дата окончания последней визы</ItemTitleProfile>
-            <Text style={styles.itemValue}>{getDateValue(userData.last_visa_expiration)}</Text>
-          </View>
         </InfoProfileSection>
       </SectionProfile>
     </>
