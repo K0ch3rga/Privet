@@ -27,11 +27,11 @@ const EnterEmailScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <View style={styles.main}>
           <View style={styles.inputFields}>
             <Text style={styles.title}>Enter your email!</Text>
-            <RegInput placeholder='E-mail' wrong={false} wrongMsg="Invalid E-Mail" setProperty={setEmail}/>
+            <RegInput placeholder='E-mail' setProperty={setEmail}/>
           </View>
         </View>
 
-        <View style={styles.navButtons}>
+        <View>
           <RegMainButton title='Next' color={mainColor} onPress={() => {navigation.navigate("EnterNewPassword")}} />
         </View>
 
@@ -71,8 +71,9 @@ const styles = StyleSheet.create({
     backgroundColor: whiteColor
   },
   main: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
+    flex: 1,
     gap: 24
   },
   title: {
@@ -94,10 +95,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 10,
     color: "#455A64"
-  },
-  navButtons: {
-    position: "fixed",
-    bottom: 35
   },
   popup: {
     zIndex: 5,

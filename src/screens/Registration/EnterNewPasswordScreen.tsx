@@ -18,41 +18,6 @@ const EnterNewPasswordScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [isError, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // const logIn = async (email: string, password: string) => {
-  //   const url = 'http://127.0.0.1:8000/api/v1/login/'
-  //   const data = {
-  //     email: email,
-  //     password: password,
-  //   }
-
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(data),
-  //     })
-
-  //     const json = await response.json();
-
-  //     if (!response.ok) {
-  //       setError(true)
-  //       setErrorMsg(JSON.stringify(json));
-  //     } else{
-  //       navigation.navigate("Profile")
-  //     }
-
-  //     console.log("Успех:", JSON.stringify(json));
-  //   } catch (error) {
-  //     console.error("Ошибка:", error)
-  //   }
-
-  //   setLoading(false);
-  // }
-
   return (
     <>
       <View style={styles.wrapper}>
@@ -62,12 +27,12 @@ const EnterNewPasswordScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <View style={styles.main}>
           <View style={styles.inputFields}>
             <Text style={styles.title}>Enter your new password!</Text>
-            <RegInput placeholder='Password' wrong={false} wrongMsg="Invaild password: not enough/no digits" />
-            <RegInput placeholder='Confirm Password' wrong={false} wrongMsg="Passwords don’t match" password={true}/>
+            <RegInput placeholder='Password' />
+            <RegInput placeholder='Confirm Password' password={true}/>
           </View>
         </View>
 
-        <View style={styles.navButtons}>
+        <View>
           <RegMainButton title='Next' color={mainColor} onPress={() => {navigation.navigate("LogIn")}} />
         </View>
 
@@ -107,9 +72,10 @@ const styles = StyleSheet.create({
     backgroundColor: whiteColor
   },
   main: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    gap: 24
+    gap: 24,
+    flex: 1
   },
   title: {
     textAlign: "center",
@@ -130,10 +96,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 10,
     color: "#455A64"
-  },
-  navButtons: {
-    position: "fixed",
-    bottom: 35
   },
   popup: {
     zIndex: 5,

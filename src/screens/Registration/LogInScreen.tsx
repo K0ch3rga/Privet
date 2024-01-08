@@ -72,7 +72,7 @@ const LogInScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
         </View>
 
-        <View style={styles.navButtons}>
+        <View>
           <RegMainButton title='Log In' color={mainColor} onPress={handleSend} />
         </View>
 
@@ -112,18 +112,15 @@ const styles = StyleSheet.create({
     backgroundColor: whiteColor
   },
   main: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    gap: 24
+    gap: 24,
+    flex: 1
   },
   inputFields: {
     width: width,
     paddingHorizontal: 35,
     gap: 20
-  },
-  navButtons: {
-    position: "fixed",
-    bottom: 35
   },
   popup: {
     zIndex: 5,

@@ -100,16 +100,12 @@ const TabNavigation = () => {
 const getLogin = () => true;
 
 export default function App() {
+
   const [fontsLoaded, fontError] = useFonts({
     Jua: require("./src/assets/fonts/Jua-Regular.ttf"),
     LilitaOne: require("./src/assets/fonts/LilitaOne-Rus.ttf"),
     "KumbhSans-Medium": require("./src/assets/fonts/KumbhSans-Medium.ttf"),
     "Manrope": require("./src/assets/fonts/Manrope.ttf"),
-    // "Manrope-Light": require("./src/assets/fonts/Manrope-Light.ttf"),
-    // "Manrope-Medium": require("./src/assets/fonts/Manrope-Medium.ttf"),
-    // "Manrope-Regular": require("./src/assets/fonts/Manrope-Regular.ttf"),
-    // "Manrope-Bold": require("./src/assets/fonts/Manrope-Bold.ttf"),
-    // "Manrope-SemiBold": require("./src/assets/fonts/Manrope-SemiBold.ttf"),
   });
 
   if (!fontsLoaded && !fontError) {
