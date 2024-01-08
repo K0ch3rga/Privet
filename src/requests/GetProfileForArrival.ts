@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { IUser } from "../classes/IUser";
 import {BASE_URL, BASE_TOKEN} from "@env";
+import { IArrival } from "../classes/IArrival";
 
-export const fetchUserInfo = (user_id: number, setLoading: any, setUserData: any, setError: any, setErrorMessage: any) => {
+export const fetchArrivalUserInfo = (user_id: number, setLoading: any, setArrivalData: any, setError: any, setErrorMessage: any) => {
   const url = `${BASE_URL}/student/profile/${user_id}/`
   setLoading(true);
   try {
@@ -22,7 +24,19 @@ export const fetchUserInfo = (user_id: number, setLoading: any, setUserData: any
     })
     .then((json) => {
       const user = json as IUser
-      setUserData(user);
+      const userInfo = user.user?.user_info
+      const data: IArrival = {
+        citizenship: user?.citizenship,
+        sex: user?.sex,
+        user: {
+          user_info: {
+            full_name: userInfo?.full_name,
+            contacts: userInfo?.contacts
+          }
+        },
+        arrival_booking: {}
+      }
+      setArrivalData(data);
     })
     .finally(() => {
       setLoading(false)

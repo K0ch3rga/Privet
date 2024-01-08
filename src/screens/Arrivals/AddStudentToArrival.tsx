@@ -8,6 +8,8 @@ import { useState } from "react";
 const AddStudentToArrival: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const [inputColor, setInputColor] = useState(mainColor);
   const [hintText, setHintText] = useState("");
+  const [name, setName] = useState("");
+  const [result, setResult] = useState("");
 
   const studentAdded = () => {
     setInputColor(successColor)
@@ -24,12 +26,20 @@ const AddStudentToArrival: React.FC<{ handleClose: () => void }> = ({ handleClos
     setHintText('Студент есть в системе\nУслуги не оплачены')
   }
 
+  const handleSend = () => {
+
+  }
+
+  console.log(name);
+
   return(
     <View style={styles.wrapper}>
       <View style={{ gap: 3 }}>
         <ItemTitleProfile>Полное имя</ItemTitleProfile>
         <TextInput 
           style={[styles.input, { borderColor: inputColor }]}
+          value={name}
+          onChangeText={(text: string) => {setName(text)}}
         />
       </View>
       <View style={styles.bottom}>

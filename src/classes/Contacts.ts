@@ -1,8 +1,6 @@
-interface Contacts {
-  id: number;
-  vk: string;
-  email: string;
-  phone: number;
-  telegram: string;
-  whatsapp: string;
+export interface IContacts {
+  vk?: string,
+  phone?: string,
+  telegram?: string,
+  whatsapp?: string
 }

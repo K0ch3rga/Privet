@@ -11,6 +11,7 @@ import ShowProfile from "../../components/Profile/ShowProfile";
 import EditProfile from "../../components/Profile/EditProfile";
 import RegButton from "../../components/Buttons/RegButton";
 
+export const user_id = 62;
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [userData, setUserData] = useState<IUser>({});
@@ -18,7 +19,6 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const user_id = 58;
 
   const handleSend = () => {
     if (userData) {
@@ -54,9 +54,20 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
     )
   }
 
+  if (!userData.user?.user_info?.other_languages_and_levels) {
+    setUserData({
+      ...userData,
+      user: {
+        ...userData.user,
+        user_info: {
+          ...userData.user?.user_info,
+          other_languages_and_levels: []
+        }
+      }})
+  }
+
   if (isEdit) {
     return (
-      
       <ScrollView>
         <View style={styles.wrapper}>
             <EditProfile 
@@ -82,9 +93,9 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
   if (userData) {
     return (
-      <View style={styles.wrapper}>
+      <View >
         <ScrollView>
-          <View style={{ gap: 28 }}>
+          <View style={styles.wrapper}>
             <ShowProfile 
               userData={userData} 
               navigation={navigation}

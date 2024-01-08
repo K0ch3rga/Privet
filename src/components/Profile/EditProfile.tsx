@@ -3,10 +3,11 @@ import { HeaderProfileSection, InfoProfileSection, ItemTitleProfile, SectionProf
 import { mainColor } from "../../defaultColors"
 import InputProfile from "./InputProfile"
 import Select from "../Select"
-import OtherLanguagesList from "./OtherLanguagesList"
 import ContactEdit from "./ContactsEdit"
 import { ProfileEditProps } from "../../interfaces/ProfileEditProps"
 import { languages, genders, counties, universityes } from "../../selectData"
+import { IContacts } from "../../classes/contacts"
+import OtherLanguagesList from "./OtherLanguagesList"
 
 const getDateValue = (value: string | undefined) => {
   if (!value) {
@@ -34,6 +35,28 @@ const getDateValueToSend = (value: string | undefined) => {
 
 const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
   console.log(userData);
+
+  const getContacts = () => {
+    if (!userData.user?.user_info?.contacts) {
+      return {} as IContacts
+    }
+    return userData.user.user_info.contacts
+  }
+
+  const setContacts = (newContacts: any) => {
+    setUserData(
+      {
+        ...userData,
+        user: {
+          ...userData.user,
+          user_info: {
+            ...userData.user?.user_info,
+            contacts: newContacts
+          }
+        }
+      }
+    )
+  }
   
   return (
     <>
@@ -119,7 +142,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
           />
         </InfoProfileSection>
       </SectionProfile>
-      <ContactEdit userData={userData} setUserData={setUserData} />
+      <ContactEdit getContacts={getContacts} setContacts={setContacts} />
       <SectionProfile>
         <HeaderProfileSection>Информация о студенте</HeaderProfileSection>
         <InfoProfileSection>

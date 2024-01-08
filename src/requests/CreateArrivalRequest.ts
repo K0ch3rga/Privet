@@ -1,12 +1,12 @@
-import { IUser } from "../classes/IUser";
+import { IArrival } from "../classes/IArrival";
 import {BASE_URL, BASE_TOKEN} from "@env";
 
-export const sendChangeProfileInfoRequest  = async (user_id: number, 
-  profileData: IUser,
+export const sendCreateArrivalRequest  = async (user_id: number, 
+  arrivalData: IArrival,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {
-  const url = `${BASE_URL}/student/profile/${user_id}/`
+  const url = `${BASE_URL}/student/arrival-booking/${user_id}/`
 
   setLoading(true);
   try {
@@ -16,7 +16,7 @@ export const sendChangeProfileInfoRequest  = async (user_id: number,
         "Content-Type": "application/json",
         "Authorization": BASE_TOKEN
         },
-        body: JSON.stringify(profileData),
+        body: JSON.stringify(arrivalData),
     })
 
     const json = await response.json();
@@ -28,7 +28,6 @@ export const sendChangeProfileInfoRequest  = async (user_id: number,
     console.log("Успех:", JSON.stringify(json));
   } catch (error) {
     console.error("Ошибка:", error)
-    
   }
   setLoading(false);
 };
