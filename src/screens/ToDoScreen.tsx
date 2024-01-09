@@ -1,81 +1,179 @@
 import {useState, useReducer, useEffect} from "react";
-import {View, FlatList, Pressable, Text, StyleSheet, Image} from "react-native";
-import {blackColor, buddyColor, grayColor, mainColor} from "../defaultColors";
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import {blackColor, grayColor, mainColor} from "../defaultColors";
+// import ProgressBar from "../components/ProgressBar";
 
 const ToDoScreen = () => {
-  const [data, setData] = useState([
-    {done: false, text: "Встреча в аэропорту"},
-    {done: false, text: "Оплата и заселение в хостел"},
-    {done: false, text: "Оформление сим-карты"},
-    {done: false, text: "Прохождение медосмотра"},
-    {done: false, text: "Перевод паспорта с нотариальным заверением"},
-    {done: false, text: "Оформление банковской карты"},
-    {done: false, text: "Оформление документов о зачислении"},
-    {done: false, text: "Оформление страховки"},
-    {done: false, text: "Оформление документов на общежитие"},
-    {done: false, text: "Оформление пропуска / студенческого билета"},
-    {done: false, text: "Прохождение медосвидетельствования"},
-    {done: false, text: "Продление визы"},
-    {done: false, text: "Прохождение дактилоскопии"},
+  const [todos, setTodos] = useState<ToDoItemProps[]>([
+    {id: 1, done: false, text: "Встреча в аэропорту"},
+    {id: 2, done: false, text: "Оплата и заселение в хостел"},
+    {id: 3, done: false, text: "Оформление сим-карты"},
+    {id: 4, done: false, text: "Прохождение медосмотра"},
+    {id: 5, done: false, text: "Перевод паспорта с нотариальным заверением"},
+    {id: 6, done: false, text: "Оформление банковской карты"},
+    {id: 7, done: false, text: "Оформление документов о зачислении"},
+    {id: 8, done: false, text: "Оформление страховки"},
+    {id: 9, done: false, text: "Оформление документов на общежитие"},
+    {id: 10, done: false, text: "Оформление пропуска / студенческого билета"},
+    {id: 11, done: false, text: "Прохождение медосвидетельствования"},
+    {id: 12, done: false, text: "Продление визы", deadline: new Date()},
+    {id: 13, done: true, text: "Прохождение дактилоскопии"},
   ]);
 
-  return (
-    <View>
-      <View style={style.label}>
-        <Text>Текущее</Text>
-        <Image source={require("../assets/steps.png")} style={style.image} ></Image>
-      </View>
-      <FlatList
-        data={data.filter((i) => !i.done)}
-        renderItem={(i) => <ToDoItem done={i.item.done} text={i.item.text} />}
-      />
+  const toggleComplete = (id: number) => {
+    setTodos(
+      todos.map((todo) => (id === todo.id ? {...todo, done: !todo.done} : todo))
+    );
+  };
 
-      <View style={style.label}>
-        <Text>Выполнено</Text>
-        <Image source={require("../assets/done.png")} style={style.image} ></Image>
+  const undone = todos.filter((todo) => !todo.done);
+  const done = todos.filter((todo) => todo.done);
+
+  return (
+    <ScrollView contentContainerStyle={style.container}>
+      <View style={style.counter} > 
+        <Text >Выполнено{done.length}/{todos.length}</Text>
+        {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
       </View>
-      <FlatList
-        data={data.filter((i) => i.done)}
-        renderItem={(i) => <ToDoItem done={i.item.done} text={i.item.text} />}
-      />
+      {undone.length > 0 && (
+        <View>
+          <Label text="Текущее" imgPath={require("../assets/steps.png")} />
+          <View style={style.list}>
+            {undone.map((i) => (
+              <ToDoItem
+                done={i.done}
+                text={i.text}
+                key={i.id}
+                id={i.id}
+                deadline={i.deadline}
+                toggleFunc={toggleComplete}
+              />
+            ))}
+          </View>
+        </View>
+      )}
+
+      {done.length > 0 && (
+        <View>
+          <Label text="Выполнено" imgPath={require("../assets/done.png")} />
+          <View style={style.list}>
+            {done.map((i) => (
+              <ToDoItem
+                done={i.done}
+                text={i.text}
+                key={i.id}
+                id={i.id}
+                deadline={i.deadline}
+                toggleFunc={toggleComplete}
+              />
+            ))}
+          </View>
+        </View>
+      )}
+    </ScrollView>
+  );
+};
+
+const Label = ({text, imgPath}: {text: string; imgPath: any}) => {
+  return (
+    <View style={label.wrapper}>
+      <View style={label.container}>
+        <Text style={label.text}>{text}</Text>
+        <View style={label.image}>
+          <Image source={imgPath}></Image>
+        </View>
+      </View>
     </View>
   );
 };
 
-const ToDoItem = (props: ToDoItemProps) => {
-  const [isDone, setDone] = useState(props.done);
+const ToDoItem = (
+  props: ToDoItemProps & {toggleFunc: (id: number) => void}
+) => {
   const [isOpen, setOpen] = useState(false);
-  const handleDone = () => setDone(!isDone);
-  const handleOpen = () => console.log("open"); //setOpen(!isOpen);
+
+  const handleOpen = () => setOpen(!isOpen);
+  let color;
+  if (props.done) {
+    color = style.doneItem;
+  } else {
+    color = style.undoneItem;
+  }
+
+  const handleToggle = () => 
+    props.toggleFunc(props.id);
+
   return (
-    <Pressable onPress={handleOpen} style={style.item}>
-      {isDone && (
-        <Pressable style={[style.mark, style.doneMark]} onPress={handleDone} />
+    <Pressable onPress={handleOpen} style={[item.container, color]}>
+      <View style={item.main}>
+        {props.done && (
+          <Pressable
+            style={[style.mark, style.doneMark]}
+            onPress={handleToggle}
+          />
+        )}
+        {!props.done && (
+          <Pressable
+            style={[style.mark, style.undoneMark]}
+            onPress={handleToggle}
+          />
+        )}
+        <View style={style.textWrapper}>
+          <Text style={style.text}>{props.text}</Text>
+          {props.deadline && (
+            <Text style={style.deadLine}>
+              {"До " + props.deadline.toLocaleDateString()}
+            </Text>
+          )}
+        </View>
+        <Image source={require("../assets/arrow_down.png")} />
+      </View>
+      {isOpen && (
+        <TextInput
+          placeholder="Комментарий к задаче"
+          style={item.inputContainer}
+        ></TextInput>
       )}
-      {!isDone && <Pressable style={[style.mark, style.undoneMark]} onPress={handleDone}/>}
-      <Text style={style.text}>{props.text}</Text>
     </Pressable>
   );
 };
 
 export type ToDoItemProps = {
+  id: number;
   done: boolean;
   text: string;
+  deadline?: Date;
+  commentary?: string;
 };
 
 const style = StyleSheet.create({
-  item: {
-    flex: 1,
-    flexDirection: "row",
-    alignContent: "center",
-    alignItems: "stretch",
-    padding: 10,
+  container: {
   },
+  counter: {
+
+  },
+  list: {
+    marginBottom: 10, // Работает вместе с margin у label
+    flex: 1,
+    gap: 10,
+  },
+  // перенести
   undoneItem: {
     backgroundColor: "#EAEBFF",
   },
+  deadlineItem: {
+    backgroundColor: "#FFCECE",
+  },
   doneItem: {
-
+    backgroundColor: "#F2C34E1C",
   },
   mark: {
     height: 25,
@@ -90,29 +188,81 @@ const style = StyleSheet.create({
   doneMark: {
     backgroundColor: blackColor,
   },
+  textWrapper: {
+    flex: 1,
+    justifyContent: "flex-start",
+  },
   text: {
     marginHorizontal: 10,
+    fontFamily: "Manrope-Medium",
+    fontWeight: "400",
+    fontSize: 14,
   },
-  label: {
-    width: 156,
+  deadLine: {
+    color: grayColor,
+    fontFamily: "Manrope-Medium",
+    fontWeight: "400",
+    fontSize: 12,
+  },
+});
+
+const label = StyleSheet.create({
+  wrapper: {
+    // Помогите
+    marginVertical: 10,
+    height: 43,
+    flex: 1,
+    alignItems: "center",
+  },
+  container: {
     height: 43,
     backgroundColor: mainColor,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    padding: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     flex: 1,
-    flexDirection: 'row',
-    gap: 10
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    alignItems: "center",
+    gap: 10,
   },
-  labelText: {
-    fontFamily: 'Lilita One Rus',
-    fontWeight: '400',
-
+  text: {
+    fontFamily: "LilitaOne",
+    fontWeight: "400",
+    fontSize: 24,
   },
   image: {
     height: 20,
-    width: 20
-  }
+    width: 20,
+  },
+});
+
+const item = StyleSheet.create({
+  container: {
+    marginHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+  },
+  main: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+  },
+  inputContainer: {
+    marginTop: 10,
+    marginBottom: 16,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "#455A644A",
+    backgroundColor: "#fff",
+  },
 });
 
 export default ToDoScreen;

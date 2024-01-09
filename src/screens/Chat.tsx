@@ -1,9 +1,10 @@
 import {FlatList, View, Text, StyleSheet, Pressable} from "react-native";
 import {grayColor, mainColor} from "../defaultColors";
-import { Screens, ScreenProps } from "../../App";
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { TabScreens } from "../../App";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-type Props = NativeStackScreenProps<Screens, "Tab">;
+
+type Props = BottomTabScreenProps<TabScreens, 'ChatScreen'>;
 const ChatScreen = ({navigation}: Props) => {
   const data: ChatItemProps[] = [
     {name: "Фамилия_Имя_Отчество", token: "0", navigation},
@@ -36,7 +37,6 @@ const ChatItem = (props: ChatItemProps) => {
       </View>
       <View >
         <Text>{new Date().toLocaleTimeString().slice(0,4)}</Text>
-        <Text>А как?</Text>
       </View>
     </Pressable>
   );

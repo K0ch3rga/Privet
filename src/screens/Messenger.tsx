@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import {blackColor, grayColor, mainColor} from "../defaultColors";
 import {useReducer, useRef, useState} from "react";
@@ -16,6 +17,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 const data: MessageProps[][] = [
   [{text: "wdasd", recieved: true, date: new Date(10004)}],
   [{text: "aaaaaaaaaaaaaa", recieved: false, date: new Date(100000000)}],
+  []
 ]; // временно
 
 const GetMessages = (id: number): MessageProps[] => {
@@ -31,8 +33,8 @@ const reducer = (state: MessageProps[], action: MessageActions) => {
   switch (action.type) {
     case "SEND":
       return [
-        ...state,
         {text: action.payload, recieved: false, date: new Date()},
+        ...state
       ];
     default:
       throw new Error("Wrong action with message");
@@ -44,8 +46,8 @@ const addAttachment = () => console.log("attach");
 type Props = NativeStackScreenProps<Screens, 'Messenger'>
 const Messenger = ({navigation, route}: Props) => {
   const [message, setMessage] = useState<string>("");
-  const ref = useRef(null);
   const [state, dispatch] = useReducer(reducer, GetMessages(route.params.id));
+  console.log(route)
 
   const SendMessage = (message: string) => {
     console.log(message);
@@ -82,6 +84,8 @@ const Messenger = ({navigation, route}: Props) => {
           />
         )}
         inverted
+        style={style.list}
+        contentContainerStyle={style.innerList}
       />
       <View style={style.inputBox}>
         <View />
@@ -110,14 +114,14 @@ const Messenger = ({navigation, route}: Props) => {
 };
 
 const Message = (props: MessageProps) => {
-  const type = props.recieved ? style.recieved : style.sent;
-  const align = props.recieved ? style.alignEnd : style.alignStart;
+  const innerStyle = props.recieved? message.recieved: message.sent;
+  const align = props.recieved? message.alignStart: message.alignEnd;
   return (
-    <View style={[style.messageWrapper, align]}>
-      <View style={[style.message, type]}>
+    <View style={[message.wrapper, align]}>
+      <View style={[message.bubble, innerStyle]}>
         <Text>{props.text}</Text>
       </View>
-      <Text style={style.time}>
+      <Text style={message.time}>
         {props.date.toLocaleTimeString().slice(0, 5)}
       </Text>
     </View>
@@ -163,6 +167,14 @@ const style = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#FFFFFF",
   },
+  list: {
+    padding: 15,
+    flex: 1,
+    flexDirection: 'column',
+  },
+  innerList: {
+    gap: 10,
+  },
   inputBox: {
     height: 65,
     gap: 10,
@@ -187,21 +199,23 @@ const style = StyleSheet.create({
     height: 20,
     width: 20,
   },
-  chat: {},
-  messageWrapper: {
+});
+
+const message = StyleSheet.create({
+  wrapper: {
     flex: 1,
+    flexDirection: 'column',
   },
-  message: {
-    flex: 1,
-    flexDirection: "row",
-    margin: 26,
+  bubble: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 15,
+    maxWidth: 300
   },
   sent: {
     borderBottomRightRadius: 5,
     backgroundColor: "#D9D9D9",
+    alignContent: 'flex-end'
   },
   recieved: {
     borderBottomLeftRadius: 5,
@@ -210,13 +224,14 @@ const style = StyleSheet.create({
   time: {
     fontFamily: "Manrope-Medium",
     fontWeight: "400",
+    color: '#999999'
   },
   alignStart: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start'
   },
   alignEnd: {
-    alignItems: "flex-end",
-  },
+    alignItems: 'flex-end'
+  }
 });
 
 interface MessageProps {

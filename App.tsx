@@ -1,17 +1,17 @@
-import {useEffect, useState, createContext} from "react";
-import {StyleSheet, Text, View, StatusBar, Image} from "react-native";
+import {useReducer, useState} from "react";
+import {Image} from "react-native";
 import {useFonts} from "expo-font";
 
 // Navigation
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {BottomTabScreenProps, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 // Screens
 import RegistrationScreen from "./src/screens/RegistrationScreen";
 import EnterCodeScreen from "./src/screens/EnterCodeScreen";
-import ProfileScreen from "./src/screens/Profile/ProfileScreen";
+// import ProfileScreen from "./src/screens/Profile/ProfileScreen";
 import ProfileInfoScreen from "./src/screens/Profile/ProfileInfoScreen";
 import NotificationsScreen from "./src/screens/Profile/NotificationsScreen";
 import SelectLanguageScreen from "./src/screens/SelectLanguageScreen";
@@ -25,28 +25,38 @@ import ChatScreen from "./src/screens/Chat";
 import Profile from "./src/screens/Profile/Profile";
 
 import {mainColor} from "./src/defaultColors";
+import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
 
-export type Screens = { // Все данные для передачи между экранами 
-  Welcome: undefined,
-  Registration:undefined,
-  EnterCode: undefined,
-  LogIn: undefined,
-  EnterEmail: undefined,
-  EnterNewPassword: undefined,
-  Tab: undefined,
-  Messenger: {id: number},
-  ProfileInfo: undefined,
-  Notifications: undefined,
+export type TabScreens = {
+  Profile: undefined;
+  ToDo: undefined;
+  ChatScreen: undefined;
+  Route: undefined;
+  Info: undefined;
+};
+
+export type Screens = {
+  // Все данные для передачи между экранами
+  Welcome: undefined;
+  Registration: undefined;
+  EnterCode: undefined;
+  LogIn: undefined;
+  EnterEmail: undefined;
+  EnterNewPassword: undefined;
+  Tab: BottomTabScreenProps<TabScreens>;
+  Messenger: {id: number};
+  ProfileInfo: undefined;
+  Notifications: undefined;
 };
 
 export type ScreenProps = NativeStackScreenProps<Screens>;
-// Composite Screen Props https://reactnavigation.org/docs/typescript/#combining-navigation-props
+// Composite Screen Props https://reactnavigation.org/docs/typescript/#combining-navigation-props НЕ ИСПОЛЬЗОВАТЬ
 
 const Stack = createNativeStackNavigator<Screens>();
-const Tab = createBottomTabNavigator(); 
+const Tab = createBottomTabNavigator<TabScreens>();
 
 const Auth = () => {
-  return(
+  return (
     <Stack.Navigator initialRouteName="Welcome" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Registration" component={RegistrationScreen} />
@@ -75,22 +85,73 @@ const MainApp = () => {
 };
 
 const TabNavigation = () => {
-  return(
-    <Tab.Navigator screenOptions={{headerShown: false,tabBarStyle: {backgroundColor: mainColor, height: 69}, tabBarShowLabel:false}} >
-      <Tab.Screen name="Profile" component={Profile} 
-        options={{tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {backgroundColor: mainColor, height: 69},
+        tabBarShowLabel: false,
+      }}
+    >
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={require("./src/assets/icons/profile.png")}
+              style={{width: 32, height: 32}}
+            />
+          ),
+        }}
       />
-      <Tab.Screen name="ToDo"component={ToDoScreen}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
+      <Tab.Screen
+        name="ToDo"
+        component={ToDoScreen}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={require("./src/assets/icons/tasks.png")}
+              style={{width: 32, height: 32}}
+            />
+          ),
+        }}
       />
-      <Tab.Screen name="ChatScreen" component={ChatScreen}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
+      <Tab.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={require("./src/assets/icons/messenger.png")}
+              style={{width: 32, height: 32}}
+            />
+          ),
+        }}
       />
-      <Tab.Screen name="Route" component={Messenger}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/location.png")} style={{width: 32, height: 32}}/>),}}
+      <Tab.Screen
+        name="Route"
+        component={() => <></>}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={require("./src/assets/icons/location.png")}
+              style={{width: 32, height: 32}}
+            />
+          ),
+        }}
       />
-      <Tab.Screen name="Info"component={SelectLanguageScreen}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/info.png")} style={{width: 32, height: 32}}/>),}}
+      <Tab.Screen
+        name="Info"
+        component={SelectLanguageScreen}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={require("./src/assets/icons/info.png")}
+              style={{width: 32, height: 32}}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
@@ -116,9 +177,13 @@ export default function App() {
 
   const isSigned = getLogin();
 
+
+  
+  // const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <NavigationContainer>
-      {isSigned ? <MainApp /> : <Auth />}
-    </NavigationContainer>
+    <LocaleProvider>
+      <NavigationContainer>{isSigned ? <MainApp /> : <Auth />}</NavigationContainer>
+    </LocaleProvider>
   );
 }
