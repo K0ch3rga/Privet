@@ -2,8 +2,11 @@ import { StyleSheet, TextInput, View, Text, Image } from "react-native";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 import { grayColor, mainColor, secondBlackColor, whiteColor } from "../../defaultColors";
 import MainButton from "../../components/Buttons/MainButton";
+import { useAccountStore } from "../../storage/AccountStore";
 
 const ArrivalFinalScreen: React.FC<ScreenProps> = ({ navigation }) => {
+  const setArrivalExist = useAccountStore(state => state.setArrivalExist)
+
   return(
     <View style={styles.wrapper}>
       <View style={styles.header}>
@@ -24,6 +27,7 @@ const ArrivalFinalScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <MainButton 
           title="Перейти к списку задач"
           color={mainColor}
+          onPress={() => setArrivalExist(true)}
         />
       </View>
     </View>

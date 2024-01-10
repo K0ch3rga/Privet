@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import MainButton from "../../components/Buttons/MainButton";
 import { mainColor, secondBlackColor, whiteColor } from "../../defaultColors";
 import { ScreenProps } from "../../interfaces/ScreenProps";
@@ -9,38 +9,38 @@ import InputProfile from "../../components/Profile/InputProfile";
 import { counties, genders } from "../../selectData";
 import Select from "../../components/Select";
 import Popup from "../../components/Popup";
-import AddStudentToArrival from "./AddStudentToArrival";
-import { fetchArrivalUserInfo } from "../../requests/GetProfileForArrival";
-import { user_id } from "../Profile/ProfileScreen";
-import { IUser } from "../../classes/IUser";
-import { IArrival } from "../../classes/IArrival";
 import ContactEdit from "../../components/Profile/ContactsEdit";
 import { IContacts } from "../../classes/contacts";
 import { sendCreateArrivalRequest } from "../../requests/CreateArrivalRequest";
+import { useAccountStore } from "../../storage/AccountStore";
+import { useArrivalStore } from "../../storage/ArrivalStore";
+import { getArrivalUserInfo } from "../../requests/GetProfileForArrival";
 
 const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
-  const [arrivalData, setArrivalData] = useState<IArrival>({});
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isPopup, setPopup] = useState(false);
-
-  useEffect(() => {
-    fetchArrivalUserInfo(user_id, setLoading, setArrivalData, setError, setErrorMessage)
-  }, [])
+  const user_id = useAccountStore(state => state.user_id)
+  const arrivalData = useArrivalStore(state => state.arrivalData)
+  const setArrivalData = useArrivalStore(state => state.setArrivalData)
+  const isSuccess = useArrivalStore(state => state.isSuccess)
 
   console.log(arrivalData);
 
   const handleSend = () => {
     if (arrivalData) {
       sendCreateArrivalRequest(user_id, arrivalData, setLoading, setError, setErrorMessage);
-      setPopup(true)
     }
     else{
       setErrorMessage("Arrival Data is empty")
       setError(true)
     }
   }
+
+  useEffect(() => {
+    getArrivalUserInfo()
+  }, [])
 
   const getContacts = () => {
     if (!arrivalData.user?.user_info?.contacts) {
@@ -224,7 +224,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
                       <Image source={require("../../assets/delete.png")} style={{ width: 13.8, height: 17 }}/>
                     </View>
                 </View>
-                <View style={styles.buttonsWrapper}>
+                {/* <View style={styles.buttonsWrapper}>
                   <Pressable style={styles.button}>
                     <Text style={styles.buttonTitle}>Загрузить билеты</Text>
                   </Pressable>
@@ -234,7 +234,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
                   >
                     <Text style={styles.buttonTitle}>Добавить участника</Text>
                   </Pressable>
-                </View>
+                </View> */}
               </View>
             </View>
             <MainButton 
@@ -244,7 +244,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
             />
         </View>
       </ScrollView>
-      {isPopup &&
+      {isSuccess &&
         <Popup>
           <View>
             <Text>Приезд успешно создан</Text>
@@ -256,7 +256,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
             <MainButton 
               title="Продолжить"
               color={mainColor}
-              onPress={() => {navigation.navigate("NoArrivals")}}
+              onPress={() => {navigation.navigate("ArrivalFinal")}}
             />
           </View>
         </Popup>

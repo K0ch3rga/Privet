@@ -6,11 +6,9 @@ import NoArrivalsScreen from "../screens/Arrivals/NoArrivalsScreen";
 import CreateArrival from "../screens/Arrivals/CreateArrival";
 import AddStudentToArrival from "../screens/Arrivals/AddStudentToArrival";
 import ArrivalFinalScreen from "../screens/Arrivals/ArrivalFinalScreen";
+import { useAccountStore } from "../storage/AccountStore";
 
 const Stack = createNativeStackNavigator();
-
-const payed = true;
-const arrivalExist = false;
 
 const Unpayed: React.FC = () => {
   return(
@@ -23,10 +21,9 @@ const Unpayed: React.FC = () => {
 
 const CreateArrivalRoute: React.FC = () => {
   return(
-    <Stack.Navigator initialRouteName="ArrivalFinal" screenOptions={{headerShown: false}}>
+    <Stack.Navigator initialRouteName="CreateArrival" screenOptions={{headerShown: false}}>
       <Stack.Screen name="NoArrivals" component={NoArrivalsScreen} />
       <Stack.Screen name="CreateArrival" component={CreateArrival} />
-      <Stack.Screen name="ArrivalConfirmed" component={PaymentSuccess} />
       <Stack.Screen name="AddStudents" component={AddStudentToArrival} />
       <Stack.Screen name="ArrivalFinal" component={ArrivalFinalScreen} />
     </Stack.Navigator>
@@ -34,11 +31,14 @@ const CreateArrivalRoute: React.FC = () => {
 }
 
 const RoutesToDo: React.FC = () => {
-  if (!payed) {
+  const isPaid = useAccountStore(state => state.isPaid)
+  const isArrivalExist = useAccountStore(state => state.isArrivalExist)
+  
+  if (!isPaid) {
     return (<Unpayed />)
   }
   
-  if (!arrivalExist) {
+  if (!isArrivalExist) {
     return (<CreateArrivalRoute />)
   }
 

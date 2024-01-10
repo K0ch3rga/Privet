@@ -18,14 +18,15 @@ import WelcomeScreen from "./src/screens/Registration/WelcomeScreen";
 import LogInScreen from "./src/screens/Registration/LogInScreen";
 import EnterEmailScreen from "./src/screens/Registration/EnterEmailScreen";
 import EnterNewPasswordScreen from "./src/screens/Registration/EnterNewPasswordScreen";
-import ToDoScreen from "./src/screens/ToDoScreen";
 import Messenger from "./src/screens/Messenger";
 import ChatScreen from "./src/screens/Chat";
 import RoutesProfile from "./src/routes/RoutesProfile";
 
 import {mainColor} from "./src/defaultColors";
-import MainButton from "./src/components/Buttons/MainButton";
 import RoutesToDo from "./src/routes/RoutesToDo";
+import { fetchUserInfo } from "./src/requests/GetProfileInfo";
+import Popup from "./src/components/Popup";
+import { useAccountStore } from "./src/storage/AccountStore";
 
 export type Screens = { // Все данные для передачи между экранами 
   Welcome: undefined,
@@ -77,7 +78,7 @@ const MainApp = () => {
 
 const TabNavigation = () => {
   return(
-    <Tab.Navigator screenOptions={{headerShown: false,tabBarStyle: {backgroundColor: mainColor, height: 69}, tabBarShowLabel:false}} >
+    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}, tabBarShowLabel:false}} >
       <Tab.Screen name="ToDo"component={RoutesToDo}
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
       />
@@ -100,7 +101,6 @@ const TabNavigation = () => {
 const getLogin = () => true;
 
 export default function App() {
-
   const [fontsLoaded, fontError] = useFonts({
     Jua: require("./src/assets/fonts/Jua-Regular.ttf"),
     LilitaOne: require("./src/assets/fonts/LilitaOne-Rus.ttf"),
@@ -108,15 +108,41 @@ export default function App() {
     "Manrope": require("./src/assets/fonts/Manrope.ttf"),
   });
 
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const isLoggedIn = useAccountStore(state => state.isLoggedIn)
+  const user_id = useAccountStore(state => state.user_id)
+
+  if (!!user_id) {
+    useEffect(() => {
+      fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
+    }, [])
+  }
+  
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
-  const isSigned = getLogin();
+  // const isSigned = getLogin();
 
   return (
+    <>
     <NavigationContainer>
-      {isSigned ? <MainApp /> : <Auth />}
+      {isLoggedIn ? <TabNavigation /> : <Auth />}
     </NavigationContainer>
+
+    {isLoading && 
+      <Popup>
+        <Text>Loading...</Text>
+      </Popup>
+    }
+
+    {error && 
+      <Popup close={() => setError(false)}>
+        <Text>{errorMessage}</Text>
+      </Popup>
+    }
+    </>
   );
 }

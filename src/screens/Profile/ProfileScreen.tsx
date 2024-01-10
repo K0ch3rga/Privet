@@ -10,29 +10,28 @@ import { ScreenProps } from "../../interfaces/ScreenProps";
 import ShowProfile from "../../components/Profile/ShowProfile";
 import EditProfile from "../../components/Profile/EditProfile";
 import RegButton from "../../components/Buttons/RegButton";
-
-export const user_id = 58;
+import { useAccountStore } from "../../storage/AccountStore";
+import { useUserStore } from "../../storage/UserStore";
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
-  const [userData, setUserData] = useState<IUser>({});
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const userData = useUserStore((state) => state.userData);
+  const setUserData = useUserStore((state) => state.setUserData);
+
+  const user_id = useAccountStore(state => state.user_id)
 
   const handleSend = () => {
     if (userData) {
       sendChangeProfileInfoRequest(user_id, userData, setLoading, setError, setErrorMessage);
     }
     else{
-      setErrorMessage("User Data is empty")
-      setError(true)
+      setErrorMessage("User Data is empty");
+      setError(true);
     }
   }
-
-  useEffect(() => {
-    fetchUserInfo(user_id, setLoading, setUserData, setError, setErrorMessage);
-  }, [])
 
   if (isLoading) {
     return (
@@ -93,17 +92,15 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
   if (userData) {
     return (
-      <View >
-        <ScrollView>
-          <View style={styles.wrapper}>
-            <ShowProfile 
-              userData={userData} 
-              navigation={navigation}
-              edit={() => {setIsEdit(true)}}
-            />
-          </View>
-        </ScrollView>
-      </View>
+      <ScrollView>
+        <View style={styles.wrapper}>
+          <ShowProfile 
+            userData={userData} 
+            navigation={navigation}
+            edit={() => {setIsEdit(true)}}
+          />
+        </View>
+      </ScrollView>
     )
   }
 };

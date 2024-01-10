@@ -1,9 +1,14 @@
-import { IUser } from "../classes/IUser";
+//@ts-ignore
 import {BASE_URL, BASE_TOKEN} from "@env";
+import { IUser } from "../classes/IUser";
+import { useUserStore } from "../storage/UserStore";
 
-export const fetchUserInfo = (user_id: number, setLoading: any, setUserData: any, setError: any, setErrorMessage: any) => {
+export const fetchUserInfo = (user_id: number, setError: any, setErrorMessage: any, setLoading?: any,) => {
   const url = `${BASE_URL}/student/profile/${user_id}/`
-  setLoading(true);
+  if (setLoading) {
+    setLoading(true);
+  }
+  
   try {
     fetch(url, {
       headers: {
@@ -22,14 +27,18 @@ export const fetchUserInfo = (user_id: number, setLoading: any, setUserData: any
     })
     .then((json) => {
       const user = json as IUser
-      setUserData(user);
+      useUserStore.setState({userData: user});
     })
     .finally(() => {
-      setLoading(false)
+      if (setLoading) {
+        setLoading(false);
+      }
     });
   }
   catch (error) {
     console.error("Ошибка: ", error)
-    setLoading(false)
+    if (setLoading) {
+      setLoading(false);
+    }
   }
 }

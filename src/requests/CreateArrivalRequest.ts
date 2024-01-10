@@ -1,5 +1,7 @@
 import { IArrival } from "../classes/IArrival";
+// @ts-ignore
 import {BASE_URL, BASE_TOKEN} from "@env";
+import { useArrivalStore } from "../storage/ArrivalStore";
 
 export const sendCreateArrivalRequest  = async (user_id: number, 
   arrivalData: IArrival,
@@ -24,6 +26,9 @@ export const sendCreateArrivalRequest  = async (user_id: number,
     if (!response.ok) {
       setError(true)
       setErrorMessage(JSON.stringify(json));
+    }
+    else{
+      useArrivalStore.setState({ isSuccess: true })
     }
     console.log("Успех:", JSON.stringify(json));
   } catch (error) {
