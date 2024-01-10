@@ -3,12 +3,14 @@ import { ItemTitleProfile } from "../../components/Profile/ProfileSection";
 import { errorColor, mainColor, secondBlackColor, successColor } from "../../defaultColors";
 import MainButton from "../../components/Buttons/MainButton";
 import { useState } from "react";
-import { user_id } from "../Profile/ProfileScreen";
+// @ts-ignore
 import {BASE_URL, BASE_TOKEN} from "@env";
 import Popup from "../../components/Popup";
+import { useAccountStore } from "../../storage/AccountStore";
+import { ScreenProps } from "../../interfaces/ScreenProps";
 
 
-const AddStudentToArrival: React.FC<{ handleClose?: () => void }> = ({ handleClose }) => {
+const AddStudentToArrival: React.FC<ScreenProps> = ({ navigation }) => {
   const [inputColor, setInputColor] = useState(mainColor);
   const [hintText, setHintText] = useState("");
   const [name, setName] = useState("");
@@ -17,6 +19,7 @@ const AddStudentToArrival: React.FC<{ handleClose?: () => void }> = ({ handleClo
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [addedStudents, setAddedStudents] = useState<string[]>([]);
+  const user_id = useAccountStore(state => state.user_id)
 
   const studentAdded = () => {
     setInputColor(successColor)
@@ -108,10 +111,10 @@ const AddStudentToArrival: React.FC<{ handleClose?: () => void }> = ({ handleClo
               onPress={handleSend}
             />
             <MainButton 
-              title="Отменить"
+              title="Продолжить"
               color={errorColor}
               textStyle={styles.btnFont}
-              // onPress={handleClose}
+              onPress={() => {navigation.navigate("ArrivalFinal")}}
             />
         </View>
       </View>

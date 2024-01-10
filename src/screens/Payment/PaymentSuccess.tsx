@@ -3,8 +3,12 @@ import MainButton from "../../components/Buttons/MainButton";
 import { mainColor, secondBlackColor, whiteColor } from "../../defaultColors";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 import ScreenHeader from "../../components/ScreenHeader";
+import { useAccountStore } from "../../storage/AccountStore";
+
 
 const PaymentSuccess: React.FC<ScreenProps> = ({ navigation }) => {
+  const setPaid = useAccountStore(state => state.setPaid)
+
   return(
     <View style={styles.wrapper}>
       <View>
@@ -22,7 +26,11 @@ const PaymentSuccess: React.FC<ScreenProps> = ({ navigation }) => {
           Теперь вы имеете доступ ко всему функционалу приложения и можете создать приезд
         </Text>
       </View>
-      <MainButton title="Продолжить" color={mainColor} />
+      <MainButton 
+        title="Продолжить" 
+        color={mainColor}
+        onPress={() => {setPaid(true)}}
+      />
     </View>
   )
 }
