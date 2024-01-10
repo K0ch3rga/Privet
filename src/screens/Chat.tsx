@@ -2,6 +2,7 @@ import {FlatList, View, Text, StyleSheet, Pressable} from "react-native";
 import {grayColor, mainColor} from "../defaultColors";
 import { TabScreens } from "../../App";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 type Props = BottomTabScreenProps<TabScreens, 'ChatScreen'>;

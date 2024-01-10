@@ -7,47 +7,58 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
-  ScrollView,
 } from "react-native";
-import {blackColor, grayColor, mainColor} from "../defaultColors";
-import {useReducer, useRef, useState} from "react";
-import {ScreenProps, Screens} from "../../App";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {grayColor, mainColor} from "../defaultColors";
+import {useReducer, useState} from "react";
+import {Screens} from "../../App";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {launchImageLibrary} from "react-native-image-picker";
 
 const data: MessageProps[][] = [
-  [{text: "wdasd", recieved: true, date: new Date(10004)}],
-  [{text: "aaaaaaaaaaaaaa", recieved: false, date: new Date(100000000)}],
-  []
+  [{text: "wdasd", recieved: true, date: new Date(10004), isImage: false}],
+  [{text: "aaaaaaaaaaaaaa", recieved: false, date: new Date(100000000), isImage: false}],
+  [],
 ]; // временно
+
+const socket = new WebSocket("ws://127.0.0.1:8000/ws/socket-server/");
+// const socket = new WebSocket("ws://ws.kraken.com/");
+socket.addEventListener("open", event => console.log("socket_open: ", event))
+socket.addEventListener("error", event => console.log("socket_err: ", event))
 
 const GetMessages = (id: number): MessageProps[] => {
   return data[id];
 };
 
 interface MessageActions {
-  type: "SEND" | undefined;
+  type: "SEND" | "RECIEVE" | undefined;
   payload: string;
 }
 
 const reducer = (state: MessageProps[], action: MessageActions) => {
   switch (action.type) {
     case "SEND":
-      return [
-        {text: action.payload, recieved: false, date: new Date()},
-        ...state
-      ];
+      socket.send(action.payload);
+      return [{text: action.payload, recieved: false, date: new Date()}, ...state];
+    case "RECIEVE":
+      return [{text: action.payload, recieved: true, date: new Date()}, ...state];
     default:
       throw new Error("Wrong action with message");
   }
 };
 
-const addAttachment = () => console.log("attach");
+const addAttachment = async () => {
+  console.log("add");
+  const res = await launchImageLibrary({mediaType: "photo"}, (response) =>
+    console.log("response: ", response)
+  ); //.catch((reason) =>    console.log("error: ", reason)  );
+  console.log(res);
+};
 
-type Props = NativeStackScreenProps<Screens, 'Messenger'>
+type Props = NativeStackScreenProps<Screens, "Messenger">;
 const Messenger = ({navigation, route}: Props) => {
   const [message, setMessage] = useState<string>("");
   const [state, dispatch] = useReducer(reducer, GetMessages(route.params.id));
-  console.log(route)
+  console.log(route);
 
   const SendMessage = (message: string) => {
     console.log(message);
@@ -57,15 +68,10 @@ const Messenger = ({navigation, route}: Props) => {
     }
   };
 
-  console.log(state);
-
   return (
     <KeyboardAvoidingView style={style.container}>
       <View style={header.container}>
-        <Pressable
-          onPress={() => navigation.navigate("Tab")}
-          style={header.return}
-        >
+        <Pressable onPress={() => navigation.navigate("Tab")} style={header.return}>
           <Image source={require("../assets/arrow_return.png")} />
         </Pressable>
         <View style={header.image}>{/* <Image source={} ></Image> */}</View>
@@ -81,6 +87,7 @@ const Messenger = ({navigation, route}: Props) => {
             text={props.item.text}
             recieved={props.item.recieved}
             date={props.item.date}
+            isImage={props.item.isImage}
           />
         )}
         inverted
@@ -90,10 +97,7 @@ const Messenger = ({navigation, route}: Props) => {
       <View style={style.inputBox}>
         <View />
         <Pressable style={style.attacmentsButton} onPress={addAttachment}>
-          <Image
-            source={require("../assets/Attachments.png")}
-            style={{width: 20, height: 20}}
-          />
+          <Image source={require("../assets/Attachments.png")} style={{width: 20, height: 20}} />
         </Pressable>
         <TextInput
           onChangeText={(t) => setMessage(t)}
@@ -102,10 +106,7 @@ const Messenger = ({navigation, route}: Props) => {
           style={style.inputField}
         />
         <Pressable onPress={() => SendMessage(message)}>
-          <Image
-            source={require("../assets/SendButton.png")}
-            style={style.sendButton}
-          />
+          <Image source={require("../assets/SendButton.png")} style={style.sendButton} />
         </Pressable>
         <View />
       </View>
@@ -114,16 +115,14 @@ const Messenger = ({navigation, route}: Props) => {
 };
 
 const Message = (props: MessageProps) => {
-  const innerStyle = props.recieved? message.recieved: message.sent;
-  const align = props.recieved? message.alignStart: message.alignEnd;
+  const innerStyle = props.recieved ? message.recieved : message.sent;
+  const align = props.recieved ? message.alignStart : message.alignEnd;
   return (
     <View style={[message.wrapper, align]}>
       <View style={[message.bubble, innerStyle]}>
         <Text>{props.text}</Text>
       </View>
-      <Text style={message.time}>
-        {props.date.toLocaleTimeString().slice(0, 5)}
-      </Text>
+      <Text style={message.time}>{props.date.toLocaleTimeString().slice(0, 5)}</Text>
     </View>
   );
 };
@@ -170,7 +169,7 @@ const style = StyleSheet.create({
   list: {
     padding: 15,
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   innerList: {
     gap: 10,
@@ -204,18 +203,18 @@ const style = StyleSheet.create({
 const message = StyleSheet.create({
   wrapper: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   bubble: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 15,
-    maxWidth: 300
+    maxWidth: 300,
   },
   sent: {
     borderBottomRightRadius: 5,
     backgroundColor: "#D9D9D9",
-    alignContent: 'flex-end'
+    alignContent: "flex-end",
   },
   recieved: {
     borderBottomLeftRadius: 5,
@@ -224,20 +223,21 @@ const message = StyleSheet.create({
   time: {
     fontFamily: "Manrope-Medium",
     fontWeight: "400",
-    color: '#999999'
+    color: "#999999",
   },
   alignStart: {
-    alignItems: 'flex-start'
+    alignItems: "flex-start",
   },
   alignEnd: {
-    alignItems: 'flex-end'
-  }
+    alignItems: "flex-end",
+  },
 });
 
 interface MessageProps {
   text: string;
   recieved: boolean;
   date: Date;
+  isImage: boolean;
 }
 
 export default Messenger;

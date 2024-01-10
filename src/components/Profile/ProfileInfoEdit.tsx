@@ -9,6 +9,7 @@ import MainButton from "../Buttons/MainButton"
 import CustomButton from "../Buttons/CustomButton"
 import { CurrentRenderContext } from "@react-navigation/native"
 import OtherLanguagesList from "./OtherLanguagesList"
+import DateProfileInput from "./DateProfileInput"
 
 const languages = ["Russian","English",'Chinese'];
 const counties = ['Russia', 'China', 'Korea'];
@@ -114,6 +115,7 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
               initialValue={userData.sex}
             />
           </View>
+          <DateProfileInput onChange={()=>console.log('Date')}></DateProfileInput>
           <ProfileInput 
             title="Дата рождения"
             setProperty={(text: string) => {

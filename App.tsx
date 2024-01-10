@@ -26,6 +26,7 @@ import Profile from "./src/screens/Profile/Profile";
 
 import {mainColor} from "./src/defaultColors";
 import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 
 export type TabScreens = {
   Profile: undefined;
@@ -131,7 +132,7 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="Route"
-        component={() => <></>}
+        component={ToDoScreen}
         options={{
           tabBarIcon: () => (
             <Image
@@ -177,13 +178,11 @@ export default function App() {
 
   const isSigned = getLogin();
 
-
-  
-  // const [state, dispatch] = useReducer(reducer, initialState);
-
   return (
-    <LocaleProvider>
-      <NavigationContainer>{isSigned ? <MainApp /> : <Auth />}</NavigationContainer>
-    </LocaleProvider>
+    <SafeAreaProvider>
+      <LocaleProvider>
+          <NavigationContainer>{isSigned ? <MainApp /> : <Auth />}</NavigationContainer>
+      </LocaleProvider>
+    </SafeAreaProvider>
   );
 }

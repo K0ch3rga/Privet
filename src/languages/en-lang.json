@@ -1,8 +1,7 @@
 {
-    "base": {
-      "name": "PRIVET"
-    },
+
     "LanguageChoose": {
+      "name": "PRIVET",
       "question": "What is your language?",
       "continue": "Continue"
     }

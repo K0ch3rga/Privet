@@ -28,7 +28,8 @@ export const fetchUserInfo = (user_id: number, setLoading: any, setUserData: any
     })
     .finally(() => {
       setLoading(false)
-    });
+    })
+    .catch((e)=> console.log("Ошибка: ", e))
   }
   catch (error) {
     console.error("Ошибка: ", error)

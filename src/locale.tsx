@@ -15,30 +15,35 @@ export const Locales = {
 
 export enum Screens {
   LanguageChoose = "LanguageChoose",
-  Base = "base",
 }
 
 export type LocaleAction = {
-  type: "CHANGE_LOCALE" | undefined;
+  type: "CHANGE_LOCALE";
   payload: Languages;
 };
 
-const reducer = (state: {text: typeof en}, action: LocaleAction) => {
+export type LocaleContextType = {
+  locale: typeof en;
+  dispatch: React.Dispatch<LocaleAction> | undefined;
+};
+
+const reducer = (state: typeof en, action: LocaleAction) => {
   switch (action.type) {
     case "CHANGE_LOCALE": {
-      return {
-        text: Locales[action.payload],
-      };
+      return Locales[action.payload];
     }
     default:
       return state;
   }
 };
 
-export const LocaleContext = createContext<any>(Locales[Languages.EN]);
+export const LocaleContext = createContext<LocaleContextType>({
+  locale: Locales[Languages.EN],
+  dispatch: undefined,
+});
 
 export const LocaleProvider = ({children}: {children: any}) => {
-  const [locale, dispatch] = useReducer(reducer, {text: Locales[Languages.EN]});
+  const [locale, dispatch] = useReducer(reducer, Locales[Languages.EN]);
 
   return <LocaleContext.Provider value={{locale, dispatch}}>{children}</LocaleContext.Provider>;
 };

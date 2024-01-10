@@ -1,8 +1,6 @@
 {
-    "base": {
-      "name": "ПРИВЕТ"
-    },
     "LanguageChoose": {
+      "name": "ПРИВЕТ",
       "question": "Какой твой язык?",
       "continue": "Продолжить"
     }
