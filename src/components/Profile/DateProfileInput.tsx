@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: mainColor,
     backgroundColor: whiteColor,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     fontSize: 16,
     color: "#000",
     paddingLeft: 11,
@@ -50,14 +51,16 @@ const styles = StyleSheet.create({
   },
   wrongText: {
     marginTop: 7,
-    fontFamily: "Manrope-Light",
+    fontFamily: "Manrope",
+    fontWeight: "300",
     fontSize: 15,
     color: "#455A64",
     textAlign: "center",
   },
   itemTitle: {
     color: grayColor,
-    fontFamily: "Manrope-Regular",
+    fontFamily: "Manrope",
+    fontWeight: "400",
     fontSize: 14,
   },
 });

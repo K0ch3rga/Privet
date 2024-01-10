@@ -194,13 +194,13 @@ const style = StyleSheet.create({
   },
   text: {
     marginHorizontal: 10,
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
     fontWeight: "400",
     fontSize: 14,
   },
   deadLine: {
     color: grayColor,
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
     fontWeight: "400",
     fontSize: 12,
   },
