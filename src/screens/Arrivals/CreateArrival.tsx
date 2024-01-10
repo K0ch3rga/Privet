@@ -21,7 +21,6 @@ import { sendCreateArrivalRequest } from "../../requests/CreateArrivalRequest";
 const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
   const [arrivalData, setArrivalData] = useState<IArrival>({});
   const [isLoading, setLoading] = useState(false);
-  const [isLoadingDone, setIsLoadingDone] = useState(false);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isPopup, setPopup] = useState(false);
@@ -35,6 +34,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
   const handleSend = () => {
     if (arrivalData) {
       sendCreateArrivalRequest(user_id, arrivalData, setLoading, setError, setErrorMessage);
+      setPopup(true)
     }
     else{
       setErrorMessage("Arrival Data is empty")
@@ -246,9 +246,19 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
       </ScrollView>
       {isPopup &&
         <Popup>
-          <AddStudentToArrival 
-            handleClose={() => {setPopup(false)}}
+          <View>
+            <Text>Приезд успешно создан</Text>
+            <MainButton 
+              title="Добавить участников приезда"
+              color={mainColor}
+              onPress={() => {navigation.navigate("AddStudents")}}
             />
+            <MainButton 
+              title="Продолжить"
+              color={mainColor}
+              onPress={() => {navigation.navigate("NoArrivals")}}
+            />
+          </View>
         </Popup>
       }
       {isLoading &&

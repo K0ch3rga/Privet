@@ -11,7 +11,7 @@ import ShowProfile from "../../components/Profile/ShowProfile";
 import EditProfile from "../../components/Profile/EditProfile";
 import RegButton from "../../components/Buttons/RegButton";
 
-export const user_id = 62;
+export const user_id = 58;
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [userData, setUserData] = useState<IUser>({});
