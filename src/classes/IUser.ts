@@ -1,4 +1,5 @@
 import { lang_and_level } from "../components/Profile/OtherLanguagesList"
+import { IContacts } from "./contacts"
 
 export interface IUser {
   citizenship?: string,
@@ -10,13 +11,8 @@ export interface IUser {
       full_name?: string,
       birth_date?: string,
       native_language?: string,
-      other_languages_and_levels?: lang_and_level[]
-      contacts?: {
-        vk?: string,
-        phone?: string,
-        telegram?: string,
-        whatsapp?: string
-      }
+      other_languages_and_levels: lang_and_level[]
+      contacts?: IContacts
     }
   },
   profile_type?: string,

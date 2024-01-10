@@ -1,20 +1,13 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native"
-import { ProfileItemTitle, ProfileSection, ProfileSectionHeader, ProfileSectionInfo, ProfileSectionTitle } from "./ProfileSection"
-import { whiteColor, grayColor, mainColor } from "../../defaultColors"
-import { IUser } from "../../classes/IUser"
-import ProfileInput from "./ProfileInput"
+import { View, Text, Image, StyleSheet } from "react-native"
+import { HeaderProfileSection, InfoProfileSection, ItemTitleProfile, SectionProfile } from "./ProfileSection"
+import { mainColor } from "../../defaultColors"
+import InputProfile from "./InputProfile"
 import Select from "../Select"
-import { useState } from "react"
-import MainButton from "../Buttons/MainButton"
-import CustomButton from "../Buttons/CustomButton"
-import { CurrentRenderContext } from "@react-navigation/native"
+import ContactEdit from "./ContactsEdit"
+import { ProfileEditProps } from "../../interfaces/ProfileEditProps"
+import { languages, genders, counties, universityes } from "../../selectData"
+import { IContacts } from "../../classes/contacts"
 import OtherLanguagesList from "./OtherLanguagesList"
-import DateProfileInput from "./DateProfileInput"
-
-const languages = ["Russian","English",'Chinese'];
-const counties = ['Russia', 'China', 'Korea'];
-const genders = ["male", "female"];
-const universityes = ["УрФУ", "УрГЭУ", "УГПУ"];
 
 const getDateValue = (value: string | undefined) => {
   if (!value) {
@@ -39,13 +32,31 @@ const getDateValueToSend = (value: string | undefined) => {
   return date.toISOString().split('T')[0];
 }
 
-export interface ProfileInfoEditProps {
-  userData: IUser, 
-  setUserData: React.Dispatch<React.SetStateAction<IUser>>
-}
 
-const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData }) => {
+const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
   console.log(userData);
+
+  const getContacts = () => {
+    if (!userData.user?.user_info?.contacts) {
+      return {} as IContacts
+    }
+    return userData.user.user_info.contacts
+  }
+
+  const setContacts = (newContacts: any) => {
+    setUserData(
+      {
+        ...userData,
+        user: {
+          ...userData.user,
+          user_info: {
+            ...userData.user?.user_info,
+            contacts: newContacts
+          }
+        }
+      }
+    )
+  }
   
   return (
     <>
@@ -63,12 +74,10 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
           <Image source={require("../../assets/profile/gallery.png")} style={{width: 20, height: 20}} />
         </View>
       </View>
-      <ProfileSection>
-        <ProfileSectionHeader>
-          <ProfileSectionTitle>Основная информация</ProfileSectionTitle>
-        </ProfileSectionHeader>
-        <ProfileSectionInfo>
-          <ProfileInput 
+      <SectionProfile>
+        <HeaderProfileSection>Основная информация</HeaderProfileSection>
+        <InfoProfileSection>
+          <InputProfile 
             title="Полное имя"
             setProperty={(text: string) => {
               setUserData({
@@ -84,9 +93,9 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
             value={userData.user?.user_info?.full_name}
           />
           <View style={styles.gap}>
-            <ProfileItemTitle>
+            <ItemTitleProfile>
               Гражданство
-            </ProfileItemTitle>
+            </ItemTitleProfile>
             <Select 
               profile={true}
               data={counties}
@@ -100,9 +109,9 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
             />
           </View>
           <View style={styles.gap}>
-            <ProfileItemTitle>
+            <ItemTitleProfile>
               Пол
-            </ProfileItemTitle>
+            </ItemTitleProfile>
             <Select 
               profile={true}
               data={genders}
@@ -115,8 +124,7 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
               initialValue={userData.sex}
             />
           </View>
-          <DateProfileInput onChange={()=>console.log('Date')}></DateProfileInput>
-          <ProfileInput 
+          <InputProfile 
             title="Дата рождения"
             setProperty={(text: string) => {
               const value = getDateValueToSend(text)
@@ -132,96 +140,16 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
             }
             value={getDateValue(userData.user?.user_info?.birth_date)}
           />
-        </ProfileSectionInfo>
-      </ProfileSection>
-      <ProfileSection>
-        <ProfileSectionHeader>
-          <ProfileSectionTitle>Контакты</ProfileSectionTitle>
-        </ProfileSectionHeader>
-        <ProfileSectionInfo>
-        <ProfileInput 
-            title="Номер телефона"
-            setProperty={(text: string) => {
-              setUserData({
-                ...userData,
-                user: {
-                  ...userData.user,
-                  user_info: {
-                    ...userData.user?.user_info,
-                    contacts: {
-                      ...userData.user?.user_info?.contacts,
-                      phone: text
-                    }
-                  }
-                }})}
-            }
-            value={userData.user?.user_info?.contacts?.phone}
-          />
-          <ProfileInput 
-            title="WhatsApp"
-            setProperty={(text: string) => {
-              setUserData({
-                ...userData,
-                user: {
-                  ...userData.user,
-                  user_info: {
-                    ...userData.user?.user_info,
-                    contacts: {
-                      ...userData.user?.user_info?.contacts,
-                      whatsapp: text
-                    }
-                  }
-                }})}
-            }
-            value={userData.user?.user_info?.contacts?.whatsapp}
-          />
-          <ProfileInput 
-            title="VK"
-            setProperty={(text: string) => {
-              setUserData({
-                ...userData,
-                user: {
-                  ...userData.user,
-                  user_info: {
-                    ...userData.user?.user_info,
-                    contacts: {
-                      ...userData.user?.user_info?.contacts,
-                      vk: text
-                    }
-                  }
-                }})}
-            }
-            value={userData.user?.user_info?.contacts?.vk}
-          />
-          <ProfileInput 
-            title="Telegram"
-            setProperty={(text: string) => {
-              setUserData({
-                ...userData,
-                user: {
-                  ...userData.user,
-                  user_info: {
-                    ...userData.user?.user_info,
-                    contacts: {
-                      ...userData.user?.user_info?.contacts,
-                      telegram: text
-                    }
-                  }
-                }})}
-            }
-            value={userData.user?.user_info?.contacts?.telegram}
-          />
-        </ProfileSectionInfo>
-      </ProfileSection>
-      <ProfileSection>
-        <ProfileSectionHeader>
-          <ProfileSectionTitle>Информация о студенте</ProfileSectionTitle>
-        </ProfileSectionHeader>
-        <ProfileSectionInfo>
+        </InfoProfileSection>
+      </SectionProfile>
+      <ContactEdit getContacts={getContacts} setContacts={setContacts} />
+      <SectionProfile>
+        <HeaderProfileSection>Информация о студенте</HeaderProfileSection>
+        <InfoProfileSection>
           <View style={styles.gap}>
-              <ProfileItemTitle>
+              <ItemTitleProfile>
                 Родной язык
-              </ProfileItemTitle>
+              </ItemTitleProfile>
               <Select 
                 profile={true}
                 data={languages}
@@ -240,13 +168,13 @@ const ProfileInfoEdit: React.FC<ProfileInfoEditProps> = ({ userData, setUserData
               />
             </View>
             <View style={styles.gap}>
-              <ProfileItemTitle>
+              <ItemTitleProfile>
                 Другие языки
-              </ProfileItemTitle>
+              </ItemTitleProfile>
               <OtherLanguagesList userData={userData} setUserData={setUserData}/>
             </View>
-        </ProfileSectionInfo>
-      </ProfileSection>
+        </InfoProfileSection>
+      </SectionProfile>
     </>
   )
 }
@@ -298,4 +226,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProfileInfoEdit;
+export default EditProfile;

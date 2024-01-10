@@ -8,7 +8,8 @@ interface TextLinkProps{
 
 const TextLink: React.FC<TextLinkProps> = (props) => {
   const defaultStyle = {
-    fontFamily: "Manrope-Light",
+    fontFamily: "Manrope",
+    fontWeight: "300",
     fontSize: 13,
     color: "#455A64",
     textDecorationLine: "underline"

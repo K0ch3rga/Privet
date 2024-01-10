@@ -1,10 +1,10 @@
-import CustomButton from "./CustomButton";
+import RegButton from "./RegButton";
 import { ButtonProps } from "../../interfaces/ButtonProps";
 
 
-const SecondaryButton: React.FC<ButtonProps> = (props: ButtonProps) => {    
+const RegSecondaryButton: React.FC<ButtonProps> = (props: ButtonProps) => {    
     return(
-    <CustomButton 
+    <RegButton 
         title={props.title}
         onPress={props.onPress}
         showArrow={props.showArrow}
@@ -13,4 +13,4 @@ const SecondaryButton: React.FC<ButtonProps> = (props: ButtonProps) => {
     )
 }
 
-export default SecondaryButton;
+export default RegSecondaryButton;

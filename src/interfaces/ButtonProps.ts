@@ -3,4 +3,6 @@ export interface ButtonProps {
   color: string;
   onPress?: ()=>void;
   showArrow?: boolean;
+  style?: any,
+  textStyle?: any
 };

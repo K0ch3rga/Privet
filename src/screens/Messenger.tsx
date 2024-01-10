@@ -153,7 +153,7 @@ const header = StyleSheet.create({
     height: 47,
   },
   nameText: {
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
     fontWeight: "400",
     fontSize: 20,
     color: grayColor,
@@ -221,7 +221,7 @@ const message = StyleSheet.create({
     backgroundColor: mainColor,
   },
   time: {
-    fontFamily: "Manrope-Medium",
+    fontFamily: "Manrope",
     fontWeight: "400",
     color: "#999999",
   },

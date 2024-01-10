@@ -1,10 +1,10 @@
 import { View, StyleSheet, Dimensions } from "react-native"
-import MainButton from "./Buttons/MainButton"
+import RegMainButton from "./Buttons/RegMainButton"
 import { mainColor } from "../defaultColors"
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
-const popupContentWidth = width - 30;
+const popupContentWidth = width - 60;
 
 export interface PopupProps {
   close?: (arg: boolean) => void,
@@ -14,16 +14,19 @@ export interface PopupProps {
 const Popup: React.FC<PopupProps> = (props) => {
   return(
     <View style={styles.popup}>
-        <View style={styles.popupWrapper}>
-          <View style={styles.popupContent}>
-            {props.children}
-          </View>
-          {!!props.close && 
-            <MainButton title="Close" color={mainColor} onPress={() => props.close(false)} />
-          }
+      <View style={styles.popupWrapper}>
+        <View style={styles.popupContent}>
+          {props.children}
         </View>
+        {!!props.close && 
+          <RegMainButton 
+            title="Close" 
+            color={mainColor} 
+            onPress={() => props.close(false)}
+        />
+        }
       </View>
-      
+    </View>
   )
 }
 
@@ -45,9 +48,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 30,
     width: popupContentWidth,
-    height: 300,
-    paddingHorizontal: 22,
-    paddingVertical: 29,
+    minHeight: 300,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
     justifyContent: "center",
     alignItems: "center",
     gap: 40,
