@@ -1,5 +1,5 @@
 import {useReducer, useState, useEffect} from "react";
-import {Image} from "react-native";
+import {Image, Text} from "react-native";
 import {useFonts} from "expo-font";
 
 // Navigation
@@ -28,7 +28,8 @@ import { fetchUserInfo } from "./src/requests/GetProfileInfo";
 import Popup from "./src/components/Popup";
 import { useAccountStore } from "./src/storage/AccountStore";
 import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
-import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
+import ToDoScreen from "./src/screens/ToDoScreen";
 
 export type TabScreens = {
   Profile: undefined;
@@ -160,9 +161,22 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-    <LocaleProvider>
-        <NavigationContainer>{isLoggedIn ? <MainApp /> : <Auth />}</NavigationContainer>
-    </LocaleProvider>
-  </SafeAreaProvider>
+      <LocaleProvider>
+          <NavigationContainer>{isLoggedIn ? <MainApp /> : <Auth />}</NavigationContainer>
+      </LocaleProvider>
+      {isLoading && 
+        <Popup>
+          <Text>Loading...</Text>
+        </Popup>
+      }
+
+      {error && 
+        <Popup close={() => setError(false)}>
+          <Text>{errorMessage}</Text>
+        </Popup>
+      }
+    </SafeAreaProvider>
+
+    
   );
 }
