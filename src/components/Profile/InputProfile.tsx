@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TextInput, StyleProp, ViewStyle, NativeSyntheticEvent, } from 'react-native';
+import { View, Text, StyleSheet, TextInput, NativeSyntheticEvent, } from 'react-native';
 import * as yup from 'yup';
 import { ItemTitleProfile } from "./ProfileSection";
-import { mainColor, whiteColor } from "../../defaultColors";
+import { whiteColor } from "../../defaultColors";
 import { getPageColor } from "../../storage/AccountStore";
 
 export type ProfileInputProps = {

@@ -6,6 +6,7 @@ type AccountState = {
   isLoggedIn: boolean,
   user_id: number,
   isBuddy: boolean,
+  isBuddyConfirmed: boolean,
   isPaid: boolean,
   isArrivalExist: boolean,
   setLoggedIn: (newValue: boolean) => void,
@@ -18,10 +19,11 @@ type AccountState = {
 export const useAccountStore = create<AccountState>((set) => ({
   isLoggedIn: true,
   user_id: 64,
-  // 58 - test49
-  // 62 - Vasya
-  // 64 - buddy
+    // 58 - test49
+    // 62 - Vasya
+    // 64 - buddy
   isBuddy: true,
+  isBuddyConfirmed: false,
   isPaid: false,
   isArrivalExist: false,
   setLoggedIn: (newValue: boolean) => {set({isLoggedIn: newValue})},

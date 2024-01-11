@@ -30,6 +30,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const handleSend = () => {
     if (userData) {
       sendChangeProfileInfoRequest(user_id, userData, setLoading, setError, setErrorMessage);
+      setIsEdit(false)
     }
     else{
       setErrorMessage("User Data is empty");
@@ -85,7 +86,10 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
               />
               <RegButton 
                 title="Отменить"
-                onPress={() => {setIsEdit(false)}}
+                onPress={() => {
+                  fetchUserInfo(user_id, setError, setErrorMessage, setLoading)
+                  setIsEdit(false)
+                }}
                 buttonStyle={{backgroundColor: "#FF6969"}}
               />
             </View>
