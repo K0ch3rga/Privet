@@ -22,7 +22,7 @@ import Messenger from "./src/screens/Messenger";
 import ChatScreen from "./src/screens/Chat";
 import RoutesProfile from "./src/routes/RoutesProfile";
 
-import {mainColor} from "./src/defaultColors";
+import {buddyColor, mainColor} from "./src/defaultColors";
 import RoutesToDo from "./src/routes/RoutesToDo";
 import { fetchUserInfo } from "./src/requests/GetProfileInfo";
 import Popup from "./src/components/Popup";
@@ -146,7 +146,7 @@ export default function App() {
   const [isLoading, setLoading] = useState(false);
   const isLoggedIn = useAccountStore(state => state.isLoggedIn)
   const user_id = useAccountStore(state => state.user_id)
-
+  
   if (!!user_id) {
     useEffect(() => {
       fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
@@ -176,7 +176,5 @@ export default function App() {
         </Popup>
       }
     </SafeAreaProvider>
-
-    
   );
 }

@@ -1,7 +1,7 @@
 import { View, StyleSheet, Pressable, Image, Text } from "react-native";
 import Select from "../Select";
-import { mainColor } from "../../defaultColors";
 import { ProfileEditProps } from "../../interfaces/ProfileEditProps";
+import { getPageColor } from "../../storage/AccountStore";
 
 
 export type lang_and_level = {
@@ -11,6 +11,8 @@ export type lang_and_level = {
 
 const languages = ["Russian", "English", "Chinese"];
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
+
+const pageColor = getPageColor();
 
 const OtherLanguagesList: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
 
@@ -164,7 +166,7 @@ export default OtherLanguagesList;
 
 const styles = StyleSheet.create({
   addIcon: {
-    backgroundColor: mainColor,
+    backgroundColor: pageColor,
     borderRadius: 10,
     paddingVertical: 8,
     justifyContent: "center",

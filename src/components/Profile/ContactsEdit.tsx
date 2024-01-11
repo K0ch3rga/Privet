@@ -1,7 +1,7 @@
 import { HeaderProfileSection, SectionProfile, InfoProfileSection } from "./ProfileSection"
 import InputProfile from "./InputProfile"
-import { IUser } from "../../classes/IUser"
-import { IContacts } from "../../classes/contacts"
+import { IStudent } from "../../classes/IStudent"
+import { IContacts } from "../../classes/IContacts"
 
 interface ContactEditProps {
   getContacts: () => IContacts, 

@@ -8,6 +8,7 @@ import { ProfileEditProps } from "../../interfaces/ProfileEditProps"
 import { languages, genders, counties, universityes } from "../../selectData"
 import { IContacts } from "../../classes/contacts"
 import OtherLanguagesList from "./OtherLanguagesList"
+import { getPageColor } from "../../storage/AccountStore"
 
 const getDateValue = (value: string | undefined) => {
   if (!value) {
@@ -32,6 +33,7 @@ const getDateValueToSend = (value: string | undefined) => {
   return date.toISOString().split('T')[0];
 }
 
+const pageColor = getPageColor();
 
 const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
   console.log(userData);
@@ -182,7 +184,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
 const styles = StyleSheet.create({
   header: {
     borderRadius: 20,
-    backgroundColor: mainColor,
+    backgroundColor: pageColor,
     paddingHorizontal: 17,
     paddingVertical: 10,
     alignItems: "center"
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profilePic: {
-    borderColor: mainColor,
+    borderColor: pageColor,
     borderWidth: 4,
     borderRadius: 30,
     width: 130,
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profilePicIcon: {
-    backgroundColor: mainColor,
+    backgroundColor: pageColor,
     padding: 10,
   },
   iconLeft: {

@@ -1,9 +1,9 @@
 import { IArrival } from "../classes/IArrival";
-import { useUserStore } from "../storage/UserStore";
+import { useStudentStore } from "../storage/StudentStore";
 import { useArrivalStore } from "../storage/ArrivalStore";
 
 export const getArrivalUserInfo = () => {
-  const user = useUserStore.getState().userData
+  const user = useStudentStore.getState().studentData
   const userInfo = user.user?.user_info
 
   const data: IArrival = {

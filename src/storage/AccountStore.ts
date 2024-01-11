@@ -1,4 +1,6 @@
+import { ColorValue } from "react-native"
 import { create } from "zustand"
+import { buddyColor, mainColor } from "../defaultColors"
 
 type AccountState = { 
   isLoggedIn: boolean,
@@ -10,18 +12,25 @@ type AccountState = {
   setUserId: (newId: number) => void,
   setBuddy: (isBuddy: boolean) => void,
   setPaid: (isPaid: boolean) => void,
-  setArrivalExist: (isArrivalExist: boolean) => void
+  setArrivalExist: (isArrivalExist: boolean) => void,
 }
 
 export const useAccountStore = create<AccountState>((set) => ({
   isLoggedIn: true,
-  user_id: 58,
-  isBuddy: false,
+  user_id: 64,
+  // 58 - test49
+  // 62 - Vasya
+  // 64 - buddy
+  isBuddy: true,
   isPaid: false,
   isArrivalExist: false,
   setLoggedIn: (newValue: boolean) => {set({isLoggedIn: newValue})},
   setUserId: (newId: number) => {set({user_id: newId})},
   setBuddy: (newValue: boolean) => {set({isBuddy: newValue})},
   setPaid: (newValue: boolean) => {set({isPaid: newValue})},
-  setArrivalExist: (newValue: boolean) => {set({isArrivalExist: newValue})}
+  setArrivalExist: (newValue: boolean) => {set({isArrivalExist: newValue})},
 }))
+
+export const getPageColor = () => {
+  return useAccountStore.getState().isBuddy ? buddyColor : mainColor
+}

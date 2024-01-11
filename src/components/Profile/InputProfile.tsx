@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, StyleProp, ViewStyle, NativeSyntheti
 import * as yup from 'yup';
 import { ItemTitleProfile } from "./ProfileSection";
 import { mainColor, whiteColor } from "../../defaultColors";
+import { getPageColor } from "../../storage/AccountStore";
 
 export type ProfileInputProps = {
   title: string
@@ -13,6 +14,8 @@ export type ProfileInputProps = {
   numberOfLines?: number
   height?: number
 }
+
+const pageColor = getPageColor();
 
 const InputProfile: React.FC<ProfileInputProps> = (props) => {
   const [wrong, setWrong] = useState(false);
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     height: 38,
     borderWidth: 2, 
     borderRadius: 10,
-    borderColor: mainColor,
+    borderColor: pageColor,
     backgroundColor: whiteColor,
     fontFamily: "Manrope",
     fontWeight: "400",

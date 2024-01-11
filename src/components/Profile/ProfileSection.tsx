@@ -1,5 +1,8 @@
 import { StyleSheet, View, Text } from "react-native";
-import { mainColor, grayColor } from "../../defaultColors";
+import { getPageColor } from "../../storage/AccountStore";
+import { grayColor } from "../../defaultColors";
+
+const pageColor = getPageColor();
 
 export const SectionProfile: React.FC<{children: any}> = ({ children }) => {
   return (
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   sectionHeader: {
-    backgroundColor: mainColor,
+    backgroundColor: pageColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     minWidth: 125,

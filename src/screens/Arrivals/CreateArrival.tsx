@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
 import MainButton from "../../components/Buttons/MainButton";
 import { mainColor, secondBlackColor, whiteColor } from "../../defaultColors";
 import { ScreenProps } from "../../interfaces/ScreenProps";
@@ -10,7 +10,7 @@ import { counties, genders } from "../../selectData";
 import Select from "../../components/Select";
 import Popup from "../../components/Popup";
 import ContactEdit from "../../components/Profile/ContactsEdit";
-import { IContacts } from "../../classes/contacts";
+import { IContacts } from "../../classes/IContacts";
 import { sendCreateArrivalRequest } from "../../requests/CreateArrivalRequest";
 import { useAccountStore } from "../../storage/AccountStore";
 import { useArrivalStore } from "../../storage/ArrivalStore";
@@ -67,7 +67,10 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
       <ScrollView>   
         <View style={styles.wrapper}>
             <View style={styles.header}>
-              <Image source={require("../../assets/arrow_return.png")} style={{ width: 12, height: 20 }} />
+              <Pressable onPress={() => navigation.goBack()}>
+                <Image source={require("../../assets/arrow_return.png")} style={{ width: 12, height: 20 }} />
+              </Pressable>
+              
               <View style={{ flex: 1 }}>
                 <ScreenHeader>Создание приезда</ScreenHeader>
               </View>
@@ -213,7 +216,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
                     <Image source={require("../../assets/delete.png")} style={{ width: 13.8, height: 17 }}/>
                   </View>
                 </View>
-                <View style={{ gap: 10 }}>
+                {/* <View style={{ gap: 10 }}>
                   <Text style={styles.h2}>Добавленные участники:</Text>
                   <View style={styles.file}>
                       <Text style={styles.p}>Zhang Hao</Text>
@@ -223,18 +226,18 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
                       <Text style={styles.p}>Sung Hanbin</Text>
                       <Image source={require("../../assets/delete.png")} style={{ width: 13.8, height: 17 }}/>
                     </View>
-                </View>
-                {/* <View style={styles.buttonsWrapper}>
+                </View> */}
+                <View style={styles.buttonsWrapper}>
                   <Pressable style={styles.button}>
                     <Text style={styles.buttonTitle}>Загрузить билеты</Text>
                   </Pressable>
-                  <Pressable 
+                  {/* <Pressable 
                     style={styles.button}
                     onPress={() => {setPopup(true)}}
                   >
                     <Text style={styles.buttonTitle}>Добавить участника</Text>
-                  </Pressable>
-                </View> */}
+                  </Pressable> */}
+                </View>
               </View>
             </View>
             <MainButton 

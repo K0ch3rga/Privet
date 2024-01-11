@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
 import {View, Text, Image, StyleSheet, FlatList, Pressable} from "react-native";
 import {grayColor, mainColor, whiteColor} from "../defaultColors";
+import { getPageColor } from "../storage/AccountStore";
+
+const pageColor = getPageColor();
 
 const Select = (props: SelectProps) => {
   const [expanded, setExpanded] = useState(false);
@@ -78,7 +81,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 18,
     // width: 312,
     height: 51,
-    borderColor: mainColor,
+    borderColor: pageColor,
     borderWidth: 3,
     borderRadius: 18,
     flexDirection: 'row',
@@ -89,7 +92,7 @@ const style = StyleSheet.create({
     height: 38,
     borderWidth: 2, 
     borderRadius: 10,
-    borderColor: mainColor,
+    borderColor: pageColor,
     backgroundColor: whiteColor,
     fontFamily: "Manrope",
     fontWeight: "400",

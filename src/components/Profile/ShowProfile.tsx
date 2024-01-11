@@ -1,8 +1,9 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native"
+import { View, Text, Image, StyleSheet, Pressable, ColorValue } from "react-native"
 import { ItemTitleProfile, SectionProfile, HeaderProfileSection, InfoProfileSection } from "./ProfileSection"
-import { whiteColor, grayColor, mainColor } from "../../defaultColors"
-import { IUser } from "../../classes/IUser"
+import { whiteColor, grayColor, mainColor, buddyColor } from "../../defaultColors"
+import { IStudent } from "../../classes/IStudent"
 import { lang_and_level } from "./OtherLanguagesList"
+import { getPageColor, useAccountStore } from "../../storage/AccountStore"
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -31,7 +32,15 @@ const getOtherLanguages = (langs: lang_and_level[] | undefined) => {
   return result
 }
 
-const ShowProfile: React.FC<{userData: IUser, navigation: any, edit: () => void}> = ({ userData, navigation, edit }) => {
+interface ShowProfileProps {
+  userData: IStudent, 
+  navigation: any, 
+  edit: () => void, 
+}
+
+const pageColor = getPageColor();
+
+const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit }) => {
   return (
     <>
       <View style={styles.header}>
@@ -113,7 +122,7 @@ const ShowProfile: React.FC<{userData: IUser, navigation: any, edit: () => void}
 const styles = StyleSheet.create({
   header: {
     borderWidth: 4,
-    borderColor: mainColor,
+    borderColor: pageColor,
     borderRadius: 30,
     padding: 15,
     flexDirection: "row",
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch"
   },
   navButton: {
-    backgroundColor: mainColor,
+    backgroundColor: pageColor,
     borderRadius: 20,
     padding: 10
   },

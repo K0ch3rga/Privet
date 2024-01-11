@@ -1,8 +1,8 @@
-import { IUser } from "../classes/IUser";
+import { IStudent } from "../classes/IStudent";
 import {BASE_URL, BASE_TOKEN} from "@env";
 
 export const sendChangeProfileInfoRequest  = async (user_id: number, 
-  profileData: IUser,
+  profileData: IStudent,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {

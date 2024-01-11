@@ -21,7 +21,7 @@ const Unpayed: React.FC = () => {
 
 const CreateArrivalRoute: React.FC = () => {
   return(
-    <Stack.Navigator initialRouteName="CreateArrival" screenOptions={{headerShown: false}}>
+    <Stack.Navigator initialRouteName="NoArrivals" screenOptions={{headerShown: false}}>
       <Stack.Screen name="NoArrivals" component={NoArrivalsScreen} />
       <Stack.Screen name="CreateArrival" component={CreateArrival} />
       <Stack.Screen name="AddStudents" component={AddStudentToArrival} />
