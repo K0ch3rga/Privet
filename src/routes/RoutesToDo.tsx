@@ -7,6 +7,7 @@ import CreateArrival from "../screens/Arrivals/CreateArrival";
 import AddStudentToArrival from "../screens/Arrivals/AddStudentToArrival";
 import ArrivalFinalScreen from "../screens/Arrivals/ArrivalFinalScreen";
 import { useAccountStore } from "../storage/AccountStore";
+import BuddyNotConfirmed from "../screens/Buddy/BuddyNotConfirmed";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +31,7 @@ const CreateArrivalRoute: React.FC = () => {
   )
 }
 
-const RoutesToDo: React.FC = () => {
+const StudentTodo: React.FC = () => {
   const isPaid = useAccountStore(state => state.isPaid)
   const isArrivalExist = useAccountStore(state => state.isArrivalExist)
   
@@ -43,6 +44,26 @@ const RoutesToDo: React.FC = () => {
   }
 
   return <ToDoScreen />
+}
+
+const BuddyTodo: React.FC = () => {
+  const isBuddyConfirmed = useAccountStore(state => state.isBuddyConfirmed)
+  
+  if (!isBuddyConfirmed) {
+    return (<BuddyNotConfirmed />)
+  }
+  
+  return <ToDoScreen />
+}
+
+const RoutesToDo: React.FC = () => {
+  const isBuddy = useAccountStore(state => state.isBuddy)
+
+  if (isBuddy) {
+    return <BuddyTodo />
+  }
+
+  return <StudentTodo />
 }
 
 export default RoutesToDo;

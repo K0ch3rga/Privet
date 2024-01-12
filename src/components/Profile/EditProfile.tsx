@@ -1,14 +1,13 @@
 import { View, Text, Image, StyleSheet } from "react-native"
 import { HeaderProfileSection, InfoProfileSection, ItemTitleProfile, SectionProfile } from "./ProfileSection"
-import { mainColor } from "../../defaultColors"
 import InputProfile from "./InputProfile"
 import Select from "../Select"
 import ContactEdit from "./ContactsEdit"
 import { ProfileEditProps } from "../../interfaces/ProfileEditProps"
 import { languages, genders, counties, universityes } from "../../selectData"
-import { IContacts } from "../../classes/contacts"
+import { IContacts } from "../../classes/IContacts"
 import OtherLanguagesList from "./OtherLanguagesList"
-import { getPageColor } from "../../storage/AccountStore"
+import { getPageColor, useAccountStore } from "../../storage/AccountStore"
 import { Screens, useLocale } from "../../locale"
 
 const getDateValue = (value: string | undefined) => {
@@ -37,6 +36,8 @@ const getDateValueToSend = (value: string | undefined) => {
 const pageColor = getPageColor();
 
 const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
+  const isBuddy = useAccountStore.getState().isBuddy
+
   console.log(userData);
   const {locale} = useLocale(Screens.Profile);
 
@@ -97,36 +98,57 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
             value={userData.user?.user_info?.full_name}
           />
           <View style={styles.gap}>
-            <ItemTitleProfile>
-              {locale.Profile.citizenship}
-            </ItemTitleProfile>
-            <Select 
-              profile={true}
-              data={counties}
-              setChosenValue={(text: string) => {
-                setUserData({
-                  ...userData,
-                  citizenship: text
-                })
-              }}
-              initialValue={userData?.citizenship}
-            />
+            {isBuddy
+            ? <>
+                <ItemTitleProfile>Город</ItemTitleProfile>
+                <InputProfile 
+                  value={userData.city}
+                  setProperty={(value: string) => {
+                    setUserData({
+                      ...userData,
+                      city: value
+                    })
+                  }}
+                />
+              </>
+              : <>
+                  <ItemTitleProfile>
+                      {locale.Profile.citizenship}
+                    </ItemTitleProfile>
+                    <Select 
+                      profile={true}
+                      data={counties}
+                      setChosenValue={(text: string) => {
+                        setUserData({
+                          ...userData,
+                          citizenship: text
+                        })
+                      }}
+                      initialValue={userData?.citizenship}
+                    />
+                </>
+            }
+            
           </View>
           <View style={styles.gap}>
-            <ItemTitleProfile>
-              {locale.Profile.sex}
-            </ItemTitleProfile>
-            <Select 
-              profile={true}
-              data={genders}
-              setChosenValue={(text: string) => {
-                setUserData({
-                  ...userData,
-                  sex: text
-                })
-              }}
-              initialValue={userData.sex}
-            />
+            {!isBuddy && 
+              <>
+                <ItemTitleProfile>
+                  {locale.Profile.sex}
+                </ItemTitleProfile>
+                <Select 
+                  profile={true}
+                  data={genders}
+                  setChosenValue={(text: string) => {
+                    setUserData({
+                      ...userData,
+                      sex: text
+                    })
+                  }}
+                  initialValue={userData.sex}
+                />
+              </>
+            }
           </View>
           <InputProfile 
             title="Дата рождения"

@@ -37,7 +37,6 @@ export const fetchUserInfo = (user_id: number, setError: any, setErrorMessage: a
         const user = json as IBuddy
         useBuddyStore.setState({buddyData: user})
         console.log("Buddy loaded: ", user);
-        
       }
       else{
         const user = json as IStudent

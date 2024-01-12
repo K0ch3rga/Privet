@@ -1,12 +1,20 @@
+//@ts-ignore
+import {BASE_URL, BUDDY_TOKEN, STUDENT_TOKEN} from "@env";
 import { IStudent } from "../classes/IStudent";
-import {BASE_URL, BASE_TOKEN} from "@env";
+import { useAccountStore } from "../storage/AccountStore";
+import { IBuddy } from "../classes/IBuddy";
 
 export const sendChangeProfileInfoRequest  = async (user_id: number, 
-  profileData: IStudent,
+  profileData: IStudent | IBuddy,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {
-  const url = `${BASE_URL}/student/profile/${user_id}/`
+  
+  const isBuddy = useAccountStore.getState().isBuddy 
+  const url = isBuddy
+    ? `${BASE_URL}/buddy/profile/${user_id}/` 
+    : `${BASE_URL}/student/profile/${user_id}/`
+  
 
   setLoading(true);
   try {
@@ -14,7 +22,7 @@ export const sendChangeProfileInfoRequest  = async (user_id: number,
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": BASE_TOKEN
+        "Authorization": isBuddy ? BUDDY_TOKEN : STUDENT_TOKEN
         },
         body: JSON.stringify(profileData),
     })
