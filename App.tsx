@@ -22,7 +22,7 @@ import Messenger from "./src/screens/Messenger";
 import ChatScreen from "./src/screens/Chat";
 import RoutesProfile from "./src/routes/RoutesProfile";
 
-import {buddyColor, mainColor} from "./src/defaultColors";
+import {buddyColor, buddyBackgroundColor, mainColor} from "./src/defaultColors";
 import RoutesToDo from "./src/routes/RoutesToDo";
 import { fetchUserInfo } from "./src/requests/GetProfileInfo";
 import Popup from "./src/components/Popup";
@@ -89,23 +89,21 @@ const MainApp = () => {
 };
 
 const TabNavigation = () => {
+  const tabColor = !useAccountStore().isBuddy? {backgroundColor: buddyBackgroundColor}: {backgroundColor: mainColor}
   return(
-    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: mainColor, height: 69}, tabBarShowLabel:false}} >
+    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: [{height: 69}, tabColor], tabBarShowLabel:false}} >
       <Tab.Screen name="ToDo"component={RoutesToDo}
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
       />
       <Tab.Screen name="Profile" component={RoutesProfile} 
         options={{tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
       />
-      <Tab.Screen name="ToDoScreen"component={ToDoScreen}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
-      />
       <Tab.Screen name="ChatScreen" component={ChatScreen}
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
       />
       <Tab.Screen
         name="Route"
-        component={ToDoScreen}
+        component={()=><></>}
         options={{
           tabBarIcon: () => (
             <Image

@@ -8,11 +8,12 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
-import {grayColor, mainColor} from "../defaultColors";
+import {buddyBackgroundColor, grayColor, mainColor} from "../defaultColors";
 import {useReducer, useState} from "react";
 import {Screens} from "../../App";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {launchImageLibrary} from "react-native-image-picker";
+import {useAccountStore} from "../storage/AccountStore";
 
 const data: MessageProps[][] = [
   [{text: "wdasd", recieved: true, date: new Date(10004), isImage: false}],
@@ -22,8 +23,8 @@ const data: MessageProps[][] = [
 
 const socket = new WebSocket("ws://127.0.0.1:8000/ws/socket-server/");
 // const socket = new WebSocket("ws://ws.kraken.com/");
-socket.addEventListener("open", event => console.log("socket_open: ", event))
-socket.addEventListener("error", event => console.log("socket_err: ", event))
+socket.addEventListener("open", (event) => console.log("socket_open: ", event));
+socket.addEventListener("error", (event) => console.log("socket_err: ", event));
 
 const GetMessages = (id: number): MessageProps[] => {
   return data[id];
@@ -115,7 +116,11 @@ const Messenger = ({navigation, route}: Props) => {
 };
 
 const Message = (props: MessageProps) => {
-  const innerStyle = props.recieved ? message.recieved : message.sent;
+  const innerStyle = props.recieved
+    ? useAccountStore().isBuddy
+      ? message.recieved
+      : message.recievedBuddy
+    : message.sent;  // Проклято
   const align = props.recieved ? message.alignStart : message.alignEnd;
   return (
     <View style={[message.wrapper, align]}>
@@ -219,6 +224,10 @@ const message = StyleSheet.create({
   recieved: {
     borderBottomLeftRadius: 5,
     backgroundColor: mainColor,
+  },
+  recievedBuddy: {
+    borderBottomLeftRadius: 5,
+    backgroundColor: buddyBackgroundColor,
   },
   time: {
     fontFamily: "Manrope",
