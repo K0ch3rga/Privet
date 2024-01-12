@@ -13,7 +13,9 @@ import {useReducer, useState} from "react";
 import {Screens} from "../../App";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {launchImageLibrary} from "react-native-image-picker";
-import {useAccountStore} from "../storage/AccountStore";
+import {getPageColor, useAccountStore} from "../storage/AccountStore";
+import {SafeAreaView, useSafeAreaInsets} from "react-native-safe-area-context";
+import {Screens as ScreensLoc, useLocale} from "../locale";
 
 const data: MessageProps[][] = [
   [{text: "wdasd", recieved: true, date: new Date(10004), isImage: false}],
@@ -59,6 +61,7 @@ type Props = NativeStackScreenProps<Screens, "Messenger">;
 const Messenger = ({navigation, route}: Props) => {
   const [message, setMessage] = useState<string>("");
   const [state, dispatch] = useReducer(reducer, GetMessages(route.params.id));
+  const {locale} = useLocale(ScreensLoc.Messenger);
   console.log(route);
 
   const SendMessage = (message: string) => {
@@ -70,6 +73,7 @@ const Messenger = ({navigation, route}: Props) => {
   };
 
   return (
+    // <SafeAreaView style={{flex: 1}}>
     <KeyboardAvoidingView style={style.container}>
       <View style={header.container}>
         <Pressable onPress={() => navigation.navigate("Tab")} style={header.return}>
@@ -102,7 +106,7 @@ const Messenger = ({navigation, route}: Props) => {
         </Pressable>
         <TextInput
           onChangeText={(t) => setMessage(t)}
-          placeholder="Напишите сообщение..."
+          placeholder={locale.Messenger.template}
           placeholderTextColor={"#515151"}
           style={style.inputField}
         />
@@ -112,15 +116,12 @@ const Messenger = ({navigation, route}: Props) => {
         <View />
       </View>
     </KeyboardAvoidingView>
+    // </SafeAreaView>
   );
 };
 
 const Message = (props: MessageProps) => {
-  const innerStyle = props.recieved
-    ? useAccountStore().isBuddy
-      ? message.recieved
-      : message.recievedBuddy
-    : message.sent;  // Проклято
+  const innerStyle = props.recieved ? message.recieved : message.sent;
   const align = props.recieved ? message.alignStart : message.alignEnd;
   return (
     <View style={[message.wrapper, align]}>
@@ -152,7 +153,7 @@ const header = StyleSheet.create({
     width: 55,
     borderWidth: 3,
     borderRadius: 10,
-    borderColor: mainColor,
+    borderColor: getPageColor(),
   },
   textContainer: {
     height: 47,
@@ -223,11 +224,11 @@ const message = StyleSheet.create({
   },
   recieved: {
     borderBottomLeftRadius: 5,
-    backgroundColor: mainColor,
+    backgroundColor: getPageColor(),
   },
   recievedBuddy: {
     borderBottomLeftRadius: 5,
-    backgroundColor: buddyBackgroundColor,
+    backgroundColor: getPageColor(),
   },
   time: {
     fontFamily: "Manrope",

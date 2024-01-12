@@ -9,6 +9,7 @@ import { languages, genders, counties, universityes } from "../../selectData"
 import { IContacts } from "../../classes/contacts"
 import OtherLanguagesList from "./OtherLanguagesList"
 import { getPageColor } from "../../storage/AccountStore"
+import { Screens, useLocale } from "../../locale"
 
 const getDateValue = (value: string | undefined) => {
   if (!value) {
@@ -37,6 +38,7 @@ const pageColor = getPageColor();
 
 const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
   console.log(userData);
+  const {locale} = useLocale(Screens.Profile);
 
   const getContacts = () => {
     if (!userData.user?.user_info?.contacts) {
@@ -63,7 +65,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.title}>Редактирование профиля</Text>
+        <Text style={styles.title}>{locale.Profile.redo}</Text>
       </View>
       <View style={styles.profilePicWrapper}>
         <View style={[styles.profilePicIcon, styles.iconLeft]}>
@@ -77,7 +79,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
         </View>
       </View>
       <SectionProfile>
-        <HeaderProfileSection>Основная информация</HeaderProfileSection>
+        <HeaderProfileSection>{locale.Profile.info}</HeaderProfileSection>
         <InfoProfileSection>
           <InputProfile 
             title="Полное имя"
@@ -96,7 +98,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
           />
           <View style={styles.gap}>
             <ItemTitleProfile>
-              Гражданство
+              {locale.Profile.citizenship}
             </ItemTitleProfile>
             <Select 
               profile={true}
@@ -112,7 +114,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
           </View>
           <View style={styles.gap}>
             <ItemTitleProfile>
-              Пол
+              {locale.Profile.sex}
             </ItemTitleProfile>
             <Select 
               profile={true}
@@ -146,11 +148,11 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
       </SectionProfile>
       <ContactEdit getContacts={getContacts} setContacts={setContacts} />
       <SectionProfile>
-        <HeaderProfileSection>Информация о студенте</HeaderProfileSection>
+        <HeaderProfileSection>{locale.Profile.studentInfo}</HeaderProfileSection>
         <InfoProfileSection>
           <View style={styles.gap}>
               <ItemTitleProfile>
-                Родной язык
+                {locale.Profile.nativeLanguage}
               </ItemTitleProfile>
               <Select 
                 profile={true}
@@ -171,7 +173,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
             </View>
             <View style={styles.gap}>
               <ItemTitleProfile>
-                Другие языки
+                {locale.Profile.otherLanguages}
               </ItemTitleProfile>
               <OtherLanguagesList userData={userData} setUserData={setUserData}/>
             </View>

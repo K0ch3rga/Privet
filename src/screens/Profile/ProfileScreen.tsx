@@ -13,6 +13,7 @@ import RegButton from "../../components/Buttons/RegButton";
 import { useAccountStore } from "../../storage/AccountStore";
 import { useStudentStore } from "../../storage/StudentStore";
 import { useBuddyStore } from "../../storage/BuddyStore";
+import { Screens, useLocale } from "../../locale";
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [error, setError] = useState(false);
@@ -22,6 +23,8 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
   const user_id = useAccountStore(state => state.user_id)
   const isBuddy = useAccountStore(state => state.isBuddy)
+
+  const {locale} = useLocale(Screens.Profile);
 
   const [pageColor, userData, setUserData] = isBuddy 
     ? [buddyColor, useBuddyStore(state => state.buddyData), useBuddyStore(state => state.setBuddyData)] as const
@@ -79,12 +82,12 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
             />
             <View style={{ alignItems: "center", gap: 10 }}>
               <RegButton 
-                title="Сохранить"
+                title={locale.Profile.save}
                 onPress={handleSend}
                 buttonStyle={{backgroundColor: pageColor}}
               />
               <RegButton 
-                title="Отменить"
+                title={locale.Profile.cancel}
                 onPress={() => {setIsEdit(false)}}
                 buttonStyle={{backgroundColor: "#FF6969"}}
               />

@@ -1,8 +1,25 @@
 {
-
-    "LanguageChoose": {
-      "name": "PRIVET",
-      "question": "What is your language?",
-      "continue": "Continue"
-    }
+  "LanguageChoose": {
+    "name": "PRIVET",
+    "question": "What is your language?",
+    "continue": "Continue"
+  },
+  "Messenger": {
+    "template": "Type the message..."
+  },
+  "Profile": {
+    "redo": "Profile editing",
+    "info": "Info",
+    "name": "Full name",
+    "citizenship": "Citizenship",
+    "sex": "Sex",
+    "birthDate": "Birth date",
+    "contacts": "Contacts",
+    "phone": "Phone number",
+    "studentInfo": "Student's info",
+    "nativeLanguage": "Native language",
+    "otherLanguages": "Other languages",
+    "save": "Save",
+    "cancel": "Cansel"
   }
+}

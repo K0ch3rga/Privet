@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "react-native";
 import {blackColor, grayColor, mainColor} from "../defaultColors";
+import { getPageColor } from "../storage/AccountStore";
 // import ProgressBar from "../components/ProgressBar";
 
 const ToDoScreen = () => {
@@ -173,7 +174,7 @@ const style = StyleSheet.create({
     backgroundColor: "#FFCECE",
   },
   doneItem: {
-    backgroundColor: "#F2C34E1C",
+    backgroundColor: getPageColor()+"1C",
   },
   mark: {
     height: 25,

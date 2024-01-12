@@ -1,8 +1,9 @@
 import {FlatList, View, Text, StyleSheet, Pressable} from "react-native";
-import {grayColor, mainColor} from "../defaultColors";
+import {grayColor} from "../defaultColors";
 import { TabScreens } from "../../App";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getPageColor } from "../storage/AccountStore";
 
 
 type Props = BottomTabScreenProps<TabScreens, 'ChatScreen'>;
@@ -74,7 +75,7 @@ const style = StyleSheet.create({
     height: 55,
     width: 55,
     borderWidth: 3,
-    borderColor: mainColor,
+    borderColor: getPageColor(),
     borderRadius: 10,
   },
   name: {

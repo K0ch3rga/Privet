@@ -1,7 +1,25 @@
 {
-    "LanguageChoose": {
-      "name": "ПРИВЕТ",
-      "question": "Какой твой язык?",
-      "continue": "Продолжить"
-    }
+  "LanguageChoose": {
+    "name": "ПРИВЕТ",
+    "question": "Какой твой язык?",
+    "continue": "Продолжить"
+  },
+  "Messenger": {
+    "template": "Напишите сообщение..."
+  },
+  "Profile": {
+    "redo": "Редактирование профиля",
+    "info": "Основная информация",
+    "name": "Полное имя",
+    "citizenship": "Гражданство",
+    "sex": "Пол",
+    "birthDate": "Дата рождения",
+    "contacts": "Контакты",
+    "phone": "Номер телефона",
+    "studentInfo": "Информация о студенте",
+    "nativeLanguage": "Родной язык",
+    "otherLanguages": "Другие языки",
+    "save": "Сохранить",
+    "cancel": "Отменить"
   }
+}

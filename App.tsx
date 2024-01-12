@@ -26,7 +26,7 @@ import {buddyColor, buddyBackgroundColor, mainColor} from "./src/defaultColors";
 import RoutesToDo from "./src/routes/RoutesToDo";
 import { fetchUserInfo } from "./src/requests/GetProfileInfo";
 import Popup from "./src/components/Popup";
-import { useAccountStore } from "./src/storage/AccountStore";
+import { getPageColor, useAccountStore } from "./src/storage/AccountStore";
 import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import ToDoScreen from "./src/screens/ToDoScreen";
@@ -89,9 +89,9 @@ const MainApp = () => {
 };
 
 const TabNavigation = () => {
-  const tabColor = !useAccountStore().isBuddy? {backgroundColor: buddyBackgroundColor}: {backgroundColor: mainColor}
+  const tabColor = getPageColor();
   return(
-    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: [{height: 69}, tabColor], tabBarShowLabel:false}} >
+    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {height: 69, backgroundColor: tabColor}, tabBarShowLabel:false}} >
       <Tab.Screen name="ToDo"component={RoutesToDo}
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
       />
@@ -129,8 +129,6 @@ const TabNavigation = () => {
   );
 };
 
-const getLogin = () => true;
-
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     Jua: require("./src/assets/fonts/Jua-Regular.ttf"),
@@ -160,7 +158,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <LocaleProvider>
+        <SafeAreaView style={{flex: 1}}>
           <NavigationContainer>{isLoggedIn ? <MainApp /> : <Auth />}</NavigationContainer>
+        </SafeAreaView>
       </LocaleProvider>
       {isLoading && 
         <Popup>

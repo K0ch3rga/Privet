@@ -1,4 +1,4 @@
-import {createContext, useContext, useReducer, useState} from "react";
+import {createContext, useContext, useReducer} from "react";
 
 import ru from "./languages/ru-lang.json";
 import en from "./languages/en-lang.json";
@@ -15,26 +15,24 @@ export const Locales = {
 
 export enum Screens {
   LanguageChoose = "LanguageChoose",
+  Messenger = "Messenger",
+  Profile = "Profile",
 }
 
-export type LocaleAction = {
-  type: "CHANGE_LOCALE";
-  payload: Languages;
-};
+type ScreensUnion = "LanguageChoose" | "Messenger" | "Profile";
+
+// export type LocaleAction = {
+//   type: "CHANGE_LOCALE";
+//   payload: Languages;
+// };
 
 export type LocaleContextType = {
   locale: typeof en;
-  dispatch: React.Dispatch<LocaleAction> | undefined;
+  dispatch: React.Dispatch<Languages> | undefined;
 };
 
-const reducer = (state: typeof en, action: LocaleAction) => {
-  switch (action.type) {
-    case "CHANGE_LOCALE": {
-      return Locales[action.payload];
-    }
-    default:
-      return state;
-  }
+const reducer = (state: typeof en, action: Languages) => {
+  return Locales[action];
 };
 
 export const LocaleContext = createContext<LocaleContextType>({
@@ -43,11 +41,13 @@ export const LocaleContext = createContext<LocaleContextType>({
 });
 
 export const LocaleProvider = ({children}: {children: any}) => {
-  const [locale, dispatch] = useReducer(reducer, Locales[Languages.EN]);
+  const [locale, dispatch] = useReducer(reducer, Locales[Languages.EN]); // ошикба, если переводы разные
 
   return <LocaleContext.Provider value={{locale, dispatch}}>{children}</LocaleContext.Provider>;
 };
 
-export const useLocale = (screen: Screens | undefined) => {
-  return useContext(LocaleContext);
+export const useLocale = (screen: Screens) => {
+  // const {locale, dispatch} = useContext(LocaleContext);
+  // return {locale: locale[screen], dispatch};
+  return useContext(LocaleContext)
 };

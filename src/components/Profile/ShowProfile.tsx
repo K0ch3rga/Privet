@@ -4,6 +4,7 @@ import { whiteColor, grayColor, mainColor, buddyColor } from "../../defaultColor
 import { IStudent } from "../../classes/IStudent"
 import { lang_and_level } from "./OtherLanguagesList"
 import { getPageColor, useAccountStore } from "../../storage/AccountStore"
+import { Screens, useLocale } from "../../locale"
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -41,6 +42,7 @@ interface ShowProfileProps {
 const pageColor = getPageColor();
 
 const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit }) => {
+  const {locale} = useLocale(Screens.Profile);
   return (
     <>
       <View style={styles.header}>
@@ -67,7 +69,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit })
       </View>
       <SectionProfile>
         <HeaderProfileSection>
-          Контакты
+          {locale.Profile.contacts}
         </HeaderProfileSection>
         <InfoProfileSection>
           <View>
@@ -75,7 +77,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit })
             <Text style={styles.itemValue}>{userData.user?.email}</Text>
           </View>
           <View>
-            <ItemTitleProfile>Телефон</ItemTitleProfile>
+            <ItemTitleProfile>{locale.Profile.phone}</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.contacts?.phone)}</Text>
           </View>
           <View>
@@ -94,23 +96,23 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit })
       </SectionProfile>
       <SectionProfile>
         <HeaderProfileSection>
-          Информация о студенте
+          {locale.Profile.studentInfo}
         </HeaderProfileSection>
         <InfoProfileSection>
           <View>
-            <ItemTitleProfile>Пол</ItemTitleProfile>
+            <ItemTitleProfile>{locale.Profile.sex}</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.sex)}</Text>
           </View>
           <View>
-            <ItemTitleProfile>Дата рождения</ItemTitleProfile>
+            <ItemTitleProfile>{locale.Profile.birthDate}</ItemTitleProfile>
             <Text style={styles.itemValue}>{getDateValue(userData.user?.user_info?.birth_date)}</Text>
           </View>
           <View>
-            <ItemTitleProfile>Родной язык</ItemTitleProfile>
+            <ItemTitleProfile>{locale.Profile.nativeLanguage}</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.native_language)}</Text>
           </View>
           <View>
-            <ItemTitleProfile>Другие языки</ItemTitleProfile>
+            <ItemTitleProfile>{locale.Profile.otherLanguages}</ItemTitleProfile>
             <Text style={styles.itemValue}>{getOtherLanguages(userData.user?.user_info?.other_languages_and_levels)}</Text>
           </View>
         </InfoProfileSection>
