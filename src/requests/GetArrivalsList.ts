@@ -1,24 +1,23 @@
-import { IArrival } from "../classes/IArrival";
 // @ts-ignore
-import {BASE_URL, STUDENT_TOKEN} from "@env";
-import { useArrivalStore } from "../storage/ArrivalStore";
+import {BASE_URL, BUDDY_TOKEN} from "@env";
+import { useArrivalListStore } from "../storage/ArrivalListStore";
+import { IArrivaList } from "../classes/IArrivalList";
 
-export const sendCreateArrivalRequest  = async (user_id: number, 
-  arrivalData: IArrival,
+export const fetchArrivalsList  = async (
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
   setErrorMessage: (value: React.SetStateAction<string>) => void,) => {
-  const url = `${BASE_URL}/student/arrival-booking/${user_id}/`
+  const url = `${BASE_URL}/buddy/arrivals/`
 
   setLoading(true);
+  
   try {
     const response = await fetch(url, {
-      method: "PUT",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": STUDENT_TOKEN
+        "Authorization": BUDDY_TOKEN
         },
-        body: JSON.stringify(arrivalData),
     })
 
     const json = await response.json();
@@ -28,7 +27,8 @@ export const sendCreateArrivalRequest  = async (user_id: number,
       setErrorMessage(JSON.stringify(json));
     }
     else{
-      useArrivalStore.setState({ isSuccess: true })
+      const list = json as IArrivaList[];
+      useArrivalListStore.setState({ arrivalList: list })
     }
     console.log("Успех:", JSON.stringify(json));
   } catch (error) {

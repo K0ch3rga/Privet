@@ -30,6 +30,7 @@ import { getPageColor, useAccountStore } from "./src/storage/AccountStore";
 import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import ToDoScreen from "./src/screens/ToDoScreen";
+import ArrivalInfoScreen from "./src/screens/Buddy/ArrivalInfoScreen";
 import AllArrivals from "./src/screens/Arrivals/AllArrivals";
 import ArrivalTodo from "./src/screens/Arrivals/ArrivalTodo";
 
@@ -153,11 +154,12 @@ export default function App() {
   const isLoggedIn = useAccountStore(state => state.isLoggedIn)
   const user_id = useAccountStore(state => state.user_id)
   
-  if (!!user_id) {
-    useEffect(() => {
+  useEffect(() => {
+    if (!!user_id) {
       fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
-    }, [])
-  }
+    }
+  }, [])
+  
   
   if (!fontsLoaded && !fontError) {
     return null;

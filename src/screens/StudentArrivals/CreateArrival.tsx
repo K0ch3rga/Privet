@@ -66,15 +66,7 @@ const CreateArrival: React.FC<ScreenProps> = ({ navigation }) => {
     <>
       <ScrollView>   
         <View style={styles.wrapper}>
-            <View style={styles.header}>
-              <Pressable onPress={() => navigation.goBack()}>
-                <Image source={require("../../assets/arrow_return.png")} style={{ width: 12, height: 20 }} />
-              </Pressable>
-              
-              <View style={{ flex: 1 }}>
-                <ScreenHeader>Создание приезда</ScreenHeader>
-              </View>
-            </View>
+            <ScreenHeader backButton={true} navigation={navigation}>Создание приезда</ScreenHeader>
             <View style={styles.main}>
               <View>
                 <SectionProfile>

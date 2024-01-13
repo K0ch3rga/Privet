@@ -4,7 +4,7 @@ import { errorColor, mainColor, secondBlackColor, successColor } from "../../def
 import MainButton from "../../components/Buttons/MainButton";
 import { useState } from "react";
 // @ts-ignore
-import {BASE_URL, BASE_TOKEN} from "@env";
+import {BASE_URL, STUDENT_TOKEN} from "@env";
 import Popup from "../../components/Popup";
 import { useAccountStore } from "../../storage/AccountStore";
 import { ScreenProps } from "../../interfaces/ScreenProps";
@@ -50,7 +50,7 @@ const AddStudentToArrival: React.FC<ScreenProps> = ({ navigation }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": BASE_TOKEN
+          "Authorization": STUDENT_TOKEN
           },
           body: JSON.stringify(data),
       })
