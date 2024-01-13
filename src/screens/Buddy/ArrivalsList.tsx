@@ -1,29 +1,18 @@
 import { View, Text, StyleSheet, FlatList, Pressable, Image, ScrollView } from "react-native";
 import { ScreenProps } from "../../interfaces/ScreenProps";
-import MainButton from "../../components/Buttons/MainButton";
 import { blackColor, buddyColor, secondaryColor, whiteColor } from "../../defaultColors";
 import { useEffect, useState } from "react";
 import { fetchArrivalsList } from "../../requests/GetArrivalsList";
 import Popup from "../../components/Popup";
-import RegMainButton from "../../components/Buttons/RegMainButton";
 import { useArrivalListStore } from "../../storage/ArrivalListStore";
-import { useAccountStore } from "../../storage/AccountStore";
-import { useArrivalStore } from "../../storage/ArrivalStore";
 import { ShowArrivalList } from "../../components/Arrivals/ShowArrivalsList";
 
 const ArrivalsList: React.FC<ScreenProps> = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const [mineActive, setMineActive] = useState(false);
+  const [mineActive, setMineActive] = useState(true);
 
-  const arrivalList = useArrivalListStore(state => state.arrivalList)
-  
-  // useEffect(() => {
-  //   fetchArrivalsList(setLoading, setError, setErrorMessage)
-  // }, [])
-
-  console.log(arrivalList);
 
   if (isLoading) {
     return (
@@ -43,7 +32,6 @@ const ArrivalsList: React.FC<ScreenProps> = ({ navigation }) => {
 
   return(
     <>
-      <ScrollView>
         <View style={styles.wrapper}>
           <View style={styles.arrivalToggle}>
             <Pressable onPress={() => {setMineActive(!mineActive)}}>
@@ -55,12 +43,8 @@ const ArrivalsList: React.FC<ScreenProps> = ({ navigation }) => {
             </Pressable>
             <Text style={styles.myArrivals}>Мои приезды</Text>
           </View>
-          <ShowArrivalList 
-            arrivalList={arrivalList} 
-            navigation={navigation}
-          />
         </View>
-      </ScrollView>
+        <ShowArrivalList mine={mineActive} navigation={navigation}/>
     </>
   )
 }
@@ -69,9 +53,7 @@ const styles = StyleSheet.create({
   wrapper: {
     padding: 30,
     backgroundColor: whiteColor,
-    flex: 1,
-    justifyContent: "flex-start",
-    gap: 20
+    paddingBottom: 20,
   },
   arrivalToggle: {
     flexDirection: "row",

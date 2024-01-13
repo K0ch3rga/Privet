@@ -1,7 +1,7 @@
 import { Text, StyleSheet, Pressable, View, Image } from "react-native";
 import { secondBlackColor } from "../defaultColors";
 
-const ScreenHeader: React.FC<{ children: any, backButton?: boolean, navigation?: any }> = ({ children, backButton, navigation }) => {
+const ScreenHeader: React.FC<{ children?: any, backButton?: boolean, navigation?: any }> = ({ children, backButton, navigation }) => {
   return(
     <View style={styles.wrapper}>
       { backButton &&

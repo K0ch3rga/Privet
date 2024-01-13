@@ -5,6 +5,7 @@ import { IStudent } from "../../classes/IStudent"
 import { lang_and_level } from "./OtherLanguagesList"
 import { getPageColor, useAccountStore } from "../../storage/AccountStore"
 import { IBuddy } from "../../classes/IBuddy"
+import MainButton from "../Buttons/MainButton"
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -34,15 +35,16 @@ const getOtherLanguages = (langs: lang_and_level[] | undefined) => {
 }
 
 interface ShowProfileProps {
+  isBuddy: boolean
   userData: IBuddy | IStudent
   navigation: any, 
-  edit: () => void, 
+  edit: () => void,
+  altEditButton?: boolean
 }
 
 const pageColor = getPageColor();
 
-const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit }) => {
-  const isBuddy = useAccountStore(state => state.isBuddy)
+const ShowProfile: React.FC<ShowProfileProps> = ({ isBuddy, userData, navigation, edit, altEditButton }) => {
   console.log(userData);
   
   return (
@@ -53,25 +55,34 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit })
         </View>
         <View style={styles.profileInfo}>
           <Text style={styles.name}>{userData.user?.user_info?.full_name}</Text>
-          {isBuddy 
-            ? <Text style={styles.otherInfo}>{userData.city}</Text>
-            : <Text style={styles.otherInfo}>{userData.citizenship}</Text>
+          {!isBuddy &&
+            <Text style={styles.otherInfo}>{userData.citizenship}</Text>
           }
-          <Text style={styles.otherInfo}>{userData.user?.university}</Text>
+          <Text style={styles.otherInfo}>{userData.sex}</Text>
         </View>
       </View>
-      <View style={styles.buttons}>
-        <View style={styles.navButton}>
-          <Pressable onPress={edit}>
-            <Image source={require('../../assets/profile/edit.png')} style={styles.icon} />
-          </Pressable>
+      { altEditButton 
+        ? 
+        <View>
+          <MainButton 
+            title="Редактировать"
+            color={buddyColor}
+          />
         </View>
-        <View style={styles.navButton}>
-          <Pressable onPress={() => {navigation.navigate("SelectLanguage")}}>
-            <Image source={require('../../assets/profile/settings.png')} style={styles.icon} />
-          </Pressable>
+        :
+        <View style={styles.buttons}>
+          <View style={styles.navButton}>
+            <Pressable onPress={edit}>
+              <Image source={require('../../assets/profile/edit.png')} style={styles.icon} />
+            </Pressable>
+          </View>
+          <View style={styles.navButton}>
+            <Pressable onPress={() => {navigation.navigate("SelectLanguage")}}>
+              <Image source={require('../../assets/profile/settings.png')} style={styles.icon} />
+            </Pressable>
+          </View>
         </View>
-      </View>
+      }
       <SectionProfile>
         <HeaderProfileSection>
           Контакты
@@ -101,23 +112,20 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit })
       </SectionProfile>
       <SectionProfile>
         <HeaderProfileSection>
-          Информация о студенте
+          Личная информация
         </HeaderProfileSection>
         <InfoProfileSection>
-        {isBuddy &&
+          {isBuddy &&
+          <>
             <View>
-              <ItemTitleProfile>Тип профиля</ItemTitleProfile>
-              <Text style={styles.itemValue}>Сопровождающий</Text>
+              <ItemTitleProfile>Универститет</ItemTitleProfile>
+              <Text style={styles.itemValue}>{getValue(userData.user?.university)}</Text>
             </View>
-          }
-          <View>
-            <ItemTitleProfile>Пол</ItemTitleProfile>
-            <Text style={styles.itemValue}>{getValue(userData.sex)}</Text>
-          </View>
-          <View>
-            <ItemTitleProfile>Дата рождения</ItemTitleProfile>
-            <Text style={styles.itemValue}>{getDateValue(userData.user?.user_info?.birth_date)}</Text>
-          </View>
+            <View>
+              <ItemTitleProfile>Город</ItemTitleProfile>
+              <Text style={styles.itemValue}>{getValue(userData.city)}</Text>
+            </View>
+          </>}
           <View>
             <ItemTitleProfile>Родной язык</ItemTitleProfile>
             <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.native_language)}</Text>
@@ -126,17 +134,82 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData, navigation, edit })
             <ItemTitleProfile>Другие языки</ItemTitleProfile>
             <Text style={styles.itemValue}>{getOtherLanguages(userData.user?.user_info?.other_languages_and_levels)}</Text>
           </View>
-          {isBuddy &&
+          <View>
+            <ItemTitleProfile>Дата рождения</ItemTitleProfile>
+            <Text style={styles.itemValue}>{getDateValue(userData.user?.user_info?.birth_date)}</Text>
+          </View>
+          {!isBuddy &&
             <View>
-              <ItemTitleProfile>Статус Buddy</ItemTitleProfile>
-              {userData.buddy_status 
-                ? <Text style={[styles.itemValue, { color: successColor }]}>Подтверждён</Text>
-                : <Text style={[styles.itemValue, { color: errorColor }]}>Неподтверждён</Text>
-              }
+              <ItemTitleProfile>Место проживания</ItemTitleProfile>
+              <Text style={styles.itemValue}>{getValue(userData.accommodation)}</Text>
             </View>
           }
         </InfoProfileSection>
       </SectionProfile>
+      {!isBuddy &&
+        <SectionProfile>
+          <HeaderProfileSection>
+            Обучение
+          </HeaderProfileSection>
+          <InfoProfileSection>
+              <View>
+                <ItemTitleProfile>Универститет</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.user?.university)}</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>Институт</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.institute)}</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>Направление</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.study_program)}</Text>
+              </View>
+          </InfoProfileSection>
+        </SectionProfile>
+      }
+        <SectionProfile>
+          <HeaderProfileSection>
+            Другое
+          </HeaderProfileSection>
+          {isBuddy 
+            ? 
+            <InfoProfileSection>
+              <View>
+                <ItemTitleProfile>Тип профиля</ItemTitleProfile>
+                <Text style={styles.itemValue}>Сопровождающий</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>Статус Buddy</ItemTitleProfile>
+                {userData.buddy_status 
+                ? <Text style={[styles.itemValue, { color: successColor }]}>Подтверждён</Text>
+                : <Text style={[styles.itemValue, { color: errorColor }]}>Неподтверждён</Text>
+              }
+              </View>
+            </InfoProfileSection>
+            : 
+            <InfoProfileSection>
+              <View>
+                <ItemTitleProfile>Дата последнего приезда</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.last_arrival_date)}</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>Дата окончания последней визы</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.last_visa_expiration)}</Text>
+              </View>
+            </InfoProfileSection>
+          }
+        </SectionProfile>
+      <SectionProfile>
+          <HeaderProfileSection>
+            Сопровождение
+          </HeaderProfileSection>
+          <InfoProfileSection>
+              <View>
+                <ItemTitleProfile>Последний сопровождающий</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.last_buddy)}</Text>
+              </View>
+          </InfoProfileSection>
+        </SectionProfile>
     </>
   )
 }

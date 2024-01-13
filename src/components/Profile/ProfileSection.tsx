@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ColorValue } from "react-native";
 import { getPageColor } from "../../storage/AccountStore";
 import { grayColor } from "../../defaultColors";
 
@@ -12,12 +12,12 @@ export const SectionProfile: React.FC<{children: any}> = ({ children }) => {
   )
 }
 
-export const HeaderProfileSection: React.FC<{children: any}> = ({ children }) => {
+export const HeaderProfileSection: React.FC<{ children: any }> = ({ children }) => {
   return (
     <View style={styles.sectionHeader}>
       <Text style={styles.sectionTitle}>
-      {children}
-    </Text>
+        {children}
+      </Text>
     </View>
   )
 }
