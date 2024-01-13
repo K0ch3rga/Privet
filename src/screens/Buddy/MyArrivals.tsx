@@ -5,14 +5,22 @@ import {TabScreens} from "../../../App";
 
 type Props = BottomTabScreenProps<TabScreens, "AllArrivals">;
 const AllArrivals = ({navigation, route}: Props) => {
-  const data: ArrivalItemProps[] = [{id: 1, error: true}, {id: 2, error: false}, {id: 33, error: false}];
-  return (
-    <FlatList
-      contentContainerStyle={style.list}
-      data={data}
-      renderItem={(a) => <ArrivalItem id={a.item.id} navigation={navigation} error={a.item.error} />}
-    />
-  );
+  const data: ArrivalItemProps[] = [
+    // {id: 1, error: true},
+    // {id: 2, error: false},
+    // {id: 33, error: false},
+  ];
+  if (data.length > 0)
+    return (
+      <FlatList
+        contentContainerStyle={style.list}
+        data={data}
+        renderItem={(a) => (
+          <ArrivalItem id={a.item.id} navigation={navigation} error={a.item.error} />
+        )}
+      />
+    );
+  else return <ArrivalsDeny />;
 };
 
 const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
@@ -20,7 +28,6 @@ const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
     props.navigation.navigate("ArrivalTodo", {id: props.id});
   };
 
-  const err = Math.random() < 0.5;
   return (
     <View style={style.item}>
       <Text style={style.header}> Приезд №{props.id} </Text>
@@ -40,11 +47,27 @@ const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
           <Image source={require("../../assets/pen.png")} style={style.buttonImg} />
         </Pressable>
       </View>
-      <View style={style.warnWrapper}>
-        <Text style={style.warning}>
-          Недостаточно информации о студентах Проверьте обязательные к заполнению поля
-        </Text>
-      </View>
+      {props.error && (
+        <View style={style.warnWrapper}>
+          <Text style={style.warning}>
+            Недостаточно информации о студентах Проверьте обязательные к заполнению поля
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const ArrivalsDeny = () => {
+  const move = () => console.log("Нужна навигация");
+  return (
+    <View style={deny.container}>
+      <Text style={deny.text}>
+        Вы еще не записались ни на один приезд. Перейдите на страницу «Приезды» для записи.
+      </Text>
+      <Pressable onPress={move} style={deny.button}>
+        <Text>Перейти к приездам</Text>
+      </Pressable>
     </View>
   );
 };
@@ -119,6 +142,38 @@ const style = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 16,
     color: "#FFBD00",
+    textAlign: "center",
+  },
+});
+
+const deny = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "stretch",
+    padding: 30,
+    gap: 20,
+  },
+  button: {
+    backgroundColor: "#6CA7FF",
+    borderRadius: 30,
+    padding: 10,
+    height: 47,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontFamily: "Manrope",
+    fontSize: 20,
+    fontWeight: "700",
+    lineHeight: 27,
+    textAlign: "center",
+  },
+  text: {
+    fontFamily: "Manrope",
+    fontSize: 16,
+    fontWeight: "500",
+    lineHeight: 22,
     textAlign: "center",
   },
 });
