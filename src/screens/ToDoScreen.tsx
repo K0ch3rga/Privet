@@ -1,15 +1,7 @@
 import {useState, useReducer, useEffect} from "react";
-import {
-  View,
-  Pressable,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TextInput,
-} from "react-native";
+import {View, Pressable, Text, StyleSheet, Image, ScrollView, TextInput} from "react-native";
 import {blackColor, grayColor, mainColor} from "../defaultColors";
-import { getPageColor } from "../storage/AccountStore";
+import {getPageColor} from "../storage/AccountStore";
 // import ProgressBar from "../components/ProgressBar";
 
 const ToDoScreen = () => {
@@ -30,56 +22,58 @@ const ToDoScreen = () => {
   ]);
 
   const toggleComplete = (id: number) => {
-    setTodos(
-      todos.map((todo) => (id === todo.id ? {...todo, done: !todo.done} : todo))
-    );
+    setTodos(todos.map((todo) => (id === todo.id ? {...todo, done: !todo.done} : todo)));
   };
 
   const undone = todos.filter((todo) => !todo.done);
   const done = todos.filter((todo) => todo.done);
 
   return (
-    <ScrollView contentContainerStyle={style.container}>
-      <View style={style.counter} > 
-        <Text >Выполнено{done.length}/{todos.length}</Text>
-        {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
-      </View>
-      {undone.length > 0 && (
-        <View>
-          <Label text="Текущее" imgPath={require("../assets/steps.png")} />
-          <View style={style.list}>
-            {undone.map((i) => (
-              <ToDoItem
-                done={i.done}
-                text={i.text}
-                key={i.id}
-                id={i.id}
-                deadline={i.deadline}
-                toggleFunc={toggleComplete}
-              />
-            ))}
-          </View>
+    <View>
+      <ScrollView contentContainerStyle={style.container}>
+        <View style={style.counter}>
+          <Text>
+            Выполнено{done.length}/{todos.length}
+          </Text>
+          {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
         </View>
-      )}
+        {undone.length > 0 && (
+          <View>
+            <Label text="Текущее" imgPath={require("../assets/steps.png")} />
+            <View style={style.list}>
+              {undone.map((i) => (
+                <ToDoItem
+                  done={i.done}
+                  text={i.text}
+                  key={i.id}
+                  id={i.id}
+                  deadline={i.deadline}
+                  toggleFunc={toggleComplete}
+                />
+              ))}
+            </View>
+          </View>
+        )}
 
-      {done.length > 0 && (
-        <View>
-          <Label text="Выполнено" imgPath={require("../assets/done.png")} />
-          <View style={style.list}>
-            {done.map((i) => (
-              <ToDoItem
-                done={i.done}
-                text={i.text}
-                key={i.id}
-                id={i.id}
-                deadline={i.deadline}
-                toggleFunc={toggleComplete}
-              />
-            ))}
+        {done.length > 0 && (
+          <View>
+            <Label text="Выполнено" imgPath={require("../assets/done.png")} />
+            <View style={style.list}>
+              {done.map((i) => (
+                <ToDoItem
+                  done={i.done}
+                  text={i.text}
+                  key={i.id}
+                  id={i.id}
+                  deadline={i.deadline}
+                  toggleFunc={toggleComplete}
+                />
+              ))}
+            </View>
           </View>
-        </View>
-      )}
-    </ScrollView>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -96,9 +90,7 @@ const Label = ({text, imgPath}: {text: string; imgPath: any}) => {
   );
 };
 
-const ToDoItem = (
-  props: ToDoItemProps & {toggleFunc: (id: number) => void}
-) => {
+const ToDoItem = (props: ToDoItemProps & {toggleFunc: (id: number) => void}) => {
   const [isOpen, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!isOpen);
@@ -109,39 +101,23 @@ const ToDoItem = (
     color = style.undoneItem;
   }
 
-  const handleToggle = () => 
-    props.toggleFunc(props.id);
+  const handleToggle = () => props.toggleFunc(props.id);
 
   return (
     <Pressable onPress={handleOpen} style={[item.container, color]}>
       <View style={item.main}>
-        {props.done && (
-          <Pressable
-            style={[style.mark, style.doneMark]}
-            onPress={handleToggle}
-          />
-        )}
-        {!props.done && (
-          <Pressable
-            style={[style.mark, style.undoneMark]}
-            onPress={handleToggle}
-          />
-        )}
+        {props.done && <Pressable style={[style.mark, style.doneMark]} onPress={handleToggle} />}
+        {!props.done && <Pressable style={[style.mark, style.undoneMark]} onPress={handleToggle} />}
         <View style={style.textWrapper}>
           <Text style={style.text}>{props.text}</Text>
           {props.deadline && (
-            <Text style={style.deadLine}>
-              {"До " + props.deadline.toLocaleDateString()}
-            </Text>
+            <Text style={style.deadLine}>{"До " + props.deadline.toLocaleDateString()}</Text>
           )}
         </View>
         <Image source={require("../assets/arrow_down.png")} />
       </View>
       {isOpen && (
-        <TextInput
-          placeholder="Комментарий к задаче"
-          style={item.inputContainer}
-        ></TextInput>
+        <TextInput placeholder="Комментарий к задаче" style={item.inputContainer}></TextInput>
       )}
     </Pressable>
   );
@@ -156,11 +132,8 @@ export type ToDoItemProps = {
 };
 
 const style = StyleSheet.create({
-  container: {
-  },
-  counter: {
-
-  },
+  container: {},
+  counter: {},
   list: {
     marginBottom: 10, // Работает вместе с margin у label
     flex: 1,
@@ -174,7 +147,7 @@ const style = StyleSheet.create({
     backgroundColor: "#FFCECE",
   },
   doneItem: {
-    backgroundColor: getPageColor()+"1C",
+    backgroundColor: getPageColor() + "1C",
   },
   mark: {
     height: 25,

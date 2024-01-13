@@ -22,7 +22,7 @@ export const useAccountStore = create<AccountState>((set) => ({
     // 58 - test49
     // 62 - Vasya
     // 64 - buddy
-  isBuddy: true,
+  isBuddy: false,
   isBuddyConfirmed: true,
   isPaid: false,
   isArrivalExist: true,
