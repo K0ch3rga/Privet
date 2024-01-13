@@ -30,6 +30,8 @@ import { getPageColor, useAccountStore } from "./src/storage/AccountStore";
 import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import ToDoScreen from "./src/screens/ToDoScreen";
+import AllArrivals from "./src/screens/Arrivals/AllArrivals";
+import ArrivalTodo from "./src/screens/Arrivals/ArrivalTodo";
 
 export type TabScreens = {
   Profile: undefined;
@@ -37,6 +39,7 @@ export type TabScreens = {
   ChatScreen: undefined;
   Route: undefined;
   Info: undefined;
+  AllArrivals: undefined
 };
 
 export type Screens = {
@@ -51,6 +54,8 @@ export type Screens = {
   Messenger: {id: number};
   ProfileInfo: undefined;
   Notifications: undefined;
+  // AllArrivals: undefined;
+  ArrivalTodo: {id: number};
 };
 
 export type ScreenProps = NativeStackScreenProps<Screens>;
@@ -84,6 +89,11 @@ const MainApp = () => {
       <Stack.Screen name="Messenger" component={Messenger} />
       <Stack.Screen name="ProfileInfo" component={ProfileScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      {/* Прибытия */}
+      <Stack.Group>
+        {/* <Stack.Screen name="AllArrivals" component={AllArrivals} /> */}
+        <Stack.Screen name="ArrivalTodo" component={ArrivalTodo} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };
@@ -102,8 +112,8 @@ const TabNavigation = () => {
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
       />
       <Tab.Screen
-        name="Route"
-        component={()=><></>}
+      name="All"
+        component={AllArrivals}
         options={{
           tabBarIcon: () => (
             <Image

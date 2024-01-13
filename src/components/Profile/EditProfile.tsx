@@ -9,6 +9,7 @@ import { IContacts } from "../../classes/IContacts"
 import OtherLanguagesList from "./OtherLanguagesList"
 import { getPageColor, useAccountStore } from "../../storage/AccountStore"
 import { Screens, useLocale } from "../../locale"
+import DateProfileInput from "./DateProfileInput"
 
 const getDateValue = (value: string | undefined) => {
   if (!value) {
@@ -150,6 +151,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
               </>
             }
           </View>
+          <DateProfileInput onChange={console.log}></DateProfileInput>
           <InputProfile 
             title="Дата рождения"
             setProperty={(text: string) => {

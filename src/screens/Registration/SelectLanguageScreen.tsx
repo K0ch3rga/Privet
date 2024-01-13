@@ -12,7 +12,7 @@ const SelectLanguageScreen: React.FC = () => {
     {text: "Russian", lang: Languages.RU},
   ];
   const {locale, dispatch} = useLocale(Screens.LanguageChoose);
-  console.log(locale)
+  console.log(locale.LanguageChoose)
   const setLang = (lang: string) => {
     dispatch?.(data.find(d=> d.text==lang)?.lang);
   };
@@ -26,7 +26,7 @@ const SelectLanguageScreen: React.FC = () => {
         <RegMainButton
           color={mainColor}
           onPress={() => console.log("Pressed")}
-          title="Continue"
+          title={locale.LanguageChoose.continue}
           showArrow={true}
         />
       </View>

@@ -14,7 +14,6 @@ import {Screens} from "../../App";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {launchImageLibrary} from "react-native-image-picker";
 import {getPageColor, useAccountStore} from "../storage/AccountStore";
-import {SafeAreaView, useSafeAreaInsets} from "react-native-safe-area-context";
 import {Screens as ScreensLoc, useLocale} from "../locale";
 
 const data: MessageProps[][] = [
