@@ -31,8 +31,8 @@ import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import ToDoScreen from "./src/screens/ToDoScreen";
 import ArrivalInfoScreen from "./src/screens/Buddy/ArrivalInfoScreen";
-import AllArrivals from "./src/screens/Arrivals/AllArrivals";
-import ArrivalTodo from "./src/screens/Arrivals/ArrivalTodo";
+import AllArrivals from "./src/screens/Buddy/AllArrivals";
+import ArrivalTodo from "./src/screens/Buddy/ArrivalTodo";
 
 export type TabScreens = {
   Profile: undefined;

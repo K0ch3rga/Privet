@@ -5,12 +5,12 @@ import {TabScreens} from "../../../App";
 
 type Props = BottomTabScreenProps<TabScreens, "AllArrivals">;
 const AllArrivals = ({navigation, route}: Props) => {
-  const data = ["a", "b"];
+  const data: ArrivalItemProps[] = [{id: 1, error: true}, {id: 2, error: false}, {id: 33, error: false}];
   return (
     <FlatList
       contentContainerStyle={style.list}
       data={data}
-      renderItem={(a) => <ArrivalItem id={a.index} navigation={navigation} />}
+      renderItem={(a) => <ArrivalItem id={a.item.id} navigation={navigation} error={a.item.error} />}
     />
   );
 };
@@ -20,9 +20,10 @@ const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
     props.navigation.navigate("ArrivalTodo", {id: props.id});
   };
 
+  const err = Math.random() < 0.5;
   return (
     <View style={style.item}>
-      <Text style={style.header}> Приезд №33 </Text>
+      <Text style={style.header}> Приезд №{props.id} </Text>
       {/* Progress bar */}
       <View style={style.info}>
         <Text>Количество студентов: 3</Text>
@@ -124,6 +125,7 @@ const style = StyleSheet.create({
 
 type ArrivalItemProps = {
   id: number;
+  error: boolean;
 };
 
 export default AllArrivals;
