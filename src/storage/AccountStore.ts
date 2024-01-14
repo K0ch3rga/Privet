@@ -15,18 +15,19 @@ type AccountState = {
   setBuddy: (isBuddy: boolean) => void,
   setPaid: (isPaid: boolean) => void,
   setArrivalExist: (isArrivalExist: boolean) => void,
-  buddyStudentId: number
+  buddyStudentId: number,
+  teamleadBuddyId: number
 }
 
 export const useAccountStore = create<AccountState>((set) => ({
   isLoggedIn: true,
-  user_id: 58,
+  user_id: 64,
     // 58 - test49
     // 62 - Vasya
     // 64 - buddy
-  isBuddy: false,
+  isBuddy: true,
   isBuddyConfirmed: true,
-  isLeader: false,
+  isLeader: true,
   isPaid: false,
   isArrivalExist: false,
   setLoggedIn: (newValue: boolean) => {set({isLoggedIn: newValue})},
@@ -34,14 +35,15 @@ export const useAccountStore = create<AccountState>((set) => ({
   setBuddy: (newValue: boolean) => {set({isBuddy: newValue})},
   setPaid: (newValue: boolean) => {set({isPaid: newValue})},
   setArrivalExist: (newValue: boolean) => {set({isArrivalExist: newValue})},
-  buddyStudentId: 0
+  buddyStudentId: 0,
+  teamleadBuddyId: 0
 }))
 
 export const getPageColor = () => {
-  if (useAccountStore.getState().isBuddy)
-    return buddyColor;
-  else if (useAccountStore.getState().isLeader)
+  if (useAccountStore.getState().isLeader)
     return teamLeadColor;
+  else if (useAccountStore.getState().isBuddy)
+    return buddyColor;
   else
     return mainColor;
 }

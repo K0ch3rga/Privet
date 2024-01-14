@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import RegMainButton from "../../components/Buttons/RegMainButton";
-import { buddyColor, grayColor, mainColor, whiteColor } from "../../defaultColors";
+import { buddyColor, errorColor, grayColor, mainColor, successColor, teamLeadColor, whiteColor } from "../../defaultColors";
 import Popup from "../../components/Popup";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 import MainButton from "../../components/Buttons/MainButton";
@@ -13,6 +13,11 @@ import ScreenHeader from "../../components/ScreenHeader";
 import InputProfile from "../../components/Profile/InputProfile";
 import { updateBuddyStudentProfile } from "../../requests/UpdateBuddyStudentProfile";
 import { getPageColor, useAccountStore } from "../../storage/AccountStore";
+import { fetchUserInfo } from "../../requests/GetProfileInfo";
+import { fetchBuddyProfile } from "../../requests/fetchBuddyProfile";
+import { IBuddy } from "../../classes/IBuddy";
+import { Screens, useLocale } from "../../locale"
+import { sendConfirmBuddyStatus } from "../../requests/ConfirmBuddyStatus";
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -44,7 +49,7 @@ const getOtherLanguages = (langs: lang_and_level[] | undefined) => {
 const HeaderProfileSection: React.FC<{ children: any }> = ({ children }) => {
   return (
     <View style={{
-      backgroundColor: mainColor,
+      backgroundColor: buddyColor,
       borderBottomLeftRadius: 10,
       borderBottomRightRadius: 10,
       minWidth: 125,
@@ -66,23 +71,23 @@ const HeaderProfileSection: React.FC<{ children: any }> = ({ children }) => {
 
 const pageColor = getPageColor()
 
-const BuddyStudentProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
+const TeamleadBuddyProfile: React.FC<ScreenProps> = ({ navigation }) => {
+  const {locale} = useLocale(Screens.Profile);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isEdit, setIsEdit] = useState(false);
-  const [userData, setUserData] = useState<IBuddyStudent>({});
-  const user_id = useAccountStore.getState().buddyStudentId;
+  const buddyId = useAccountStore(state => state.teamleadBuddyId)
+  const [userData, setUserData] = useState<IBuddy>({});
+  const [isSuccess, setSuccess] = useState(false)
 
   useEffect(() => {
-    fetchBuddyStudentProfile(user_id, setLoading, setUserData, setError, setErrorMessage);
+    fetchBuddyProfile(buddyId, setUserData, setError, setErrorMessage, setLoading);
   }, [])
 
   console.log(userData);
   
   const handleSend = () => {
-    updateBuddyStudentProfile(user_id, userData, setLoading, setError, setErrorMessage)
-    setIsEdit(false)
+    sendConfirmBuddyStatus(buddyId, setSuccess, setLoading, setError, setErrorMessage)
   }
 
   if (isLoading) {
@@ -102,6 +107,15 @@ const BuddyStudentProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
     )
   }
 
+  if (isSuccess) {
+    return (
+      <Popup>
+        <Text>Статус сопровождающего подтверждён</Text>
+        <MainButton title="Закрыть" color={teamLeadColor} onPress={() => navigation.goBack()}/>
+      </Popup>
+    )
+  }
+
   if (!userData.user?.user_info?.other_languages_and_levels) {
     setUserData({
       ...userData,
@@ -112,119 +126,6 @@ const BuddyStudentProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
           other_languages_and_levels: []
         }
       }})
-  }
-
-  if (isEdit) {
-    return (
-      <ScrollView>
-        <View style={styles.wrapper}>
-          <View style={styles.header}>
-              <View>
-                <Image source={require("../../assets/default-profile-pic.png")} style={styles.profilePic} />
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={styles.name}>{userData.user?.user_info?.full_name}</Text>
-                <Text style={styles.otherInfo}>{userData.sex}</Text>
-              </View>
-          </View>
-          <SectionProfile>
-            <HeaderProfileSection>Информация о студенте</HeaderProfileSection>
-            <InfoProfileSection>
-              <InputProfile 
-                title="Институт студента"
-                value={userData.only_view?.institute}
-                setProperty={(value: string) => {
-                  setUserData(
-                    {
-                      ...userData,
-                      only_view: {
-                        ...userData.only_view,
-                        institute: value
-                      }
-                    }
-                  )
-                }}
-              />
-              <InputProfile 
-                title="Направление обучения"
-                value={userData.only_view?.study_program}
-                setProperty={(value: string) => {
-                  setUserData(
-                    {
-                      ...userData,
-                      only_view: {
-                        ...userData.only_view,
-                        study_program: value
-                      }
-                    }
-                  )
-                }}
-              />
-              <InputProfile 
-                title="Дата окончания последней визы"
-                value={userData.only_view?.last_visa_expiration}
-                setProperty={(value: string) => {
-                  setUserData(
-                    {
-                      ...userData,
-                      only_view: {
-                        ...userData.only_view,
-                        last_visa_expiration: value
-                      }
-                    }
-                  )
-                }}
-              />
-              <InputProfile 
-                title="Место проживания"
-                value={userData.only_view?.accommodation}
-                setProperty={(value: string) => {
-                  setUserData(
-                    {
-                      ...userData,
-                      only_view: {
-                        ...userData.only_view,
-                        accommodation: value
-                      }
-                    }
-                  )
-                }}
-              />
-              <InputProfile 
-                title="Комменатрий"
-                value={userData.only_view?.buddy_comment}
-                setProperty={(value: string) => {
-                  setUserData(
-                    {
-                      ...userData,
-                      only_view: {
-                        ...userData.only_view,
-                        buddy_comment: value
-                      }
-                    }
-                  )
-                }}
-              />
-            </InfoProfileSection>
-          </SectionProfile>
-          <View style={{ alignItems: "center", gap: 10 }}>
-            <MainButton
-              title="Сохранить"
-              onPress={handleSend}
-              color={mainColor}
-            />
-            <MainButton
-              title="Отменить"
-              onPress={() => {
-                fetchBuddyStudentProfile(user_id, setLoading, setUserData, setError, setErrorMessage);
-                setIsEdit(false)
-              }}
-              color={"#FF6990"}
-            />
-          </View>
-        </View>
-      </ScrollView>
-    )
   }
 
   if (userData) {
@@ -239,14 +140,13 @@ const BuddyStudentProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
             </View>
             <View style={styles.profileInfo}>
               <Text style={styles.name}>{userData.user?.user_info?.full_name}</Text>
-              <Text style={styles.otherInfo}>{userData.sex}</Text>
             </View>
           </View>
             <View>
               <MainButton 
-                title="Редактировать"
+                title="Подтвердрить"
                 color={pageColor}
-                onPress={() => {setIsEdit(true)}}
+                onPress={handleSend}
               />
             </View>
           <SectionProfile>
@@ -282,56 +182,44 @@ const BuddyStudentProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
             </HeaderProfileSection>
             <InfoProfileSection>
               <View>
-                <ItemTitleProfile>Родной язык</ItemTitleProfile>
+                <ItemTitleProfile>Универститет</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.user?.university)}</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>Город</ItemTitleProfile>
+                <Text style={styles.itemValue}>{getValue(userData.city)}</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>{locale.Profile.nativeLanguage}</ItemTitleProfile>
                 <Text style={styles.itemValue}>{getValue(userData.user?.user_info?.native_language)}</Text>
               </View>
               <View>
-                <ItemTitleProfile>Другие языки</ItemTitleProfile>
+                <ItemTitleProfile>{locale.Profile.otherLanguages}</ItemTitleProfile>
                 <Text style={styles.itemValue}>{getOtherLanguages(userData.user?.user_info?.other_languages_and_levels)}</Text>
               </View>
               <View>
                 <ItemTitleProfile>Дата рождения</ItemTitleProfile>
                 <Text style={styles.itemValue}>{getDateValue(userData.user?.user_info?.birth_date)}</Text>
               </View>
-              <View>
-                <ItemTitleProfile>Место проживания</ItemTitleProfile>
-                <Text style={styles.itemValue}>{getValue(userData.only_view?.accommodation)}</Text>
-              </View>
-            </InfoProfileSection>
-          </SectionProfile>
-          <SectionProfile>
-            <HeaderProfileSection>
-              Обучение
-            </HeaderProfileSection>
-            <InfoProfileSection>
-                <View>
-                  <ItemTitleProfile>Универститет</ItemTitleProfile>
-                  <Text style={styles.itemValue}>{getValue(userData.user?.university)}</Text>
-                </View>
-                <View>
-                  <ItemTitleProfile>Институт</ItemTitleProfile>
-                  <Text style={styles.itemValue}>{getValue(userData.only_view?.institute)}</Text>
-                </View>
-                <View>
-                  <ItemTitleProfile>Направление</ItemTitleProfile>
-                  <Text style={styles.itemValue}>{getValue(userData.only_view?.study_program)}</Text>
-                </View>
             </InfoProfileSection>
           </SectionProfile>
           <SectionProfile>
             <HeaderProfileSection>
               Другое
             </HeaderProfileSection>
-              <InfoProfileSection>
-                <View>
-                  <ItemTitleProfile>Дата последнего приезда</ItemTitleProfile>
-                  <Text style={styles.itemValue}>{getValue(userData.only_view?.last_visa_expiration)}</Text>
-                </View>
-                <View>
-                  <ItemTitleProfile>Дата окончания последней визы</ItemTitleProfile>
-                  <Text style={styles.itemValue}>{getValue(userData.only_view?.last_visa_expiration)}</Text>
-                </View>
-              </InfoProfileSection>
+            <InfoProfileSection>
+              <View>
+                <ItemTitleProfile>Тип профиля</ItemTitleProfile>
+                <Text style={styles.itemValue}>Сопровождающий</Text>
+              </View>
+              <View>
+                <ItemTitleProfile>Статус Buddy</ItemTitleProfile>
+                {userData.buddy_status 
+                ? <Text style={[styles.itemValue, { color: successColor }]}>Подтверждён</Text>
+                : <Text style={[styles.itemValue, { color: errorColor }]}>Неподтверждён</Text>
+              }
+              </View>
+            </InfoProfileSection>
           </SectionProfile>
 
           <SectionProfile>
@@ -366,7 +254,7 @@ const styles = StyleSheet.create({
   },
   header: {
     borderWidth: 4,
-    borderColor: mainColor,
+    borderColor: buddyColor,
     borderRadius: 30,
     padding: 15,
     flexDirection: "row",
@@ -432,6 +320,12 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
   },
+  itemTitle: {
+    color: grayColor,
+    fontFamily: "Manrope",
+    fontWeight: "400",
+    fontSize: 14,
+  },
 })
 
-export default BuddyStudentProfileScreen;
+export default TeamleadBuddyProfile;

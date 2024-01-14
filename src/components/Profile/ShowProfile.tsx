@@ -44,6 +44,7 @@ interface ShowProfileProps {
 }
 
 const pageColor = getPageColor();
+console.log(pageColor)
 
 const ShowProfile: React.FC<ShowProfileProps> = ({ isBuddy, userData, navigation, edit, altEditButton }) => {
   const {locale} = useLocale(Screens.Profile);
