@@ -35,6 +35,8 @@ const getDateValueToSend = (value: string | undefined) => {
 }
 
 const pageColor = getPageColor();
+console.log(pageColor);
+
 
 const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
   const isBuddy = useAccountStore.getState().isBuddy
