@@ -2,11 +2,14 @@ import {FlatList, View, Text, StyleSheet, Pressable, Image} from "react-native";
 import {buddyColor, mainColor} from "../../defaultColors";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {TabScreens} from "../../../App";
-import { IArrival } from "../../classes/IArrival";
-import { ScreenProps } from "../../interfaces/ScreenProps";
 
-const AllTodos: React.FC<ScreenProps> = ({navigation}) => {
-  const data: IArrival[] = [{id: 1, students: [{}] }]
+type Props = BottomTabScreenProps<TabScreens, "AllArrivals">;
+const AllTodos = ({navigation, route}: Props) => {
+  const data: ArrivalItemProps[] = [
+    {id: 1, error: true},
+    {id: 2, error: false},
+    {id: 33, error: false},
+  ];
   if (data.length > 0)
     return (
       <FlatList
