@@ -1,4 +1,4 @@
-import {useReducer, useState, useEffect} from "react";
+import {useState} from "react";
 import {Image, Text} from "react-native";
 import {useFonts} from "expo-font";
 
@@ -22,15 +22,11 @@ import Messenger from "./src/screens/Messenger";
 import ChatScreen from "./src/screens/Chat";
 import RoutesProfile from "./src/routes/RoutesProfile";
 
-import {buddyColor, buddyBackgroundColor, mainColor} from "./src/defaultColors";
 import RoutesToDo from "./src/routes/RoutesToDo";
-import { fetchUserInfo } from "./src/requests/GetProfileInfo";
 import Popup from "./src/components/Popup";
 import { getPageColor, useAccountStore } from "./src/storage/AccountStore";
-import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
+import { LocaleProvider } from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
-import ToDoScreen from "./src/screens/ToDoScreen";
-import ArrivalInfoScreen from "./src/screens/Buddy/ArrivalInfoScreen";
 import AllTodos from "./src/screens/Buddy/MyArrivals";
 import ArrivalTodo from "./src/screens/Buddy/ArrivalTodo";
 import { TabBuddy } from "./src/routes/TabBuddy";
@@ -44,7 +40,7 @@ export type TabScreens = {
   ChatScreen: undefined;
   Route: undefined;
   Info: undefined;
-  AllArrivals: undefined
+  AllArrivals: undefined;
 };
 
 export type Screens = {
@@ -107,7 +103,7 @@ const TabNavigation = () => {
   const tabColor = getPageColor();
   return(
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {height: 69, backgroundColor: tabColor}, tabBarShowLabel:false}} >
-      <Tab.Screen name="ToDo"component={RoutesToDo}
+      <Tab.Screen name="ToDo" component={RoutesToDo}
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
       />
       <Tab.Screen name="Profile" component={RoutesProfile} 

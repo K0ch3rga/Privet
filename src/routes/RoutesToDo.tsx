@@ -55,8 +55,6 @@ const BuddyTodo: React.FC = () => {
   if (!isBuddyConfirmed) {
     return (<BuddyNotConfirmed />)
   }
-
-  return <BuddyTodoRoute />
 }
 
 const RoutesToDo: React.FC = () => {
