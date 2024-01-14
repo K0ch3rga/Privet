@@ -1,19 +1,16 @@
 import {BASE_URL} from "@env";
-import ArrivalDataProps from "../interfaces/ArrivalDataProps";
 import {UserDataProps} from "../interfaces/UserDataProps";
-
-type ArrivalProps = ArrivalDataProps & UserDataProps; // Или где взять user?
+import {IArrival} from "../classes/IArrival";
 
 const sendArrivalBooking = async (
-  arrivalData: ArrivalProps,
+  arrivalData: IArrival,
   setLoading: (value: React.SetStateAction<boolean>) => void,
   setError: (value: React.SetStateAction<boolean>) => void,
-  setErrorMessage: (value: React.SetStateAction<string>) => void
+  setData: (value: React.SetStateAction<string>) => void
 ) => {
   const url = `${BASE_URL}api/v1/student/arrival-booking/`;
 
   setLoading(true);
-  let response;
   fetch(url, {
     method: "POST",
     headers: {
@@ -22,19 +19,20 @@ const sendArrivalBooking = async (
     body: JSON.stringify(arrivalData),
   })
     .then((r) => {
-      if (r.ok) r.json;
-      else {
+      if (r.ok) {
+        let data = JSON.stringify(r.json());
+        console.log("Успех: ", data);
+        setData(data);
+        setLoading(false);
+      } else {
         setError(true);
-        setErrorMessage(JSON.stringify(r.json));
+        setData(JSON.stringify(r.json));
       }
     })
-    .then((r) => {
-      console.log("Успех: ", r);
-      return r;
-    })
+    .then((r) => {})
     .catch((e) => {
       setError(true);
-      setErrorMessage(e);
+      setData(e);
     });
 
   setLoading(false);

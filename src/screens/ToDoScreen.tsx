@@ -32,9 +32,10 @@ const ToDoScreen = () => {
     <View>
       <ScrollView contentContainerStyle={style.container}>
         <View style={style.counter}>
-          <Text>
-            Выполнено{done.length}/{todos.length}
+          <Text style={style.counterText}>
+            Выполнено: {done.length}/{todos.length}
           </Text>
+          <Image source={require('../assets/notifacations.png')}/>
           {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
         </View>
         {undone.length > 0 && (
@@ -133,7 +134,20 @@ export type ToDoItemProps = {
 
 const style = StyleSheet.create({
   container: {},
-  counter: {},
+  counter: {
+    padding: 25,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  counterText: {
+    fontFamily: "Manrope",
+    fontSize: 23,
+    fontWeight: '400',
+    lineHeight: 31,
+    textAlign: 'left'
+    
+  },
   list: {
     marginBottom: 10, // Работает вместе с margin у label
     flex: 1,
@@ -141,7 +155,7 @@ const style = StyleSheet.create({
   },
   // перенести
   undoneItem: {
-    backgroundColor: "#EAEBFF",
+    backgroundColor: "#FFD8693D",
   },
   deadlineItem: {
     backgroundColor: "#FFCECE",
@@ -157,7 +171,7 @@ const style = StyleSheet.create({
     borderRadius: 100,
   },
   undoneMark: {
-    backgroundColor: "#EAEBFF",
+    backfaceVisibility: 'hidden',
   },
   doneMark: {
     backgroundColor: blackColor,
@@ -165,6 +179,7 @@ const style = StyleSheet.create({
   textWrapper: {
     flex: 1,
     justifyContent: "flex-start",
+    padding: 7
   },
   text: {
     marginHorizontal: 10,
