@@ -3,9 +3,11 @@ import { ScreenProps } from "../../interfaces/ScreenProps";
 import { grayColor, mainColor, secondBlackColor, whiteColor } from "../../defaultColors";
 import MainButton from "../../components/Buttons/MainButton";
 import { useAccountStore } from "../../storage/AccountStore";
+import { useState } from "react";
 
 const ArrivalFinalScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const setArrivalExist = useAccountStore(state => state.setArrivalExist)
+  const [isProfileEdit, setProfileEdit] = useState(false);
 
   return(
     <View style={styles.wrapper}>
@@ -20,14 +22,19 @@ const ArrivalFinalScreen: React.FC<ScreenProps> = ({ navigation }) => {
         <Image source={require('../../assets/arrival-confirm.png')} style={{ width: 128, height: 128}} />
       </View>
       <View style={{ gap: 10, alignItems: "center"}}>
-        <Text style={styles.hint}>Вы сможете связаться со своим{'\n'}сопровождающим на экране «Чаты»</Text>
-        <Image source={require("../../assets/icons/messenger.png")} style={{ width: 24, height: 24 }}/>
+        <Text style={styles.hint}>
+          Также предлагаем вам заполнить 
+          {"\n"}
+          дополнительную информацию в профиле о вас.
+        </Text>
       </View>
       <View style={{ width: "100%" }}>
         <MainButton 
           title="Перейти к списку задач"
           color={mainColor}
-          onPress={() => setArrivalExist(true)}
+          onPress={() => {
+            setArrivalExist(true)
+          }}
         />
       </View>
     </View>
@@ -39,7 +46,7 @@ const styles = StyleSheet.create({
     padding: 25,
     gap: 33,
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: whiteColor
   },

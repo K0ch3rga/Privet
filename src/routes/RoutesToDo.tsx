@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import UnpayedScreen from "../screens/Payment/UnpayedScreen";
+import UnpaidScreen from "../screens/Payment/UnpaidScreen";
 import PaymentSuccess from "../screens/Payment/PaymentSuccess";
 import ToDoScreen from "../screens/ToDoScreen";
 import NoArrivalsScreen from "../screens/StudentArrivals/NoArrivalsScreen";
@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 const Unpayed: React.FC = () => {
   return(
     <Stack.Navigator initialRouteName="Unpayed" screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Unpayed" component={UnpayedScreen} />
+      <Stack.Screen name="Unpayed" component={UnpaidScreen} />
       <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
     </Stack.Navigator>
   )
@@ -68,8 +68,6 @@ const BuddyTodo: React.FC = () => {
   if (!isBuddyConfirmed) {
     return (<BuddyNotConfirmed />)
   }
-
-  return <BuddyTodoRoute />
 }
 
 const RoutesToDo: React.FC = () => {

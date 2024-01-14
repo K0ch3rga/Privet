@@ -1,6 +1,6 @@
 import { ColorValue } from "react-native"
 import { create } from "zustand"
-import { buddyColor, leaderColor, mainColor } from "../defaultColors"
+import { buddyColor, teamLeadColor, mainColor } from "../defaultColors"
 
 type AccountState = { 
   isLoggedIn: boolean,
@@ -20,7 +20,7 @@ type AccountState = {
 
 export const useAccountStore = create<AccountState>((set) => ({
   isLoggedIn: true,
-  user_id: 64,
+  user_id: 58,
     // 58 - test49
     // 62 - Vasya
     // 64 - buddy
@@ -41,7 +41,7 @@ export const getPageColor = () => {
   if (useAccountStore.getState().isBuddy)
     return buddyColor;
   else if (useAccountStore.getState().isLeader)
-    return leaderColor;
+    return teamLeadColor;
   else
     return mainColor;
 }
