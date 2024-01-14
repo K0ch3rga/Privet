@@ -2,13 +2,15 @@ import {Pressable, View, Image, Text, StyleSheet, ScrollView} from "react-native
 import {ScreenProps} from "../../interfaces/ScreenProps";
 import {useState} from "react";
 import {grayColor, mainColor} from "../../defaultColors";
+import {fetchArrivalData} from "../../requests/GetArrivalData";
+import {IArrival} from "../../classes/IArrival";
+import { useArrivalStore } from "../../storage/ArrivalStore";
+import { IStudent } from "../../classes/IStudent";
 
 const ArrivalStudents: React.FC<ScreenProps> = ({navigation}) => {
-  const students: StudentProps[] = [
-    {name: "Сон Ханбин", sex: "Мужчина"},
-    {name: "Чжань Хао", sex: "Мужчина"},
-    {name: "Пак Гонук", sex: "Мужчинаs"},
-  ];
+  const id = 1;
+  const arrival = useArrivalStore().arrivalData;
+  const students = arrival.students
   return (
     <View style={style.container}>
       <View style={style.header}>
@@ -16,25 +18,25 @@ const ArrivalStudents: React.FC<ScreenProps> = ({navigation}) => {
         <Text style={style.headerText}>Заполнение информации о студентах</Text>
       </View>
       <ScrollView contentContainerStyle={style.list}>
-        {students.map((s) => (
-          <Student name={s.name} sex={s.sex} navigation={navigation} />
+        {students?.map((s) => (
+          <Student student={s} navigation={navigation}  />
         ))}
       </ScrollView>
     </View>
   );
 };
 
-const Student = (props: StudentProps & {navigation: any}) => {
+const Student = ({navigation, student}:  {navigation: any, student: IStudent}) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
-  const handleRedo = () => props.navigation.navigate('BuddyStudentProfile')
+  const handleRedo = () => navigation.navigate("BuddyStudentProfile");
   return (
     <Pressable onPress={handleOpen} style={style.card}>
       <View style={style.info}>
         <Image source={require("../../assets/default-profile-pic.png")} style={style.image} />
         <View style={style.textWrapper}>
-          <Text style={style.name}>{props.name}</Text>
-          <Text style={style.sex}>{props.sex}</Text>
+          <Text style={style.name}>{student.user?.user_info?.full_name}</Text>
+          <Text style={style.sex}>{student.sex}</Text>
         </View>
         <View style={style.counter}>
           <Text style={style.counterText}>5/5</Text>
