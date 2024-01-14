@@ -5,16 +5,9 @@ import { Image, Text } from "react-native";
 import RoutesProfile from "./RoutesProfile";
 import ChatScreen from "../screens/Chat";
 import { mainColor, textColor } from "../defaultColors";
+import PathScreen from "../screens/PathScreen";
 
 const Tab = createBottomTabNavigator<TabScreens>();
-
-const PathScreen = () => {
-  return (
-    <>
-      <Text>Path</Text>
-    </>
-  )
-}
 
 export const TabStudent = () => {
   return(

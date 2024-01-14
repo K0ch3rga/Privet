@@ -30,7 +30,7 @@ import {Languages, Locales, LocaleContext, LocaleProvider, useLocale, Screens as
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import AllTodos from "./src/screens/Buddy/MyArrivals";
 import ArrivalTodo from "./src/screens/Buddy/ArrivalTodo";
-import Route from "./src/screens/Route";
+import Route from "./src/screens/PathScreen";
 import Info from "./src/screens/Info";
 import { TabBuddy } from "./src/routes/TabBuddy";
 import { fetchUserInfo } from "./src/requests/GetProfileInfo";

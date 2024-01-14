@@ -7,7 +7,7 @@ const ArrivalStudents: React.FC<ScreenProps> = ({navigation}) => {
   const students: StudentProps[] = [
     {name: "Сон Ханбин", sex: "Мужчина"},
     {name: "Чжань Хао", sex: "Мужчина"},
-    {name: "Пак Гонук", sex: "Мужчина"},
+    {name: "Пак Гонук", sex: "Мужчинаs"},
   ];
   return (
     <View style={style.container}>
