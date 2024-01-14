@@ -86,7 +86,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
               <MainButton
                 title={locale.Profile.save}
                 onPress={handleSend}
-                color={pageColor}
+                color={mainColor}
               />
               <MainButton
                 title={locale.Profile.cancel}

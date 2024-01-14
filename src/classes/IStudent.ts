@@ -1,8 +1,7 @@
-import { lang_and_level } from "../components/Profile/OtherLanguagesList"
-import { IContacts } from "./IContacts"
 import { IUser } from "./IUser"
 
 export interface IStudent {
+  id?: number
   citizenship?: string,
   sex?: string,
   user?: IUser,

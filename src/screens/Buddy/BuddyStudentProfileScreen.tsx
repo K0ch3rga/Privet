@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import RegMainButton from "../../components/Buttons/RegMainButton";
-import { buddyColor, errorColor, grayColor, mainColor, secondaryColor, successColor, whiteColor } from "../../defaultColors";
-import { sendChangeProfileInfoRequest } from "../../requests/ChangeProfileInfoRequest";
+import { buddyColor, grayColor, mainColor, whiteColor } from "../../defaultColors";
 import Popup from "../../components/Popup";
-import { IStudent } from "../../classes/IStudent";
-import { fetchUserInfo } from "../../requests/GetProfileInfo";
 import { ScreenProps } from "../../interfaces/ScreenProps";
-import ShowProfile from "../../components/Profile/ShowProfile";
-import EditProfile from "../../components/Profile/EditProfile";
-import RegButton from "../../components/Buttons/RegButton";
-import { useAccountStore } from "../../storage/AccountStore";
-import { useStudentStore } from "../../storage/StudentStore";
-import { useBuddyStore } from "../../storage/BuddyStore";
 import MainButton from "../../components/Buttons/MainButton";
 import { InfoProfileSection, ItemTitleProfile, SectionProfile } from "../../components/Profile/ProfileSection";
 import { lang_and_level } from "../../components/Profile/OtherLanguagesList";
 import { IBuddyStudent } from "../../classes/IBuddyStudent";
 import { fetchBuddyStudentProfile } from "../../requests/GetBuddyStudentProfile";
 import ScreenHeader from "../../components/ScreenHeader";
+import InputProfile from "../../components/Profile/InputProfile";
+import { updateBuddyStudentProfile } from "../../requests/UpdateBuddyStudentProfile";
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -76,7 +69,8 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [userData, setUserData] = useState<IBuddyStudent>({});
-  const user_id = useAccountStore.getState().buddyStudentId;
+  // const user_id = useAccountStore.getState().buddyStudentId;
+  const user_id = 58;
 
   useEffect(() => {
     fetchBuddyStudentProfile(user_id, setLoading, setUserData, setError, setErrorMessage);
@@ -85,6 +79,8 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
   console.log(userData);
   
   const handleSend = () => {
+    updateBuddyStudentProfile(user_id, userData, setLoading, setError, setErrorMessage)
+    setIsEdit(false)
   }
 
   if (isLoading) {
@@ -120,25 +116,110 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
-            <EditProfile 
-              userData={userData} 
-              setUserData={setUserData}
-            />
-            <View style={{ alignItems: "center", gap: 10 }}>
-              <MainButton
-                title="Сохранить"
-                onPress={handleSend}
-                color={pageColor}
-              />
-              <MainButton
-                title="Отменить"
-                onPress={() => {
-                  fetchUserInfo(user_id, setError, setErrorMessage, setLoading)
-                  setIsEdit(false)
+          <View style={styles.header}>
+              <View>
+                <Image source={require("../../assets/default-profile-pic.png")} style={styles.profilePic} />
+              </View>
+              <View style={styles.profileInfo}>
+                <Text style={styles.name}>{userData.user?.user_info?.full_name}</Text>
+                <Text style={styles.otherInfo}>{userData.sex}</Text>
+              </View>
+          </View>
+          <SectionProfile>
+            <HeaderProfileSection>Информация о студенте</HeaderProfileSection>
+            <InfoProfileSection>
+              <InputProfile 
+                title="Институт студента"
+                value={userData.only_view?.institute}
+                setProperty={(value: string) => {
+                  setUserData(
+                    {
+                      ...userData,
+                      only_view: {
+                        ...userData.only_view,
+                        institute: value
+                      }
+                    }
+                  )
                 }}
-                color={"#FF6990"}
               />
-            </View>
+              <InputProfile 
+                title="Направление обучения"
+                value={userData.only_view?.study_program}
+                setProperty={(value: string) => {
+                  setUserData(
+                    {
+                      ...userData,
+                      only_view: {
+                        ...userData.only_view,
+                        study_program: value
+                      }
+                    }
+                  )
+                }}
+              />
+              <InputProfile 
+                title="Дата окончания последней визы"
+                value={userData.only_view?.last_visa_expiration}
+                setProperty={(value: string) => {
+                  setUserData(
+                    {
+                      ...userData,
+                      only_view: {
+                        ...userData.only_view,
+                        last_visa_expiration: value
+                      }
+                    }
+                  )
+                }}
+              />
+              <InputProfile 
+                title="Место проживания"
+                value={userData.only_view?.accommodation}
+                setProperty={(value: string) => {
+                  setUserData(
+                    {
+                      ...userData,
+                      only_view: {
+                        ...userData.only_view,
+                        accommodation: value
+                      }
+                    }
+                  )
+                }}
+              />
+              <InputProfile 
+                title="Комменатрий"
+                value={userData.only_view?.buddy_comment}
+                setProperty={(value: string) => {
+                  setUserData(
+                    {
+                      ...userData,
+                      only_view: {
+                        ...userData.only_view,
+                        buddy_comment: value
+                      }
+                    }
+                  )
+                }}
+              />
+            </InfoProfileSection>
+          </SectionProfile>
+          <View style={{ alignItems: "center", gap: 10 }}>
+            <MainButton
+              title="Сохранить"
+              onPress={handleSend}
+              color={mainColor}
+            />
+            <MainButton
+              title="Отменить"
+              onPress={() => {
+                fetchBuddyStudentProfile(user_id, setLoading, setUserData, setError, setErrorMessage);
+                setIsEdit(false)
+              }}
+              color={"#FF6990"}
+            />
+          </View>
         </View>
       </ScrollView>
     )
@@ -163,6 +244,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
               <MainButton 
                 title="Редактировать"
                 color={buddyColor}
+                onPress={() => {setIsEdit(true)}}
               />
             </View>
           <SectionProfile>

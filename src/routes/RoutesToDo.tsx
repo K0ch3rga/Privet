@@ -34,17 +34,6 @@ const CreateArrivalRoute: React.FC = () => {
   )
 }
 
-const BuddyTodoRoute: React.FC = () => {
-  return(
-    <Stack.Navigator initialRouteName="ArrivalsList" screenOptions={{headerShown: false}}>
-      <Stack.Screen name="ArrivalsList" component={ArrivalsList} />
-      <Stack.Screen name="ArrivalScreen" component={ArrivalInfoScreen} />
-      <Stack.Screen name="StudentProfile" component={BuddyStudentProfileScreen} />
-      <Stack.Screen name="ToDos" component={ToDoScreen} />
-    </Stack.Navigator>
-  )
-}
-
 const StudentTodo: React.FC = () => {
   const isPaid = useAccountStore(state => state.isPaid)
   const isArrivalExist = useAccountStore(state => state.isArrivalExist)
@@ -66,7 +55,7 @@ const BuddyTodo: React.FC = () => {
   if (!isBuddyConfirmed) {
     return (<BuddyNotConfirmed />)
   }
-  
+
   return <BuddyTodoRoute />
 }
 

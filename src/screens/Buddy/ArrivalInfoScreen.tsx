@@ -109,7 +109,7 @@ const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
             {arrivalData.students?.map((item) => {
               return(
                 <Pressable onPress={() => {
-                  // useAccountStore.setState({ buddyStudentId: })
+                  useAccountStore.setState({ buddyStudentId: item.id })
                   navigation.navigate("StudentProfile")
                 }}>
                   <View style={students.card}>

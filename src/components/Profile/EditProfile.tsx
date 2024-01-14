@@ -84,7 +84,7 @@ const EditProfile: React.FC<ProfileEditProps> = ({ userData, setUserData }) => {
         <HeaderProfileSection>{locale.Profile.info}</HeaderProfileSection>
         <InfoProfileSection>
           <InputProfile 
-            title="Полное имя"
+            title={locale.Profile.name}
             setProperty={(text: string) => {
               setUserData({
                 ...userData,

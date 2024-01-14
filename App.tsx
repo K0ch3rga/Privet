@@ -31,12 +31,16 @@ import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import ToDoScreen from "./src/screens/ToDoScreen";
 import ArrivalInfoScreen from "./src/screens/Buddy/ArrivalInfoScreen";
-import AllArrivals from "./src/screens/Buddy/MyArrivals";
+import AllTodos from "./src/screens/Buddy/MyArrivals";
 import ArrivalTodo from "./src/screens/Buddy/ArrivalTodo";
+import { TabBuddy } from "./src/routes/TabBuddy";
 
 export type TabScreens = {
   Profile: undefined;
-  ToDo: undefined;
+  Tasks: undefined;
+  Chats: undefined;
+  Arrivals: undefined,
+  Students: undefined;
   ChatScreen: undefined;
   Route: undefined;
   Info: undefined;
@@ -113,17 +117,17 @@ const TabNavigation = () => {
         options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
       />
       <Tab.Screen
-      name="All"
-        component={AllArrivals}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              source={require("./src/assets/icons/location.png")}
-              style={{width: 32, height: 32}}
-            />
-          ),
-        }}
-      />
+        name="All"
+          component={AllTodos}
+          options={{
+            tabBarIcon: () => (
+              <Image
+                source={require("./src/assets/icons/location.png")}
+                style={{width: 32, height: 32}}
+              />
+            ),
+          }}
+        />
       <Tab.Screen
         name="Info"
         component={SelectLanguageScreen}
@@ -142,8 +146,8 @@ const TabNavigation = () => {
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
-    Jua: require("./src/assets/fonts/Jua-Regular.ttf"),
-    LilitaOne: require("./src/assets/fonts/LilitaOne-Rus.ttf"),
+    "Jua": require("./src/assets/fonts/Jua-Regular.ttf"),
+    "LilitaOne": require("./src/assets/fonts/LilitaOne-Rus.ttf"),
     "KumbhSans-Medium": require("./src/assets/fonts/KumbhSans-Medium.ttf"),
     "Manrope": require("./src/assets/fonts/Manrope.ttf"),
   });
@@ -153,27 +157,43 @@ export default function App() {
   const [isLoading, setLoading] = useState(false);
   const isLoggedIn = useAccountStore(state => state.isLoggedIn)
   const user_id = useAccountStore(state => state.user_id)
+  const isBuddy = useAccountStore(state => state.isBuddy)
+  const isTeamLead = useAccountStore(state => state.isLeader)
   
-  useEffect(() => {
-    if (!!user_id) {
-      fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
+  // useEffect(() => {
+  //   if (!!user_id) {
+  //     fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
+  //   }
+  // }, [])
+
+  const getMainApp = () => {
+    if (!isLoggedIn) {
+      return <Auth />
     }
-  }, [])
+    if (isBuddy) {
+      return <TabBuddy />
+    }
+    if (isTeamLead) {
+      return <MainApp />
+    }
+    return <MainApp />
+  }
   
   
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
-  // const isSigned = getLogin();
-
   return (
     <SafeAreaProvider>
       <LocaleProvider>
         <SafeAreaView style={{flex: 1}}>
-          <NavigationContainer>{isLoggedIn ? <MainApp /> : <Auth />}</NavigationContainer>
+          <NavigationContainer>
+            {getMainApp()}
+          </NavigationContainer>
         </SafeAreaView>
       </LocaleProvider>
+
       {isLoading && 
         <Popup>
           <Text>Loading...</Text>

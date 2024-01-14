@@ -1,6 +1,8 @@
+// @ts-ignore
 import {BASE_URL} from "@env";
 import {UserDataProps} from "../interfaces/UserDataProps";
 import {IArrival} from "../classes/IArrival";
+import { useAccountStore } from "../storage/AccountStore";
 
 const sendArrivalBooking = async (
   arrivalData: IArrival,
@@ -8,11 +10,11 @@ const sendArrivalBooking = async (
   setError: (value: React.SetStateAction<boolean>) => void,
   setData: (value: React.SetStateAction<string>) => void
 ) => {
-  const url = `${BASE_URL}api/v1/student/arrival-booking/`;
+  const url = `${BASE_URL}/student/arrival-booking/`;
 
   setLoading(true);
   fetch(url, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },

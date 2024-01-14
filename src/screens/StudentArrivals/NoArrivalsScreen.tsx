@@ -12,14 +12,15 @@ const NoArrivalsScreen: React.FC<ScreenProps> = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [response, setResponse] = useState("");
-  useEffect(() => {
-    sendArrivalBooking(
-      arrival,
-      (l) => setLoading(l),
-      (e) => setError(e),
-      (r) => setResponse(r)
-    ).catch((e)=>console.log(e));
-  });
+  
+  // useEffect(() => {
+  //   sendArrivalBooking(
+  //     arrival,
+  //     (l) => setLoading(l),
+  //     (e) => setError(e),
+  //     (r) => setResponse(r)
+  //   ).catch((e)=>console.log(e));
+  // });
 
   return (
     <View style={styles.wrapper}>

@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { whiteColor } from "../../defaultColors";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 
 const BuddyNotConfirmed: React.FC<ScreenProps> = ({ navigation }) => {
   return(
     <View style={styles.wrapper}>
+      <Image source={require('../../assets/buddy-nor-confirmed.png')} style={{ width: 128, height: 128 }} />
       <Text style={styles.text}>
-        Ваш аккаунт сопровождающего не является подтвержденным
+        Для доступа к функционалу сопровождающего попросите вашего тимлидера
         {'\n'}
-        Свяжитесь с вашим тимлидером для подтверждения
+        подтвердить ваш профиль.
       </Text>
     </View>
   )
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 30,
     backgroundColor: whiteColor,
+    gap: 20
   },
   text: {
     color: "#000",

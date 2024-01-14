@@ -4,7 +4,7 @@ import {BottomTabNavigationProp, BottomTabScreenProps} from "@react-navigation/b
 import {TabScreens} from "../../../App";
 
 type Props = BottomTabScreenProps<TabScreens, "AllArrivals">;
-const AllArrivals = ({navigation, route}: Props) => {
+const AllTodos = ({navigation, route}: Props) => {
   const data: ArrivalItemProps[] = [
     // {id: 1, error: true},
     // {id: 2, error: false},
@@ -183,4 +183,4 @@ type ArrivalItemProps = {
   error: boolean;
 };
 
-export default AllArrivals;
+export default AllTodos;
