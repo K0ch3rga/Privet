@@ -5,11 +5,11 @@ import {getPageColor} from "../../storage/AccountStore";
 import {ToDoItemProps} from "../ToDoScreen";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {Screens} from "../../../App";
+import {ScreenProps} from "../../interfaces/ScreenProps";
+
 // import ProgressBar from "../components/ProgressBar";
 
-type Props = NativeStackScreenProps<Screens, "ArrivalTodo">;
-const ArrivalTodo = ({navigation, route}: Props) => {
-  console.log(route);
+const ArrivalTodo: React.FC<ScreenProps> = ({navigation}) => {
   const storedData: ToDoItemProps[][] = [
     [
       {id: 1, done: false, text: "Встреча в аэропорту"},
@@ -43,7 +43,7 @@ const ArrivalTodo = ({navigation, route}: Props) => {
     ],
   ];
 
-  const [todos, setTodos] = useState(storedData[route.params.id])
+  const [todos, setTodos] = useState(storedData[1]);
 
   const toggleComplete = (id: number) => {
     setTodos(todos.map((todo) => (id === todo.id ? {...todo, done: !todo.done} : todo)));
@@ -63,16 +63,21 @@ const ArrivalTodo = ({navigation, route}: Props) => {
   return (
     <View style={{flex: 1}}>
       <Pressable style={style.header} onPress={goBack}>
-        <Image source={require("../../assets/arrow_return.png")} />
+        <View style={{height: 25, width: 25, justifyContent: 'center', alignItems:'center'}}>
+          <Image
+            source={require("../../assets/arrow_return.png")}
+            style={{width: 12, height: 20}}
+          />
+        </View>
         <Text style={style.headerText}>Задачи приезда №33</Text>
       </Pressable>
+      <View style={style.counter}>
+        <Text style={{fontFamily: "Manrope", textAlign: "center", fontSize: 20}}>
+          Выполнено: {done.length}/{todos.length}
+        </Text>
+        {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
+      </View>
       <ScrollView contentContainerStyle={style.container}>
-        <View style={style.counter}>
-          <Text>
-            Выполнено{done.length}/{todos.length}
-          </Text>
-          {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
-        </View>
         {undone.length > 0 && (
           <View>
             <Label text="Текущее" imgPath={require("../../assets/steps.png")} />
@@ -121,7 +126,7 @@ const Label = ({text, imgPath}: {text: string; imgPath: any}) => {
       <View style={label.container}>
         <Text style={label.text}>{text}</Text>
         <View style={label.image}>
-          <Image source={imgPath}></Image>
+          <Image source={imgPath} style={label.image}></Image>
         </View>
       </View>
     </View>
@@ -156,7 +161,7 @@ const ToDoItem = (props: TodoItemProps & TodoFunc) => {
             <Text style={style.deadLine}>{"До " + props.deadline.toLocaleDateString()}</Text>
           )}
         </View>
-        <Image source={require("../../assets/arrow_down.png")} />
+        <Image source={require("../../assets/arrow_down.png")} style={{width: 15, height: 8}} />
       </View>
       {isOpen && (
         <TextInput
@@ -185,7 +190,10 @@ type TodoFunc = {
 
 const style = StyleSheet.create({
   container: {},
-  counter: {},
+  counter: {
+    justifyContent: "center",
+    alignContent: "center",
+  },
   list: {
     marginBottom: 10, // Работает вместе с margin у label
     flex: 1,
@@ -194,18 +202,22 @@ const style = StyleSheet.create({
   header: {
     minHeight: 35,
     height: "auto",
-    marginHorizontal: 27,
+    marginHorizontal: 16,
     marginVertical: 25,
+    paddingHorizontal: 10,
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    gap: 10,
+    justifyContent: 'flex-start',
     alignItems: "center",
   },
   headerText: {
-    fontFamily: "LilitaOne",
-    fontSize: 32,
-    fontWeight: "400",
-    lineHeight: 40,
+    flex: 1,
+    fontFamily: "Manrope",
+    fontSize: 24,
+    fontWeight: "800",
+    lineHeight: 30,
+    textAlign: 'center'
   },
   // перенести
   undoneItem: {
@@ -242,6 +254,7 @@ const style = StyleSheet.create({
     fontSize: 14,
   },
   deadLine: {
+    marginHorizontal: 10,
     color: grayColor,
     fontFamily: "Manrope",
     fontWeight: "400",
@@ -254,7 +267,7 @@ const label = StyleSheet.create({
     // Помогите
     marginVertical: 10,
     height: 43,
-    flex: 1,
+
     alignItems: "center",
   },
   container: {
@@ -286,10 +299,10 @@ const item = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     paddingHorizontal: 16,
-    flex: 1,
+    // flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
-    alignItems: "stretch",
+    // alignItems: "stretch",
   },
   main: {
     flex: 1,
@@ -305,6 +318,7 @@ const item = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#455A644A",
     backgroundColor: "#fff",
+    padding: 10,
   },
 });
 

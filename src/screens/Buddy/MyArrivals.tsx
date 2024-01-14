@@ -1,31 +1,32 @@
 import {FlatList, View, Text, StyleSheet, Pressable, Image} from "react-native";
 import {buddyColor, mainColor} from "../../defaultColors";
-import {BottomTabNavigationProp, BottomTabScreenProps} from "@react-navigation/bottom-tabs";
+import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {TabScreens} from "../../../App";
+import { IArrival } from "../../classes/IArrival";
+import { ScreenProps } from "../../interfaces/ScreenProps";
 
-type Props = BottomTabScreenProps<TabScreens, "AllArrivals">;
-const AllTodos = ({navigation, route}: Props) => {
-  const data: ArrivalItemProps[] = [
-    // {id: 1, error: true},
-    // {id: 2, error: false},
-    // {id: 33, error: false},
-  ];
+const AllTodos: React.FC<ScreenProps> = ({navigation}) => {
+  const data: IArrival[] = [{id: 1, students: [{}] }]
   if (data.length > 0)
     return (
       <FlatList
         contentContainerStyle={style.list}
         data={data}
         renderItem={(a) => (
-          <ArrivalItem id={a.item.id} navigation={navigation} error={a.item.error} />
+          <ArrivalItem id={a.item.id} navigation={navigation} students={a.item.students} />
         )}
       />
     );
-  else return <ArrivalsDeny />;
+  else return <ArrivalsDeny navigation={navigation}/>;
 };
 
-const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
+const ArrivalItem = (props: IArrival & {navigation: any}) => {
+  console.log(props)
   const handleTasks = () => {
     props.navigation.navigate("ArrivalTodo", {id: props.id});
+  };
+  const handleStudents = () => {
+    props.navigation.navigate("ArrivalStudents", {id: props.id})
   };
 
   return (
@@ -33,7 +34,7 @@ const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
       <Text style={style.header}> Приезд №{props.id} </Text>
       {/* Progress bar */}
       <View style={style.info}>
-        <Text>Количество студентов: 3</Text>
+        <Text>Количество студентов: {props.students?.length}</Text>
         <Text>Дата и время: 16.01.2023, 12:00</Text>
         <Text>Место прибытия: Аэропорт Кольцово</Text>
       </View>
@@ -42,12 +43,12 @@ const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
           <Text style={style.buttonText}>Задачи</Text>
           <Image source={require("../../assets/tasks.png")} style={style.buttonImg} />
         </Pressable>
-        <Pressable style={[style.button, style.students]}>
+        <Pressable style={[style.button, style.students]} onPress={handleStudents}>
           <Text style={style.buttonText}>Студенты</Text>
           <Image source={require("../../assets/pen.png")} style={style.buttonImg} />
         </Pressable>
       </View>
-      {props.error && (
+      {(props.students == null || props.students.length == 0) && (
         <View style={style.warnWrapper}>
           <Text style={style.warning}>
             Недостаточно информации о студентах Проверьте обязательные к заполнению поля
@@ -58,13 +59,14 @@ const ArrivalItem = (props: ArrivalItemProps & {navigation: any}) => {
   );
 };
 
-const ArrivalsDeny = () => {
-  const move = () => console.log("Нужна навигация");
+const ArrivalsDeny = ({navigation}: {navigation: any}) => {
+  const move = () => navigation.navigate('Arrivals');
   return (
     <View style={deny.container}>
       <Text style={deny.text}>
         Вы еще не записались ни на один приезд. Перейдите на страницу «Приезды» для записи.
       </Text>
+      <Image source={require('../../assets/plane.png')} />
       <Pressable onPress={move} style={deny.button}>
         <Text>Перейти к приездам</Text>
       </Pressable>
@@ -76,6 +78,7 @@ const style = StyleSheet.create({
   list: {
     // flex: 1,
     gap: 20,
+    padding: 30
   },
   item: {
     borderWidth: 5,

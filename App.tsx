@@ -106,7 +106,6 @@ const MainApp = () => {
 };
 
 const TabNavigation = () => {
-  const tabColor = getPageColor();
   const locale = useLocale(ScreensLocale.Tabbar).locale.TabBar;
   return(
     <Tab.Navigator 
@@ -187,7 +186,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <LocaleProvider>
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
           <NavigationContainer>
             {getMainApp()}
           </NavigationContainer>

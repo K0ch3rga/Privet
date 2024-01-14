@@ -35,7 +35,7 @@ const ToDoScreen = () => {
           <Text style={style.counterText}>
             Выполнено: {done.length}/{todos.length}
           </Text>
-          <Image source={require('../assets/notifacations.png')}/>
+          <Image source={require("../assets/notifacations.png")} />
           {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
         </View>
         {undone.length > 0 && (
@@ -136,17 +136,16 @@ const style = StyleSheet.create({
   container: {},
   counter: {
     padding: 25,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   counterText: {
     fontFamily: "Manrope",
     fontSize: 23,
-    fontWeight: '400',
+    fontWeight: "400",
     lineHeight: 31,
-    textAlign: 'left'
-    
+    textAlign: "left",
   },
   list: {
     marginBottom: 10, // Работает вместе с margin у label
@@ -171,7 +170,7 @@ const style = StyleSheet.create({
     borderRadius: 100,
   },
   undoneMark: {
-    backfaceVisibility: 'hidden',
+    backfaceVisibility: "hidden",
   },
   doneMark: {
     backgroundColor: blackColor,
@@ -179,7 +178,7 @@ const style = StyleSheet.create({
   textWrapper: {
     flex: 1,
     justifyContent: "flex-start",
-    padding: 7
+    padding: 7,
   },
   text: {
     marginHorizontal: 10,
@@ -197,10 +196,8 @@ const style = StyleSheet.create({
 
 const label = StyleSheet.create({
   wrapper: {
-    // Помогите
     marginVertical: 10,
     height: 43,
-    flex: 1,
     alignItems: "center",
   },
   container: {

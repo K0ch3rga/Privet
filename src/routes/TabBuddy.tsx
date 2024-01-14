@@ -9,6 +9,7 @@ import AllTodos from "../screens/Buddy/MyArrivals";
 import SelectLanguageScreen from "../screens/Registration/SelectLanguageScreen";
 import { BuddyArrivalsRoute } from "./RoutesArrivals";
 import MyStudentsList from "../screens/StudentsForBuddy/MyStudentsList";
+import ArrivalTodo from "../screens/Buddy/ArrivalTodo";
 
 const Tab = createBottomTabNavigator<TabScreens>();
 
@@ -29,7 +30,7 @@ export const TabBuddy = () => {
       <Tab.Screen name="Profile" component={RoutesProfile} 
         options={{tabBarIcon:() =>(<Image source={require("../assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
       />
-      <Tab.Screen name="Tasks"component={AllTodos}
+      <Tab.Screen name="Tasks"component={RoutesToDo}
         options={{tabBarIcon:()=>(<Image source={require("../assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
       />
       

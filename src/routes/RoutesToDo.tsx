@@ -11,6 +11,9 @@ import BuddyNotConfirmed from "../screens/Buddy/BuddyNotConfirmed";
 import ArrivalsList from "../screens/Buddy/ArrivalsList";
 import ArrivalInfoScreen from "../screens/Buddy/ArrivalInfoScreen";
 import BuddyStudentProfileScreen from "../screens/Buddy/BuddyStudentProfileScreen";
+import ArrivalTodo from "../screens/Buddy/ArrivalTodo";
+import AllTodos from "../screens/Buddy/MyArrivals";
+import ArrivalStudents from "../screens/Buddy/ArrivalStudents";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +33,16 @@ const CreateArrivalRoute: React.FC = () => {
       <Stack.Screen name="CreateArrival" component={CreateArrival} />
       <Stack.Screen name="AddStudents" component={AddStudentToArrival} />
       <Stack.Screen name="ArrivalFinal" component={ArrivalFinalScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const BuddyTodoRoute: React.FC = () => {
+  return(
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="AllTodos" component={AllTodos}/>
+      <Stack.Screen name="ArrivalTodo" component={ArrivalTodo}/>
+      <Stack.Screen name="ArrivalStudents" component={ArrivalStudents}/>
     </Stack.Navigator>
   )
 }

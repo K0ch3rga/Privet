@@ -39,21 +39,23 @@ const NoArrivalsScreen: React.FC<ScreenProps> = ({navigation}) => {
 
   return (
     <View style={style.wrapper}>
-      <MainButton
-        title="Создать приезд"
-        color={mainColor}
-        onPress={() => {
-          navigation.navigate("CreateArrival");
-        }}
-      />
+      <View style={{paddingHorizontal: 24, paddingTop: 25}}>
+        <MainButton
+          title="Создать приезд"
+          color={mainColor}
+          onPress={() => {
+            navigation.navigate("CreateArrival");
+          }}
+        />
+      </View>
       <View style={style.counter}>
         <Text style={style.counterText}>Выполнено: 0/15</Text>
-        <Image source={require("../../assets/notifacations.png")} />
+        <Image source={require("../../assets/inactiveNotifications.png")} />
         {/* <ProgressBar progress={done.length} max={todos.length} width={376}  /> */}
       </View>
       <ScrollView contentContainerStyle={style.container}>
         <View>
-          <Label text="Текущее" imgPath={require("../../assets/steps.png")} />
+          <Label text="Текущее" imgPath={require("../../assets/inactiveSteps.png")} />
           <View style={style.list}>
             {todos.map((i) => (
               <InactiveToDoItem text={i.text} key={i.id} id={i.id} />
@@ -61,7 +63,7 @@ const NoArrivalsScreen: React.FC<ScreenProps> = ({navigation}) => {
           </View>
         </View>
         <View>
-          <Label text="Выполнено" imgPath={require("../../assets/done.png")} />
+          <Label text="Выполнено" imgPath={require("../../assets/inactiveDone.png")} />
           <Text
             style={{
               marginBottom: 20,
@@ -90,8 +92,8 @@ const InactiveToDoItem = (props: InactiveToDoItemProps) => {
     <Pressable onPress={handleOpen} style={[item.container, color]}>
       <View style={item.main}>
         <View style={[style.mark, style.undoneMark]} />
-        <View style={style.textWrapper}>
-          <Text style={style.text}>{props.text}</Text>
+        <View style={item.textWrapper}>
+          <Text style={item.text}>{props.text}</Text>
           {/* {props.deadline && (
             <Text style={style.deadLine}>{"До " + props.deadline.toLocaleDateString()}</Text>
           )} */}
@@ -168,11 +170,7 @@ const style = StyleSheet.create({
   doneMark: {
     backgroundColor: blackColor,
   },
-  textWrapper: {
-    flex: 1,
-    justifyContent: "flex-start",
-    padding: 7,
-  },
+
 
   deadLine: {
     color: grayColor,
@@ -186,7 +184,6 @@ const label = StyleSheet.create({
   wrapper: {
     // Помогите
     marginVertical: 10,
-    flex: 1,
     alignItems: "center",
   },
   container: {
@@ -219,13 +216,11 @@ const item = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     paddingHorizontal: 16,
-    flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "stretch",
   },
   main: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -242,7 +237,13 @@ const item = StyleSheet.create({
   undoneItem: {
     backgroundColor: "#9E9E9E3D",
   },
+  textWrapper: {
+    flex: 1,
+    padding: 7,
+    justifyContent: 'flex-start'
+  },
   text: {
+    textAlign: 'left',
     marginHorizontal: 10,
     fontFamily: "Manrope",
     fontWeight: "400",
