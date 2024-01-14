@@ -1,43 +1,199 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, ScrollView } from "react-native";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 import MainButton from "../../components/Buttons/MainButton";
-import { blackColor, buddyColor, grayColor, whiteColor } from "../../defaultColors";
+import { blackColor, buddyColor, grayColor, textColor, whiteColor } from "../../defaultColors";
 import ScreenHeader from "../../components/ScreenHeader";
-import { ItemTitleProfile } from "../../components/Profile/ProfileSection";
+import { HeaderProfileSection, InfoProfileSection, ItemTitleProfile, SectionProfile } from "../../components/Profile/ProfileSection";
+import { useEffect, useState } from "react";
+import Popup from "../../components/Popup";
+import { useArrivalStore } from "../../storage/ArrivalStore";
+import { fetchArrivalData } from "../../requests/GetArrivalData";
+import { IArrival } from "../../classes/IArrival";
+import { sendRequestArrival } from "../../requests/RequestArrival";
+import { useAccountStore } from "../../storage/AccountStore";
 
 const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
-  return(
-    <View style={styles.wrapper}>
-      <ScreenHeader backButton={true} navigation={navigation}>Приезд №33</ScreenHeader>
-      <View>
-        <Text style={arrival.title}>Информация о приезде:</Text>
-        <View style={arrival.wrapper}>
-          <View>
-            <ItemTitleProfile>Дата приезда</ItemTitleProfile>
-            <Text style={arrival.value}>24.01.2024</Text>
-          </View>
-          <View>
-            <ItemTitleProfile>Время приезда</ItemTitleProfile>
-            <Text style={arrival.value}>12:00</Text>
-          </View>
-          <View>
-            <ItemTitleProfile>Номер рейса</ItemTitleProfile>
-            <Text style={arrival.value}>AJ3954921</Text>
-          </View>
+  const [isConfirmPopup, setConfirmPopup] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+  const arrivalId = useArrivalStore.getState().currentId
+  const [arrivalData, setArrivalData] = useState<IArrival>({});
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
+  useEffect(() => {
+    fetchArrivalData(arrivalId, setArrivalData, setLoading, setError, setErrorMessage);
+  }, [])
+
+  const handleSend = () => {
+    sendRequestArrival(arrivalId, setLoading, setConfirmPopup, setError, setErrorMessage);
+  }
+  
+  console.log(arrivalData);
+  
+  if (isLoading) {
+    return(
+      <Popup>
+        <Text>Loading</Text>
+      </Popup>
+    )
+  }
+
+  if (error) {
+    return(
+      <Popup close={setError}>
+        <Text>{errorMessage}</Text>
+      </Popup>
+    )
+  }
+
+  if (isConfirmPopup) {
+    return(
+      <Popup>
+        <View style={confirmPopup.wrapper}>
+          <Text style={confirmPopup.text}>Вы успешно записались на этот приезд!{'\n'}Ожидайте подтверждения тимлидером.</Text>
+          <Image source={require("../../assets/arrival-request-confirmed.png")} style={{ width: 64, height: 64}}/>
+          <MainButton color={buddyColor} title="Вернуться к приездам" onPress={() => navigation.goBack()}/>
         </View>
+      </Popup>
+    )
+  }
+
+  return(
+    <ScrollView>
+      <View style={styles.wrapper}>
+        <ScreenHeader backButton={true} navigation={navigation}></ScreenHeader>
+        <SectionProfile>
+          <HeaderProfileSection>Приезд №{arrivalData.id}</HeaderProfileSection>
+          <InfoProfileSection>
+            <View>
+              <ItemTitleProfile>Дата приезда</ItemTitleProfile>
+              <Text style={arrival.value}>{arrivalData.arrival_date}</Text>
+            </View>
+            <View>
+              <ItemTitleProfile>Время приезда</ItemTitleProfile>
+              <Text style={arrival.value}>{arrivalData.arrival_time}</Text>
+            </View>
+            <View>
+              <ItemTitleProfile>Номер рейса</ItemTitleProfile>
+              <Text style={arrival.value}>{arrivalData.flight_number}</Text>
+            </View>
+            <View>
+              <ItemTitleProfile>Пункт прибытия</ItemTitleProfile>
+              <Text style={arrival.value}>{arrivalData.arrival_point}</Text>
+            </View>
+            <View>
+              <ItemTitleProfile>Комментарий</ItemTitleProfile>
+              <Text style={arrival.value}>{arrivalData.comment}</Text>
+            </View>
+            <View>
+              <ItemTitleProfile>Билеты</ItemTitleProfile>
+              <View style={{ gap: 14}}>
+                <Text style={[arrival.value, arrival.files]}>213317356.pdf</Text>
+                <Text style={[arrival.value, arrival.files]}>213317357.pdf</Text>
+                <Text style={[arrival.value, arrival.files]}>213317358.pdf</Text>
+                <Text style={[arrival.value, arrival.files]}>213317359.pdf</Text>
+              </View>
+            </View>
+          </InfoProfileSection>
+        </SectionProfile>
+        <View style={section.wrapper}>
+          <View style={section.header}>
+            <View style={section.left}>
+              <Text style={section.text}>Студенты</Text>
+            </View>
+            <View style={section.right}> 
+              <Text style={section.text}>{arrivalData.students?.length}</Text>
+            </View>
+          </View>
+          <View style={card.wrapper}> 
+            {arrivalData.students?.map((item) => {
+              return(
+                <Pressable onPress={() => {
+                  // useAccountStore.setState({ buddyStudentId: })
+                  navigation.navigate("StudentProfile")
+                }}>
+                  <View style={students.card}>
+                    <Image source={require("../../assets/default-profile-pic.png")} style={students.picture} />
+                    <View style={{flex: 1}}> 
+                      <Text style={styles.name}>{item.user?.user_info?.full_name}</Text>
+                    </View>
+                    <Image source={require("../../assets/profile-icon.png")} style={{ width: 24, height: 24 }} />
+                  </View>
+                </Pressable>
+              )
+            })}
+          </View>
+        </View>
+        <View style={section.wrapper}>
+          <View style={section.header}>
+            <View style={section.left}>
+              <Text style={section.text}>Сопровождающие</Text>
+            </View>
+            <View style={section.right}> 
+              <Text style={section.text}>{arrivalData.buddy_id?.length}</Text>
+            </View>
+          </View>
+          <View style={card.wrapper}> 
+            {arrivalData.buddy_full_names?.map((item) => {
+              return(
+                <View style={buddies.card}>
+                  <Image source={require("../../assets/default-profile-pic.png")} style={students.picture} />
+                  <View style={{flex: 1}}> 
+                    <Text style={styles.name}>{item}</Text>
+                  </View>
+                  <Image source={require("../../assets/profile-icon.png")} style={{ width: 24, height: 24 }} />
+                </View>
+              )
+            })}
+          </View>
+        </View>
+        { arrivalData.buddy_id &&
+          <View>
+          { arrivalData.buddy_id?.length >= 2 
+            ? <View style={button.button}><Text style={button.title}>Записаться на этот приезд</Text></View>
+            : <MainButton color={buddyColor} title="Записаться на этот приезд" onPress={handleSend} />
+          }
+          </View>
+        }
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
+const confirmPopup = StyleSheet.create({
+  wrapper: {
+    gap: 25,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  text: {
+    color: textColor,
+    textAlign: "center",
+    fontFamily: "Manrope",
+    fontWeight: "700",
+    fontSize: 16
+  }
+})
+
 const styles = StyleSheet.create({
   wrapper: {
-    paddingVertical: 24,
-    paddingHorizontal: 25,
+    paddingVertical: 25,
+    paddingHorizontal: 24,
     gap: 36,
     backgroundColor: whiteColor
-  }
+  },
+  picture: {
+    width: 48,
+    height: 48,
+    borderWidth: 2,
+    borderRadius: 100,
+  },
+  name: {
+    color: textColor,
+    fontFamily: "Manrope",
+    fontWeight: "600",
+    fontSize: 16
+  },
 })
 
 const arrival = StyleSheet.create({
@@ -48,11 +204,102 @@ const arrival = StyleSheet.create({
     backgroundColor: "#F7F7F7",
     borderRadius: 30,
   },
+  value: {
+    color: "#000",
+    fontFamily: "Manrope",
+    fontWeight: "400",
+    fontSize: 16
+  },
+  files: {
+    textDecorationLine: "underline"
+  }
+})
+
+const section = StyleSheet.create({
+  wrapper: {
+    borderRadius: 20,
+    backgroundColor: "#F7F7F7",
+    gap: 16,
+    paddingBottom: 20
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  left: {
+    backgroundColor: buddyColor,
+    borderTopLeftRadius: 30,
+    borderBottomRightRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8
+  },
+  right: {
+    backgroundColor: buddyColor,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8
+  },
+  text: {
+    color: textColor,
+    textAlign: "center",
+    fontFamily: "LilitaOne",
+    fontWeight: "400",
+    fontSize: 25
+  }
+})
+
+const card = StyleSheet.create({
+  card: {
+    padding: 16,
+    gap: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderRadius: 10,
+  },
+  wrapper: {
+    paddingHorizontal: 24,
+    gap: 20
+  }
+})
+
+const students = StyleSheet.create({
+  card: {
+    ...card.card,
+    borderColor: grayColor
+  },
+  picture: {
+    ...styles.picture,
+    borderColor: grayColor
+  }
+})
+
+const buddies = StyleSheet.create({
+  card: {
+    ...card.card,
+    borderColor: buddyColor
+  },
+  picture: {
+    ...styles.picture,
+    borderColor: buddyColor
+  }
+})
+
+const button = StyleSheet.create({
+  button: {
+    padding: 10,
+    borderRadius: 30,
+    minWidth: "100%",
+    backgroundColor: 'rgba(38, 38, 38, 0.20)'
+  },
   title: {
-    color: "#242424",
+    color: "rgba(38, 38, 38, 0.50)",
+    textAlign: "center",
     fontFamily: "Manrope",
     fontWeight: "700",
-    fontSize: 16
+    fontSize: 20
   }
 })
 

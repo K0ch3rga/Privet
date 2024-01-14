@@ -1,24 +1,14 @@
+import { IStudent } from "./IStudent"
+
 export interface IArrival {
-  citizenship?: string,
-  sex?: string,
-  user?: {
-    user_info?: {
-      full_name?: string,
-      contacts?: {
-        vk?: string,
-        phone?: string,
-        telegram?: string,
-        whatsapp?: string
-      }
-    }
-  },
-  arrival_booking?: {
-    id?: number,
-    arrival_date?: string,
-    arrival_time?: string,
-    flight_number?: string,
-    arrival_point?: string,
-    comment?: string,
-    other_students?: number[]
-  }
+  id?: number,
+  students?: IStudent[],
+  arrival_date?: string,
+  arrival_time?: string,
+  flight_number?: string,
+  arrival_point?: string,
+  comment?: string,
+  tickes?: number[],
+  buddy_full_names?: string[],
+  buddy_id?: number[]
 }

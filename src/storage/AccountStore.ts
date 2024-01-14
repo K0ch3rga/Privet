@@ -15,6 +15,7 @@ type AccountState = {
   setBuddy: (isBuddy: boolean) => void,
   setPaid: (isPaid: boolean) => void,
   setArrivalExist: (isArrivalExist: boolean) => void,
+  buddyStudentId: 0
 }
 
 export const useAccountStore = create<AccountState>((set) => ({
@@ -33,6 +34,7 @@ export const useAccountStore = create<AccountState>((set) => ({
   setBuddy: (newValue: boolean) => {set({isBuddy: newValue})},
   setPaid: (newValue: boolean) => {set({isPaid: newValue})},
   setArrivalExist: (newValue: boolean) => {set({isArrivalExist: newValue})},
+  buddyStudentId: 0
 }))
 
 export const getPageColor = () => {

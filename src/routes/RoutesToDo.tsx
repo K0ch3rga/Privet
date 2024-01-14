@@ -10,6 +10,7 @@ import { useAccountStore } from "../storage/AccountStore";
 import BuddyNotConfirmed from "../screens/Buddy/BuddyNotConfirmed";
 import ArrivalsList from "../screens/Buddy/ArrivalsList";
 import ArrivalInfoScreen from "../screens/Buddy/ArrivalInfoScreen";
+import BuddyStudentProfileScreen from "../screens/Buddy/BuddyStudentProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ const BuddyTodoRoute: React.FC = () => {
     <Stack.Navigator initialRouteName="ArrivalsList" screenOptions={{headerShown: false}}>
       <Stack.Screen name="ArrivalsList" component={ArrivalsList} />
       <Stack.Screen name="ArrivalScreen" component={ArrivalInfoScreen} />
+      <Stack.Screen name="StudentProfile" component={BuddyStudentProfileScreen} />
       <Stack.Screen name="ToDos" component={ToDoScreen} />
     </Stack.Navigator>
   )

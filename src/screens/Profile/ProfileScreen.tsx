@@ -13,6 +13,7 @@ import RegButton from "../../components/Buttons/RegButton";
 import { useAccountStore } from "../../storage/AccountStore";
 import { useStudentStore } from "../../storage/StudentStore";
 import { useBuddyStore } from "../../storage/BuddyStore";
+import MainButton from "../../components/Buttons/MainButton";
 import { Screens, useLocale } from "../../locale";
 
 const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
@@ -82,18 +83,18 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
               setUserData={setUserData}
             />
             <View style={{ alignItems: "center", gap: 10 }}>
-              <RegButton 
+              <MainButton
                 title={locale.Profile.save}
                 onPress={handleSend}
-                buttonStyle={{backgroundColor: pageColor}}
+                color={pageColor}
               />
-              <RegButton 
+              <MainButton
                 title={locale.Profile.cancel}
                 onPress={() => {
                   fetchUserInfo(user_id, setError, setErrorMessage, setLoading)
                   setIsEdit(false)
                 }}
-                buttonStyle={{backgroundColor: "#FF6969"}}
+                color={"#FF6990"}
               />
             </View>
         </View>
@@ -105,7 +106,8 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
-          <ShowProfile 
+          <ShowProfile
+            isBuddy={isBuddy}
             userData={userData} 
             navigation={navigation}
             edit={() => {setIsEdit(true)}}
