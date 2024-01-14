@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Image, Text} from "react-native";
 import {useFonts} from "expo-font";
 
@@ -30,6 +30,9 @@ import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import AllTodos from "./src/screens/Buddy/MyArrivals";
 import ArrivalTodo from "./src/screens/Buddy/ArrivalTodo";
 import { TabBuddy } from "./src/routes/TabBuddy";
+import { buddyColor, teamLeadColor } from "./src/defaultColors";
+import { fetchUserInfo } from "./src/requests/GetProfileInfo";
+import { TabStudent } from "./src/routes/TabStudent";
 
 export type TabScreens = {
   Profile: undefined;
@@ -85,7 +88,7 @@ const MainApp = () => {
   return (
     <Stack.Navigator initialRouteName="Tab" screenOptions={{headerShown: false}}>
       {/* Главная навигация, основные пять панелей */}
-      <Stack.Screen name="Tab" component={TabNavigation} />
+      <Stack.Screen name="Tab" component={TabStudent} />
       {/* Мессенджер */}
       <Stack.Screen name="Messenger" component={Messenger} />
       <Stack.Screen name="ProfileInfo" component={ProfileScreen} />
@@ -99,46 +102,7 @@ const MainApp = () => {
   );
 };
 
-const TabNavigation = () => {
-  const tabColor = getPageColor();
-  return(
-    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {height: 69, backgroundColor: tabColor}, tabBarShowLabel:false}} >
-      <Tab.Screen name="ToDo" component={RoutesToDo}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
-      />
-      <Tab.Screen name="Profile" component={RoutesProfile} 
-        options={{tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
-      />
-      <Tab.Screen name="ChatScreen" component={ChatScreen}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
-      />
-      <Tab.Screen
-        name="All"
-          component={AllTodos}
-          options={{
-            tabBarIcon: () => (
-              <Image
-                source={require("./src/assets/icons/location.png")}
-                style={{width: 32, height: 32}}
-              />
-            ),
-          }}
-        />
-      <Tab.Screen
-        name="Info"
-        component={SelectLanguageScreen}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              source={require("./src/assets/icons/info.png")}
-              style={{width: 32, height: 32}}
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
+
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -156,21 +120,21 @@ export default function App() {
   const isBuddy = useAccountStore(state => state.isBuddy)
   const isTeamLead = useAccountStore(state => state.isLeader)
   
-  // useEffect(() => {
-  //   if (!!user_id) {
-  //     fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (!!user_id) {
+      fetchUserInfo(user_id, setError, setErrorMessage, setLoading);
+    }
+  }, [])
 
   const getMainApp = () => {
     if (!isLoggedIn) {
       return <Auth />
     }
-    if (isBuddy) {
-      return <TabBuddy />
+    if (isTeamLead) {     
+      return <TabBuddy color={teamLeadColor} />
     }
-    if (isTeamLead) {
-      return <MainApp />
+    if (isBuddy) {
+      return <TabBuddy color={buddyColor}/>
     }
     return <MainApp />
   }

@@ -6,9 +6,9 @@ import {TabScreens} from "../../../App";
 type Props = BottomTabScreenProps<TabScreens, "AllArrivals">;
 const AllTodos = ({navigation, route}: Props) => {
   const data: ArrivalItemProps[] = [
-    // {id: 1, error: true},
-    // {id: 2, error: false},
-    // {id: 33, error: false},
+    {id: 1, error: true},
+    {id: 2, error: false},
+    {id: 33, error: false},
   ];
   if (data.length > 0)
     return (
