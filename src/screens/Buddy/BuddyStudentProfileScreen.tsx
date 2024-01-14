@@ -12,6 +12,7 @@ import { fetchBuddyStudentProfile } from "../../requests/GetBuddyStudentProfile"
 import ScreenHeader from "../../components/ScreenHeader";
 import InputProfile from "../../components/Profile/InputProfile";
 import { updateBuddyStudentProfile } from "../../requests/UpdateBuddyStudentProfile";
+import { getPageColor } from "../../storage/AccountStore";
 
 const getValue = (value: string | undefined) => {
   return value ? value : "—"
@@ -243,7 +244,7 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
             <View>
               <MainButton 
                 title="Редактировать"
-                color={buddyColor}
+                color={getPageColor()}
                 onPress={() => {setIsEdit(true)}}
               />
             </View>

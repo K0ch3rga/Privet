@@ -17,16 +17,17 @@ const ArrivalStudents: React.FC<ScreenProps> = ({navigation}) => {
       </View>
       <ScrollView contentContainerStyle={style.list}>
         {students.map((s) => (
-          <Student name={s.name} sex={s.sex} />
+          <Student name={s.name} sex={s.sex} navigation={navigation} />
         ))}
       </ScrollView>
     </View>
   );
 };
 
-const Student = (props: StudentProps) => {
+const Student = (props: StudentProps & {navigation: any}) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+  const handleRedo = () => props.navigation.navigate('BuddyStudentProfile')
   return (
     <Pressable onPress={handleOpen} style={style.card}>
       <View style={style.info}>
@@ -38,7 +39,9 @@ const Student = (props: StudentProps) => {
         <View style={style.counter}>
           <Text style={style.counterText}>5/5</Text>
         </View>
-        <Image source={require("../../assets/pen.png")} style={{width: 18, height: 18}} />
+        <Pressable onPress={handleRedo}>
+          <Image source={require("../../assets/pen.png")} style={{width: 18, height: 18}} />
+        </Pressable>
       </View>
       {open && <View style={style.line} />}
       {open && (

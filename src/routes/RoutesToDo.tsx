@@ -43,6 +43,7 @@ const BuddyTodoRoute: React.FC = () => {
       <Stack.Screen name="AllTodos" component={AllTodos}/>
       <Stack.Screen name="ArrivalTodo" component={ArrivalTodo}/>
       <Stack.Screen name="ArrivalStudents" component={ArrivalStudents}/>
+      <Stack.Screen name="BuddyStudentProfile" component={BuddyStudentProfileScreen}/>
     </Stack.Navigator>
   )
 }
@@ -73,8 +74,9 @@ const BuddyTodo: React.FC = () => {
 
 const RoutesToDo: React.FC = () => {
   const isBuddy = useAccountStore(state => state.isBuddy)
+  const isLeader = useAccountStore(state => state.isLeader)
 
-  if (isBuddy) {
+  if (isBuddy || isLeader) {
     return <BuddyTodo />
   }
 

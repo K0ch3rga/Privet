@@ -2,6 +2,7 @@ import {FlatList, View, Text, StyleSheet, Pressable, Image} from "react-native";
 import {buddyColor, mainColor} from "../../defaultColors";
 import { IArrival } from "../../classes/IArrival";
 import { ScreenProps } from "../../interfaces/ScreenProps";
+import { getPageColor } from "../../storage/AccountStore";
 
 const AllTodos: React.FC<ScreenProps> = ({navigation}) => {
   const data: IArrival[] = [{id: 1, students: [{}] }]
@@ -81,7 +82,7 @@ const style = StyleSheet.create({
   item: {
     borderWidth: 5,
     borderRadius: 30,
-    borderColor: buddyColor,
+    borderColor: getPageColor(),
     padding: 24,
     flex: 1,
     gap: 16,
@@ -111,7 +112,7 @@ const style = StyleSheet.create({
   },
   tasks: {
     flex: 0.4,
-    backgroundColor: buddyColor,
+    backgroundColor: getPageColor(),
   },
   students: {
     flex: 0.5,
