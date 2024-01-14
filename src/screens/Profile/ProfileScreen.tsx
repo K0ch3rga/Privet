@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import RegMainButton from "../../components/Buttons/RegMainButton";
-import { buddyColor, mainColor, secondaryColor, whiteColor } from "../../defaultColors";
+import { buddyColor, mainColor, secondaryColor, teamLeadColor, whiteColor } from "../../defaultColors";
 import { sendChangeProfileInfoRequest } from "../../requests/ChangeProfileInfoRequest";
 import Popup from "../../components/Popup";
 import { IStudent } from "../../classes/IStudent";
@@ -24,11 +24,12 @@ const ProfileScreen: React.FC<ScreenProps> = ({ navigation }) => {
 
   const user_id = useAccountStore(state => state.user_id)
   const isBuddy = useAccountStore(state => state.isBuddy)
+  const isTeamLead = useAccountStore(state => state.isLeader)
 
   const {locale} = useLocale(Screens.Profile);
 
   const [pageColor, userData, setUserData] = isBuddy 
-    ? [buddyColor, useBuddyStore(state => state.buddyData), useBuddyStore(state => state.setBuddyData)] as const
+    ? [isTeamLead ? teamLeadColor : buddyColor, useBuddyStore(state => state.buddyData), useBuddyStore(state => state.setBuddyData)] as const
     : [mainColor, useStudentStore(state => state.studentData), useStudentStore(state => state.setStudentData)] as const;
 
   const handleSend = () => {

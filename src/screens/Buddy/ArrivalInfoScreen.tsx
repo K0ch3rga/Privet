@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable, Image, ScrollView } from "react-native";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 import MainButton from "../../components/Buttons/MainButton";
-import { blackColor, buddyColor, grayColor, textColor, whiteColor } from "../../defaultColors";
+import { blackColor, buddyColor, grayColor, mainColor, successColor, teamLeadColor, textColor, whiteColor } from "../../defaultColors";
 import ScreenHeader from "../../components/ScreenHeader";
 import { HeaderProfileSection, InfoProfileSection, ItemTitleProfile, SectionProfile } from "../../components/Profile/ProfileSection";
 import { useEffect, useState } from "react";
@@ -10,22 +10,54 @@ import { useArrivalStore } from "../../storage/ArrivalStore";
 import { fetchArrivalData } from "../../requests/GetArrivalData";
 import { IArrival } from "../../classes/IArrival";
 import { sendRequestArrival } from "../../requests/RequestArrival";
-import { useAccountStore } from "../../storage/AccountStore";
+import { getPageColor, useAccountStore } from "../../storage/AccountStore";
+import { sendConfirmArrival } from "../../requests/ConfirmArrival";
+
+const pageColor = getPageColor();
 
 const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
-  const [isConfirmPopup, setConfirmPopup] = useState(false)
+  const [isRequestConfirm, setRequestConfirm] = useState(false)
+  const [isArrivalConfirm, setArrivalConfirm] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const arrivalId = useArrivalStore.getState().currentId
   const [arrivalData, setArrivalData] = useState<IArrival>({});
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const isTeamLead = useAccountStore(state => state.isLeader)
 
   useEffect(() => {
     fetchArrivalData(arrivalId, setArrivalData, setLoading, setError, setErrorMessage);
   }, [])
 
-  const handleSend = () => {
-    sendRequestArrival(arrivalId, setLoading, setConfirmPopup, setError, setErrorMessage);
+  const handleRequestArrival = () => {
+    sendRequestArrival(arrivalId, setLoading, setRequestConfirm, setError, setErrorMessage);
+  }
+
+  const handleConfirmArrival = () => {
+    sendConfirmArrival(arrivalId, setLoading, setArrivalConfirm, setError, setErrorMessage);
+  }
+
+  const BuddyButtons: React.FC<{length: number}> = ({length}) => {
+    return (
+      length >= 2
+        ? <View style={button.inactiveButton}><Text style={button.title}>Записаться на этот приезд</Text></View>
+        : <MainButton color={buddyColor} title="Записаться на этот приезд" onPress={handleRequestArrival} />
+    )
+  }
+
+  const TeamLeadButtons = () => {
+    return(
+      <>
+        <Pressable 
+          style={button.buttonTeamlead}
+          onPress={handleRequestArrival}
+        >
+          <Text style={[button.title, { color: textColor }]}>Записаться на этот приезд</Text>
+        </Pressable>
+        {/* <MainButton color={teamLeadColor} title="Редактировать сопровождающих" /> */}
+        <MainButton color={"#00EC6D"} title="Утвердить приезд" onPress={handleConfirmArrival}/>
+      </>
+    )
   }
   
   console.log(arrivalData);
@@ -46,7 +78,7 @@ const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
     )
   }
 
-  if (isConfirmPopup) {
+  if (isRequestConfirm) {
     return(
       <Popup>
         <View style={confirmPopup.wrapper}>
@@ -58,12 +90,23 @@ const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
     )
   }
 
+  if (isArrivalConfirm) {
+    return(
+      <Popup>
+        <View style={confirmPopup.wrapper}>
+          <Text style={confirmPopup.text}>Приезд подтверждён</Text>
+          <MainButton color={teamLeadColor} title="Вернуться к приездам" onPress={() => navigation.goBack()}/>
+        </View>
+      </Popup>
+    )
+  }
+
   return(
     <ScrollView>
       <View style={styles.wrapper}>
-        <ScreenHeader backButton={true} navigation={navigation}></ScreenHeader>
+        <ScreenHeader backButton={true} navigation={navigation}>Информация о приезде</ScreenHeader>
         <SectionProfile>
-          <HeaderProfileSection>Приезд №{arrivalData.id}</HeaderProfileSection>
+          <HeaderProfileSection>Прибытие</HeaderProfileSection>
           <InfoProfileSection>
             <View>
               <ItemTitleProfile>Дата приезда</ItemTitleProfile>
@@ -98,10 +141,10 @@ const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
         </SectionProfile>
         <View style={section.wrapper}>
           <View style={section.header}>
-            <View style={section.left}>
+            <View style={[section.left, { backgroundColor: mainColor }]}>
               <Text style={section.text}>Студенты</Text>
             </View>
-            <View style={section.right}> 
+            <View style={[section.right, { backgroundColor: mainColor }]}> 
               <Text style={section.text}>{arrivalData.students?.length}</Text>
             </View>
           </View>
@@ -148,11 +191,12 @@ const ArrivalInfoScreen: React.FC<ScreenProps> = ({ navigation }) => {
           </View>
         </View>
         { arrivalData.buddy_id &&
-          <View>
-          { arrivalData.buddy_id?.length >= 2 
-            ? <View style={button.button}><Text style={button.title}>Записаться на этот приезд</Text></View>
-            : <MainButton color={buddyColor} title="Записаться на этот приезд" onPress={handleSend} />
-          }
+          <View style={{ gap: 10 }}>
+            
+            {isTeamLead 
+              ? <TeamLeadButtons />
+              : <BuddyButtons length={arrivalData.buddy_id.length} />
+            }
           </View>
         }
       </View>
@@ -288,11 +332,19 @@ const buddies = StyleSheet.create({
 })
 
 const button = StyleSheet.create({
-  button: {
+  inactiveButton: {
     padding: 10,
     borderRadius: 30,
     minWidth: "100%",
     backgroundColor: 'rgba(38, 38, 38, 0.20)'
+  },
+  buttonTeamlead: {
+    padding: 10,
+    borderRadius: 30,
+    minWidth: "100%",
+    backgroundColor: whiteColor,
+    borderWidth: 3,
+    borderColor: buddyColor
   },
   title: {
     color: "rgba(38, 38, 38, 0.50)",
