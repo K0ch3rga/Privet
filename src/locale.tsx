@@ -14,12 +14,13 @@ export const Locales = {
 };
 
 export enum Screens {
+  Tabbar = "TabBar",
   LanguageChoose = "LanguageChoose",
   Messenger = "Messenger",
   Profile = "Profile",
 }
 
-type ScreensUnion = "LanguageChoose" | "Messenger" | "Profile";
+type ScreensUnion = "TabBar" | "LanguageChoose" | "Messenger" | "Profile";
 
 // export type LocaleAction = {
 //   type: "CHANGE_LOCALE";
@@ -49,5 +50,5 @@ export const LocaleProvider = ({children}: {children: any}) => {
 export const useLocale = (screen: Screens) => {
   // const {locale, dispatch} = useContext(LocaleContext);
   // return {locale: locale[screen], dispatch};
-  return useContext(LocaleContext)
+  return useContext(LocaleContext);
 };

@@ -1,6 +1,12 @@
 {
+  "TabBar": {
+    "profile": "Profile",
+    "todo": "Tasks", 
+    "chats": "Chats",
+    "route": "Route",
+    "info": "Guide"
+  },
   "LanguageChoose": {
-    "name": "PRIVET",
     "question": "What is your language?",
     "continue": "Continue"
   },

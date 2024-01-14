@@ -1,5 +1,5 @@
 import {useReducer, useState, useEffect} from "react";
-import {Image, Text} from "react-native";
+import {Image, Pressable, Text} from "react-native";
 import {useFonts} from "expo-font";
 
 // Navigation
@@ -22,17 +22,19 @@ import Messenger from "./src/screens/Messenger";
 import ChatScreen from "./src/screens/Chat";
 import RoutesProfile from "./src/routes/RoutesProfile";
 
-import {buddyColor, buddyBackgroundColor, mainColor} from "./src/defaultColors";
+import {buddyColor, buddyBackgroundColor, mainColor, textColor} from "./src/defaultColors";
 import RoutesToDo from "./src/routes/RoutesToDo";
 import { fetchUserInfo } from "./src/requests/GetProfileInfo";
 import Popup from "./src/components/Popup";
 import { getPageColor, useAccountStore } from "./src/storage/AccountStore";
-import {Languages, Locales, LocaleContext, LocaleProvider} from "./src/locale";
+import {Languages, Locales, LocaleContext, LocaleProvider, useLocale, Screens as ScreensLocale} from "./src/locale";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";  
 import ToDoScreen from "./src/screens/ToDoScreen";
 import ArrivalInfoScreen from "./src/screens/Buddy/ArrivalInfoScreen";
 import AllTodos from "./src/screens/Buddy/MyArrivals";
 import ArrivalTodo from "./src/screens/Buddy/ArrivalTodo";
+import Route from "./src/screens/Route";
+import Info from "./src/screens/Info";
 import { TabBuddy } from "./src/routes/TabBuddy";
 
 export type TabScreens = {
@@ -105,41 +107,39 @@ const MainApp = () => {
 
 const TabNavigation = () => {
   const tabColor = getPageColor();
+  const locale = useLocale(ScreensLocale.Tabbar).locale.TabBar;
   return(
-    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {height: 69, backgroundColor: tabColor}, tabBarShowLabel:false}} >
-      <Tab.Screen name="ToDo"component={RoutesToDo}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
-      />
-      <Tab.Screen name="Profile" component={RoutesProfile} 
-        options={{tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
-      />
-      <Tab.Screen name="ChatScreen" component={ChatScreen}
-        options={{tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
-      />
-      <Tab.Screen
-        name="All"
-          component={AllTodos}
-          options={{
-            tabBarIcon: () => (
-              <Image
-                source={require("./src/assets/icons/location.png")}
-                style={{width: 32, height: 32}}
-              />
-            ),
-          }}
+    <Tab.Navigator 
+      // screenOptions={(props)=> <Pressable onPress={props.navigation} {...props}></Pressable>}
+      screenOptions={{
+        headerShown: false, 
+        tabBarStyle: {height: 69, backgroundColor: buddyColor}, 
+        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          color: textColor,
+          fontFamily: "Manrope",
+          fontWeight: "700",
+          fontSize: 12
+        }
+      }}
+
+      >
+        <Tab.Screen name="ToDo"component={RoutesToDo} 
+          options={{tabBarLabel: locale.todo, tabBarIcon:()=>(<Image source={require("./src/assets/icons/tasks.png")} style={{width: 32, height: 32}}/>),}}
         />
-      <Tab.Screen
-        name="Info"
-        component={SelectLanguageScreen}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              source={require("./src/assets/icons/info.png")}
-              style={{width: 32, height: 32}}
-            />
-          ),
-        }}
-      />
+        <Tab.Screen name="Profile" component={RoutesProfile} 
+          options={{tabBarLabel: locale.profile, tabBarIcon:() =>(<Image source={require("./src/assets/icons/profile.png")} style={{width: 32, height: 32}} />),}}
+        />
+        <Tab.Screen name="ChatScreen" component={ChatScreen}
+          options={{tabBarLabel: locale.chats, tabBarIcon:()=>(<Image source={require("./src/assets/icons/messenger.png")} style={{width: 32, height: 32}}/>),}}
+        />
+        <Tab.Screen name="Route" component={Route}
+          options={{tabBarLabel: locale.route, tabBarIcon: () => (<Image source={require("./src/assets/icons/location.png")} style={{width: 32, height: 32}}/>),}}
+        />
+        <Tab.Screen name="Info" component={Info}
+          options={{tabBarLabel: locale.info, tabBarIcon: () => (<Image source={require("./src/assets/icons/info.png")} style={{width: 32, height: 32}}/>),}}
+        />
+
     </Tab.Navigator>
   );
 };

@@ -1,6 +1,12 @@
 {
+  "TabBar": {
+    "profile": "Профиль",
+    "todo": "Задачи", 
+    "chats": "Чаты",
+    "route": "Марщрут",
+    "info": "Справочник"
+  },
   "LanguageChoose": {
-    "name": "ПРИВЕТ",
     "question": "Какой твой язык?",
     "continue": "Продолжить"
   },
