@@ -12,9 +12,6 @@ const PaymentSuccess: React.FC<ScreenProps> = ({ navigation }) => {
   return(
     <View style={styles.wrapper}>
       <View>
-        <ScreenHeader>Оплата сопровождения</ScreenHeader>
-      </View>
-      <View>
         <Image source={require("../../assets/payment-done.png")} style={{ width: 128, height: 128 }}/>
       </View>
       <View>
@@ -23,7 +20,7 @@ const PaymentSuccess: React.FC<ScreenProps> = ({ navigation }) => {
       </View>
       <View>
         <Text style={[styles.text, { fontWeight: "400", fontSize: 16 }]}>
-          Теперь вы имеете доступ ко всему функционалу приложения и можете создать приезд
+        Теперь вы имеете доступ к созданию приездов, информационному справочнику и маршруту.
         </Text>
       </View>
       <MainButton 
@@ -40,6 +37,7 @@ const styles = StyleSheet.create({
     padding: 25,
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: whiteColor,
     gap: 33
   },

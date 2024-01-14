@@ -11,4 +11,4 @@ export const secondBlackColor = "#262626";
 export const successColor = "#02C95D";
 export const textColor = "#252525";
 export const buddyBackgroundColor = "#6CA7FF";
-export const leaderColor = "#B57CFF";
+export const teamLeadColor = "#B57CFF";
