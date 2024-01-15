@@ -38,7 +38,7 @@ const PathScreen: React.FC<ScreenProps> = ({navigation}) => {
 
 const Item = ({text, left, navigation}: {text: string; left: boolean; navigation: any}) => {
   const side = left ? style.left : style.right;
-  const move = navigation.navigate("PathItem");
+  const move = ()=>  {navigation.navigate("PathItem")};
   return (
     <Pressable style={[style.item, side]} onPress={move}>
       <Text style={style.text}>{text}</Text>

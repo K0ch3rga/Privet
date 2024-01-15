@@ -43,6 +43,7 @@ import {TabBuddy} from "./src/routes/TabBuddy";
 import {fetchUserInfo} from "./src/requests/GetProfileInfo";
 import {TabStudent} from "./src/routes/TabStudent";
 import PathItem from "./src/screens/PathItem";
+import PathScreen from "./src/screens/PathScreen";
 
 export type TabScreens = {
   Profile: undefined;
@@ -110,6 +111,7 @@ const MainApp = () => {
         <Stack.Screen name="ArrivalTodo" component={ArrivalTodo} />
       </Stack.Group>
       <Stack.Screen name="PathItem" component={PathItem} />
+      {/* <Stack.Screen name="Path" component={PathScreen}/> */}
     </Stack.Navigator>
   );
 };
