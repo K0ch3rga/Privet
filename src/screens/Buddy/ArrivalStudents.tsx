@@ -38,9 +38,6 @@ const ArrivalStudents: React.FC<ScreenProps> = ({navigation}) => {
   }
 
 
-
-
-  const id = 1;
   const arrival = useArrivalStore().arrivalData;
   const students = arrival.students
   return (
@@ -114,11 +111,6 @@ const Student = ({navigation, student}:  {navigation: any, student: IStudent}) =
       )}
     </Pressable>
   );
-};
-
-type StudentProps = {
-  name: string;
-  sex: string;
 };
 
 const style = StyleSheet.create({

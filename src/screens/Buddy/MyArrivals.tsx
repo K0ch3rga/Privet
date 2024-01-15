@@ -16,6 +16,7 @@ const AllTodos: React.FC<ScreenProps> = ({navigation}) => {
   useEffect(() => {
     fetchArrivalsList(true, setLoading, setError, setErrorMessage)
   }, [])
+  const data: IArrival[] = useArrivalListStore(state => state.arrivalList)
 
   if (isLoading) {
     return(
@@ -33,7 +34,6 @@ const AllTodos: React.FC<ScreenProps> = ({navigation}) => {
     )
   }
 
-  const data: IArrival[] = useArrivalListStore(state => state.arrivalList)
   if (data.length > 0)
     return (
       <FlatList
@@ -185,7 +185,7 @@ const deny = StyleSheet.create({
     gap: 20,
   },
   button: {
-    backgroundColor: "#6CA7FF",
+    backgroundColor: getPageColor(),
     borderRadius: 30,
     padding: 10,
     height: 47,
