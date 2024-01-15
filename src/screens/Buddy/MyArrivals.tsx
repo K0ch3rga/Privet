@@ -3,9 +3,37 @@ import {buddyColor, mainColor} from "../../defaultColors";
 import { IArrival } from "../../classes/IArrival";
 import { ScreenProps } from "../../interfaces/ScreenProps";
 import { getPageColor } from "../../storage/AccountStore";
+import { useEffect, useState } from "react";
+import { fetchArrivalsList } from "../../requests/GetArrivalsList";
+import Popup from "../../components/Popup";
+import { useArrivalListStore } from "../../storage/ArrivalListStore";
 
 const AllTodos: React.FC<ScreenProps> = ({navigation}) => {
-  const data: IArrival[] = [{id: 1, students: [{}] }]
+  const [isLoading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+
+  useEffect(() => {
+    fetchArrivalsList(true, setLoading, setError, setErrorMessage)
+  }, [])
+
+  if (isLoading) {
+    return(
+      <Popup>
+        <Text>Loading</Text>
+      </Popup>
+    )
+  }
+
+  if (error) {
+    return(
+      <Popup close={setError}>
+        <Text>{errorMessage}</Text>
+      </Popup>
+    )
+  }
+
+  const data: IArrival[] = useArrivalListStore(state => state.arrivalList)
   if (data.length > 0)
     return (
       <FlatList

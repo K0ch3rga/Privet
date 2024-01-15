@@ -1,13 +1,45 @@
 import {Pressable, View, Image, Text, StyleSheet, ScrollView} from "react-native";
 import {ScreenProps} from "../../interfaces/ScreenProps";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {grayColor, mainColor} from "../../defaultColors";
 import {fetchArrivalData} from "../../requests/GetArrivalData";
 import {IArrival} from "../../classes/IArrival";
 import { useArrivalStore } from "../../storage/ArrivalStore";
 import { IStudent } from "../../classes/IStudent";
+import { fetchMyStudentsList } from "../../requests/GetMyStudens";
+import Popup from "../../components/Popup";
+import { useAccountStore } from "../../storage/AccountStore";
 
 const ArrivalStudents: React.FC<ScreenProps> = ({navigation}) => {
+  const [isLoading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const user_id = useAccountStore.getState().user_id
+  const [studentsList, setStudentsList] = useState<IMyStudent[]>([]);
+
+  useEffect(() => {
+    fetchMyStudentsList(user_id, setStudentsList, setLoading, setError, setErrorMessage)
+  }, [])
+
+  if (isLoading) {
+    return(
+      <Popup>
+        <Text>Loading</Text>
+      </Popup>
+    )
+  }
+
+  if (error) {
+    return(
+      <Popup close={setError}>
+        <Text>{errorMessage}</Text>
+      </Popup>
+    )
+  }
+
+
+
+
   const id = 1;
   const arrival = useArrivalStore().arrivalData;
   const students = arrival.students

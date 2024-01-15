@@ -25,6 +25,7 @@ export const useAccountStore = create<AccountState>((set) => ({
     // 58 - test49
     // 62 - Vasya
     // 64 - buddy
+    // 79 - teamlead
   isBuddy: true,
   isBuddyConfirmed: true,
   isLeader: true,
